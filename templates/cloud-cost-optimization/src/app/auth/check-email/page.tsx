@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
 import { createClient } from "@/lib/supabase/client"
-import { useToast } from "@/hooks/use-toast"
+import { toast } from "sonner" 
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 
@@ -13,7 +13,6 @@ export default function CheckEmailPage() {
   const [email, setEmail] = useState("")
   const [manualEmail, setManualEmail] = useState("")
   const [loading, setLoading] = useState(false)
-  const { toast } = useToast()
   const router = useRouter()
   const searchParams = useSearchParams()
 
@@ -38,7 +37,7 @@ export default function CheckEmailPage() {
 
       // Check if user exists in auth system
       const { data: { user }, error: fetchError } = await supabase.auth.getUser()
-      
+      console.log("User data:", user)
       if (fetchError?.message.includes("Invalid login credentials")) {
         // User exists but not confirmed
         const { error } = await supabase.auth.resend({
@@ -51,8 +50,7 @@ export default function CheckEmailPage() {
         throw fetchError
       }
 
-      toast({
-        title: "Confirmation Email Resent",
+      toast("Confirmation Email Resent",{
         description: "Check your email again for the new confirmation link",
       })
     } catch (error) {
@@ -69,9 +67,7 @@ export default function CheckEmailPage() {
         }
       }
 
-      toast({
-        variant: "destructive",
-        title: "Error",
+      toast("Error",{
         description,
       })
     } finally {
@@ -86,7 +82,7 @@ export default function CheckEmailPage() {
         
         {email ? (
           <p className="text-muted-foreground">
-            We've sent a confirmation link to <span className="font-semibold">{email}</span>
+            We&#36;ve sent a confirmation link to <span className="font-semibold">{email}</span>
           </p>
         ) : (
           <div className="space-y-2">
@@ -110,7 +106,7 @@ export default function CheckEmailPage() {
             {loading ? "Sending..." : "Resend Confirmation"}
           </Button>
           <p className="text-sm text-muted-foreground">
-            Didn't receive the email? Check spam folder or try resending
+            Didn&#36t receive the email? Check spam folder or try resending
           </p>
         </div>
 

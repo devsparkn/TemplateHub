@@ -3,13 +3,12 @@
 import { useEffect, useState } from "react"
 import { useRouter, useSearchParams } from "next/navigation"
 import { createClient } from "@/lib/supabase/client"
-import { useToast } from "@/hooks/use-toast"
+import { toast } from "sonner" 
 
 const supabase = createClient()
 
 export default function ConfirmEmailPage() {
   const [loading, setLoading] = useState(true)
-  const { toast } = useToast()
   const router = useRouter()
   const searchParams = useSearchParams()
 
@@ -59,8 +58,7 @@ export default function ConfirmEmailPage() {
           // Clear stored email from localStorage
           localStorage.removeItem('signup_email')
   
-          toast({
-            title: "Account Verified!",
+          toast("Account Verified!",{
             description: "You're now being redirected...",
           })
           router.push("/dashboard")
@@ -84,9 +82,7 @@ export default function ConfirmEmailPage() {
           }
         }
   
-        toast({
-          variant: "destructive",
-          title: "Verification Failed",
+        toast("Verification Failed",{
           description,
         })
         router.push(redirectPath)
@@ -96,7 +92,7 @@ export default function ConfirmEmailPage() {
     }
   
     confirmUser()
-  }, [router, toast, searchParams])
+  }, [router, searchParams])
   
 
   return (
