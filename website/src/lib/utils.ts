@@ -21,7 +21,7 @@ export function formatPrice(price: number | string) {
 }
 
 // Placeholder for analytics
-export function trackEvent(event: string, properties?: Record<string, any>) {
+export function trackEvent(event: string, properties?: Record<string, unknown>) {
   console.log(`[Analytics] ${event}`, properties)
   // This would integrate with your analytics provider
 }

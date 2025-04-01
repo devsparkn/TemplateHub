@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 'use client'
 
 import { useState } from 'react'
@@ -10,7 +11,7 @@ import { Label } from '@/components/ui/label'
 import { Separator } from '@/components/ui/separator'
 import { Github, Mail } from 'lucide-react'
 import { Alert, AlertDescription } from '@/components/ui/alert'
-
+import { toast } from 'sonner'
 export default function LoginPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -29,6 +30,7 @@ export default function LoginPage() {
       router.push('/dashboard')
     } catch (error) {
       setError('Invalid email or password. Please try again.')
+      toast.error('Invalid email or password. Please try again.')
     } finally {
       setIsLoading(false)
     }
@@ -48,7 +50,7 @@ export default function LoginPage() {
             <div className="grid gap-4">
               {error && (
                 <Alert variant="destructive">
-                  <AlertDescription>{error}</AlertDescription>
+                  <AlertDescription>{ error }</AlertDescription>
                 </Alert>
               )}
               <div className="grid gap-2">
