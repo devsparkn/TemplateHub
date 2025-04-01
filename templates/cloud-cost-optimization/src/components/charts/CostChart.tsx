@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
 import {
@@ -19,7 +20,7 @@ interface PredictedCostData {
 // Define the component props
 interface CostChartProps {
   data?: PredictedCostData[];
-  anomalies?: any; // You can update this type later if needed
+  anomalies?: unknown; // You can update this type later if needed
 }
 
 // Default sample data in the predicted cost data format
