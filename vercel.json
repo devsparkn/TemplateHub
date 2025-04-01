@@ -1,0 +1,20 @@
+{
+    "projects": [
+      {
+        "name": "marketing-site",
+        "root": "website"
+      },
+      {
+        "name": "sentinel-ai",
+        "root": "templates/sentinel-ai"
+      },
+      {
+        "name": "portfolio-site",
+        "root": "templates/portfolio-site"
+      },
+      {
+        "name": "cloud-cost-optimization",
+        "root": "templates/cloud-cost-optimization"
+      }
+    ]
+  }
