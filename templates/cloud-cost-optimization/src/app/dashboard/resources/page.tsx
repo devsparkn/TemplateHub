@@ -3,7 +3,6 @@
 
 import { Card } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
@@ -45,7 +44,7 @@ const resources = [
 
 export default function ResourcesPage() {
   return (
-    <div className="container mx-auto p-6">
+    <div className="container h-[70vh] mx-auto p-6">
       <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold">Cloud Resources</h1>
         <div className="flex gap-4">

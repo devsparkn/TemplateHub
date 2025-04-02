@@ -4,8 +4,8 @@
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { Progress } from "@/components/ui/progress";
-import { AlertCircle, ArrowRight, Check, Server, Zap } from "lucide-react";
+// import { Progress } from "@/components/ui/progress";
+import { AlertCircle, ArrowRight, Zap } from "lucide-react";
 
 const recommendations = [
   {

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 'use client'
 
 import { Button } from "@/components/ui/button"
@@ -8,11 +9,6 @@ import { toast } from "sonner"
 import { useState, useCallback } from "react"
 import { useRouter } from "next/navigation"
 import { FcGoogle } from "react-icons/fc"
-import { createClient } from "@/lib/supabase/client"
-
-
-// ✅ Define Supabase client outside component to avoid re-creating it on every render
-const supabase = createClient()
 
 export default function LoginPage() {
   const [email, setEmail] = useState("")
@@ -20,32 +16,20 @@ export default function LoginPage() {
   const [loading, setLoading] = useState(false)
   const router = useRouter()
 
-// Error handle in typescript
-  const getErrorMessage = (error: unknown): string => {
-    if (error instanceof Error) return error.message
-    return String(error) // Convert non-standard errors to a string
-  }
-
   const handleLogin = useCallback(
     async (e: React.FormEvent) => {
       e.preventDefault()
       setLoading(true)
 
       try {
-        const { error } = await supabase.auth.signInWithPassword({
-          email,
-          password,
-        })
-
-        if (error) throw error
-        
-        toast("Success",{
+        // Implement login logic here
+        toast("Success", {
           description: "Welcome back!",
         })
         router.push("/dashboard")
       } catch (error) {
-        toast("Error",{
-          description: getErrorMessage(error) || "Login failed",
+        toast("Error", {
+          description: "Login failed",
         })
       } finally {
         setLoading(false)
@@ -57,17 +41,10 @@ export default function LoginPage() {
   const handleGoogleLogin = useCallback(async () => {
     setLoading(true)
     try {
-      const { error } = await supabase.auth.signInWithOAuth({
-        provider: 'google',
-        options: {
-          redirectTo: `${location.origin}/dashboard` // Redirect to dashboard instead
-        }
-      })
-
-      if (error) throw error
+      // Implement Google login logic here
     } catch (error) {
-      toast("Error",{
-        description: getErrorMessage(error) || "Google login failed",
+      toast("Error", {
+        description: "Google login failed",
       })
     } finally {
       setLoading(false)
