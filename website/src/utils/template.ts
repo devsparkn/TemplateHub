@@ -16,7 +16,17 @@ export const templates: Template[] = [
     title: 'Cloud Cost Optimisation',
     description: 'AI based cloud cost optmisation Application with analytics, charts, and user management.',
     imageUrl: '/templates/cloud_cost_optimisation.png',
-    demoUrl: '/demos/cloud-cost-optimisation',
+    demoUrl: 'https://cloud-cost-optimization.vercel.app/',
+    category: 'SaaS',
+    featured: true,
+    price: 79
+  },
+  {
+    id: 'sentinel-ai',
+    title: 'Sentinel AI',
+    description: 'AI based deepfake detection.',
+    imageUrl: '/templates/sentinel-ai.png',
+    demoUrl: 'https://sentinel-ai.vercel.app',
     category: 'SaaS',
     featured: true,
     price: 79

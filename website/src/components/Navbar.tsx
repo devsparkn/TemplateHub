@@ -56,9 +56,9 @@ export function Navbar() {
         <div className="flex items-center gap-8">
           <Link href="/" className="flex items-center space-x-2">
             <div className="bg-primary h-8 w-8 rounded-full flex items-center justify-center">
-              <span className="text-primary-foreground font-bold">T</span>
+              <span className="text-primary-foreground font-bold">N</span>
             </div>
-            <span className="font-bold text-xl hidden sm:inline-block">TemplateHub</span>
+            <span className="font-bold text-xl hidden sm:inline-block">9abel</span>
           </Link>
           
           <NavigationMenu className="hidden md:flex">
