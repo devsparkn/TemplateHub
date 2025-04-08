@@ -26,7 +26,7 @@ export const templates: Template[] = [
     title: 'Sentinel AI',
     description: 'AI based deepfake detection.',
     imageUrl: '/templates/sentinel-ai.png',
-    demoUrl: 'https://sentinel-ai.vercel.app',
+    demoUrl: 'https://sentinel-ai-eight.vercel.app',
     category: 'SaaS',
     featured: true,
     price: 79

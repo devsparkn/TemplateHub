@@ -1,59 +1,71 @@
 'use client'
 
-import React from 'react'
+import React, { useState } from 'react'
 import Link from 'next/link'
-import { ArrowRight, Cloud } from "lucide-react"
+import { ArrowRight, Cloud, Menu, X } from "lucide-react"
 
 const Navbar = () => {
+  const [menuOpen, setMenuOpen] = useState(false)
+
   return (
-    <div>
-      <nav className="bg-white shadow-sm border-b-2 border-purple-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
-          <div className="flex items-center">
-            <Cloud className="h-8 w-8 text-blue-500 mr-2" />
-            <span className="text-xl font-bold text-gray-800">CloudCostAI</span>
-          </div>
-          
-          <nav>
-            <ul className="flex space-x-4 items-center">
-              <li>
-                <Link href="/" className="text-gray-600 hover:text-gray-900">
-                  Home
-                </Link>
-              </li>
-              <li>
-                <Link href="/features" className="text-gray-600 hover:text-gray-900">
-                  Features
-                </Link>
-              </li>
-              <li>
-                <Link href="/dashboard" className="text-gray-600 hover:text-gray-900">
-                  Dashboard
-                </Link>
-              </li>
-              <li>
-                <Link href="/pricing" className="text-gray-600 hover:text-gray-900">
-                  Pricing
-                </Link>
-              </li>
-              <li>
-                <Link href="/contact" className="text-gray-600 hover:text-gray-900">
-                  Contact
-                </Link>
-              </li>
-              <li>
-                <Link 
-                  href="/auth/login" 
-                  className="flex items-center bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
-                >
-                  Login <ArrowRight className="h-4 w-4 ml-2" />
-                </Link>
-              </li>
-            </ul>
-          </nav>
+    <header className="bg-white shadow-md border-b border-purple-100">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex justify-between items-center">
+        {/* Logo */}
+        <div className="flex items-center">
+          <Cloud className="h-8 w-8 text-blue-500 mr-2" />
+          <span className="text-xl font-bold text-gray-800">CloudCostAI</span>
         </div>
-      </nav>
-    </div>
+
+        {/* Desktop Navigation */}
+        <nav className="hidden md:flex space-x-6 items-center">
+          {['Home', 'Features', 'Dashboard', 'Pricing', 'Contact'].map((text) => (
+            <Link 
+              key={text} 
+              href={`/${text.toLowerCase() === 'home' ? '' : text.toLowerCase()}`} 
+              className="text-gray-600 hover:text-gray-900 transition-colors duration-200"
+            >
+              {text}
+            </Link>
+          ))}
+          <Link 
+            href="/auth/login" 
+            className="flex items-center bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition"
+          >
+            Login <ArrowRight className="h-4 w-4 ml-2" />
+          </Link>
+        </nav>
+
+        {/* Mobile Hamburger */}
+        <div className="md:hidden">
+          <button onClick={() => setMenuOpen(!menuOpen)}>
+            {menuOpen ? <X className="h-6 w-6 text-gray-700" /> : <Menu className="h-6 w-6 text-gray-700" />}
+          </button>
+        </div>
+      </div>
+
+      {/* Mobile Menu */}
+      {menuOpen && (
+        <div className="md:hidden px-4 pb-4 space-y-4">
+          {['Home', 'Features', 'Dashboard', 'Pricing', 'Contact'].map((text) => (
+            <Link 
+              key={text} 
+              href={`/${text.toLowerCase() === 'home' ? '' : text.toLowerCase()}`} 
+              className="block text-gray-600 hover:text-gray-900"
+              onClick={() => setMenuOpen(false)}
+            >
+              {text}
+            </Link>
+          ))}
+          <Link 
+            href="/auth/login" 
+            className="flex items-center justify-center bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600 transition w-full"
+            onClick={() => setMenuOpen(false)}
+          >
+            Login <ArrowRight className="h-4 w-4 ml-2" />
+          </Link>
+        </div>
+      )}
+    </header>
   )
 }
 
