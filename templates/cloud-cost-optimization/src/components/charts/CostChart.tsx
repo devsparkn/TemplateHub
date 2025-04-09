@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
 import {
@@ -13,8 +12,8 @@ import {
 
 // Define the type for predicted cost data items
 interface PredictedCostData {
-  ds: string;    // date string
-  yhat: number;  // predicted cost value
+  ds: string; // date string
+  yhat: number; // predicted cost value
 }
 
 // Define the component props
@@ -36,10 +35,12 @@ const defaultChartData: PredictedCostData[] = [
   { ds: "2024-09-01", yhat: 160 },
 ];
 
-export default function CostChart({ data, anomalies }: CostChartProps) {
+export default function CostChart({ data }: CostChartProps) {
   // Use the provided data if it's an array; otherwise, fallback to the default sample data
-  const chartData: PredictedCostData[] = Array.isArray(data) ? data : defaultChartData;
-  
+  const chartData: PredictedCostData[] = Array.isArray(data)
+    ? data
+    : defaultChartData;
+
   console.log("Chart data:", chartData);
 
   return (

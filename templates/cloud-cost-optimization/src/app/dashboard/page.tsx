@@ -1,79 +1,28 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
-import { useState, useEffect } from "react";
 import { Card } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
+import { AlertDescription, AlertTitle } from "@/components/ui/alert";
 import { Progress } from "@/components/ui/progress";
-import { 
-  AlertCircle, 
-  ArrowDown, 
-  ArrowUp, 
-  Cloud, 
-  DollarSign, 
-  Server, 
-  Settings 
+import {
+  AlertCircle,
+  ArrowDown,
+  ArrowUp,
+  Cloud,
+  DollarSign,
+  Server,
+  Settings,
 } from "lucide-react";
 import CostChart from "@/components/charts/CostChart";
 import Resource from "@/components/UserInterface/Resource";
 import Optimization from "@/components/UserInterface/Optmization";
-
-// Sample data for demonstration purposes.
-// For cost prediction, each item includes a date (ds) and a cost value (y).
-const sampleData = [
-  { ds: "2024-01-01", y: 100 },
-  { ds: "2024-02-01", y: 120 },
-  { ds: "2024-03-01", y: 110 },
-];
-
+import Forcasting from "@/components/charts/Forcasting";
 export default function DashboardPage() {
-  const [predictedCosts, setPredictedCosts] = useState<Array<{ ds: string; yhat: number }>>([]);
-  const [anomalies, setAnomalies] = useState<number[]>([]);
-  const [recommendations, setRecommendations] = useState<string>("");
-
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        // Cost Prediction API call
-        const resPredict = await fetch("/api/predict", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ costs: sampleData }),
-        });
-        const prediction = await resPredict.json();
-        setPredictedCosts(prediction);
-
-        // Anomaly Detection API call
-        // Here, we pass just the numeric cost values.
-        const resAnomalies = await fetch("/api/anomalies", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ costs: sampleData.map((d) => d.y) }),
-        });
-        const anomalyData = await resAnomalies.json();
-        setAnomalies(anomalyData.anomalies);
-
-        // AI Recommendations API call
-        const resInsights = await fetch("/api/insights", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ costs: sampleData }),
-        });
-        const insightsData = await resInsights.json();
-        setRecommendations(insightsData.recommendations);
-      } catch (error) {
-        console.error("Error fetching API data:", error);
-      }
-    }
-
-    fetchData();
-  }, []);
-
   return (
-    <div className="container mx-auto p-6">
+    <div className="mx-auto p-6 pb-12">
       <h1 className="text-3xl font-bold mb-6">Cloud Cost Dashboard</h1>
-      
+
       {/* Overview Cards */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
         <Card className="p-4">
@@ -107,7 +56,9 @@ export default function DashboardPage() {
         <Card className="p-4">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm text-muted-foreground">Optimization Score</p>
+              <p className="text-sm text-muted-foreground">
+                Optimization Score
+              </p>
               <h3 className="text-2xl font-bold">76/100</h3>
             </div>
             <Settings className="text-primary w-8 h-8" />
@@ -137,7 +88,8 @@ export default function DashboardPage() {
           <div>
             <AlertTitle>Cost Anomaly Detected</AlertTitle>
             <AlertDescription className="text-sm">
-              Unusual spike in EC2 spending detected in us-east-1. Click to investigate.
+              Unusual spike in EC2 spending detected in us-east-1. Click to
+              investigate.
             </AlertDescription>
           </div>
         </div>
@@ -145,37 +97,76 @@ export default function DashboardPage() {
 
       {/* Main Content Tabs */}
       <Tabs defaultValue="overview" className="space-y-4">
-        <TabsList>
-          <TabsTrigger value="overview">Overview</TabsTrigger>
-          <TabsTrigger value="resources">Resources</TabsTrigger>
-          <TabsTrigger value="optimization">Optimization</TabsTrigger>
-          <TabsTrigger value="forecasting">Forecasting</TabsTrigger>
-        </TabsList>
+        {/* Scrollable tab container */}
+        <div className="overflow-x-auto pb-2 max-sm:-mx-4 max-sm:px-4">
+          <TabsList className="w-[600px] sm:w-full bg-muted/50 h-12 rounded-lg p-1 flex gap-2 sm:grid sm:grid-cols-4">
+            <TabsTrigger
+              value="overview"
+              className="flex-1 text-sm px-3 py-2 rounded-md transition-all duration-200
+                   data-[state=active]:bg-background data-[state=active]:shadow-sm
+                   data-[state=active]:border-b-2 data-[state=active]:border-primary
+                   hover:bg-muted whitespace-nowrap"
+            >
+              <span className="max-sm:hidden">📊</span> Overview
+            </TabsTrigger>
+            <TabsTrigger
+              value="resources"
+              className="flex-1 text-sm px-3 py-2 rounded-md transition-all duration-200
+                   data-[state=active]:bg-background data-[state=active]:shadow-sm
+                   data-[state=active]:border-b-2 data-[state=active]:border-primary
+                   hover:bg-muted whitespace-nowrap"
+            >
+              <span className="max-sm:hidden">💻</span> Resources
+            </TabsTrigger>
+            <TabsTrigger
+              value="optimization"
+              className="flex-1 text-sm px-3 py-2 rounded-md transition-all duration-200
+                   data-[state=active]:bg-background data-[state=active]:shadow-sm
+                   data-[state=active]:border-b-2 data-[state=active]:border-primary
+                   hover:bg-muted whitespace-nowrap"
+            >
+              <span className="max-sm:hidden">⚡</span> Optimization
+            </TabsTrigger>
+            <TabsTrigger
+              value="forecasting"
+              className="flex-1 text-sm px-3 py-2 rounded-md transition-all duration-200
+                   data-[state=active]:bg-background data-[state=active]:shadow-sm
+                   data-[state=active]:border-b-2 data-[state=active]:border-primary
+                   hover:bg-muted whitespace-nowrap"
+            >
+              <span className="max-sm:hidden">🔮</span> Forecasting
+            </TabsTrigger>
+          </TabsList>
+        </div>
 
+        {/* Content areas */}
         <TabsContent value="overview" className="space-y-4">
-          <Card className="p-4">
-            <h3 className="text-xl font-semibold mb-4">Cost Trends</h3>
-            {/* Pass the predicted cost data and anomalies to your chart */}
-            <CostChart data={predictedCosts} anomalies={anomalies} />
+          <Card className="p-4 max-sm:rounded-none shadow-lg">
+            <h3 className="text-lg font-semibold mb-4">Cost Trends</h3>
+            <div className="h-64 sm:h-80">
+              <CostChart />
+            </div>
           </Card>
         </TabsContent>
 
-        <TabsContent value="resources">
-          <Card className="p-4">
+        <TabsContent value="resources" className="space-y-4">
+          <Card className="p-4 max-sm:rounded-none shadow-lg">
             <Resource />
           </Card>
         </TabsContent>
 
-        <TabsContent value="optimization">
-          <Card className="p-4">
-            <Optimization recommendations={recommendations} />
+        <TabsContent value="optimization" className="space-y-4">
+          <Card className="p-4 max-sm:rounded-none shadow-lg">
+            <Optimization />
           </Card>
         </TabsContent>
 
-        <TabsContent value="forecasting">
-          <Card className="p-4">
-            <h3 className="text-xl font-semibold mb-4">Cost Forecasting</h3>
-            {/* Add forecasting details or charts here */}
+        <TabsContent value="forecasting" className="space-y-4">
+          <Card className="p-4 max-sm:rounded-none shadow-lg">
+            <h3 className="text-lg font-semibold mb-4">Cost Forecasting</h3>
+            <div className="h-64 sm:h-80">
+              <Forcasting />
+            </div>
           </Card>
         </TabsContent>
       </Tabs>
