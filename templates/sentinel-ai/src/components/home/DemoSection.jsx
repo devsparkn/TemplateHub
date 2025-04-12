@@ -24,7 +24,7 @@ export default function DemoSection() {
                     <Upload className="w-10 h-10 text-blue-600 dark:text-blue-400" />
                   </div>
                   <p className="text-gray-600 dark:text-gray-400 mb-4">Upload an image, video, audio, or paste text to analyze</p>
-                  <Link href="/dashboard" className="inline-block px-6 py-2 bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 text-white font-medium rounded-md transition-colors">
+                  <Link href="/detection" className="inline-block px-6 py-2 bg-blue-600 hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 text-white font-medium rounded-md transition-colors">
                     Try it Now
                   </Link>
                 </div>

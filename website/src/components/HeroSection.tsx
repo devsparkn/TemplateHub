@@ -76,7 +76,7 @@ export function HeroSection() {
             <div className="relative aspect-square md:aspect-[4/3] overflow-hidden rounded-lg border bg-background shadow-2xl">
               <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-background to-background"></div>
               <Image 
-                src="/template-preview.png"
+                src="/templates/sentinel-ai.png"
                 alt="Next.js Template Preview"
                 fill
                 className="object-cover"

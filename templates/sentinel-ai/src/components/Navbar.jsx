@@ -54,9 +54,8 @@ const Navbar = () => {
           {/* Desktop Navigation */}
           <nav className="hidden md:flex items-center space-x-6">
             <NavLink href="/" text="Home" />
-            <NavLink href="/dashboard" text="Dashboard" />
-            <NavLink href="/about" text="About" />
-            <NavLink href="/api-docs" text="API" />
+            <NavLink href="#" text="About" />
+            <NavLink href="#" text="API" />
           </nav>
 
           {/* Right Side Actions */}
@@ -121,9 +120,8 @@ const Navbar = () => {
         <div className="md:hidden bg-white dark:bg-gray-900 shadow-lg">
           <div className="px-4 py-5 space-y-4">
             <MobileNavLink href="/" text="Home" />
-            <MobileNavLink href="/dashboard" text="Dashboard" />
-            <MobileNavLink href="/about" text="About" />
-            <MobileNavLink href="/api-docs" text="API" />
+            <MobileNavLink href="#" text="About" />
+            <MobileNavLink href="#" text="API" />
 
             <div className="border-t border-gray-200 dark:border-gray-700 pt-4 mt-4">
               {isLoggedIn ? (

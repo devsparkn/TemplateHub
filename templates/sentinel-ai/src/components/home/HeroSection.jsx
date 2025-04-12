@@ -26,7 +26,7 @@ export default function HeroSection() {
         </div>
         
         <div className="flex flex-col sm:flex-row gap-4 justify-center transition-all duration-300 opacity-100">
-          <Link href="/dashboard" className="relative group">
+          <Link href="/detection" className="relative group">
             <div className="absolute -inset-0.5 bg-gradient-to-r from-blue-600 to-blue-800 dark:from-cyan-400 dark:to-blue-500 rounded-lg blur opacity-60 group-hover:opacity-100 transition duration-500"></div>
             <button className="relative px-8 py-3 bg-white dark:bg-gray-800 rounded-lg flex items-center gap-2 font-medium text-gray-900 dark:text-white">
               Try Sentinel AI Now
@@ -35,7 +35,7 @@ export default function HeroSection() {
           </Link>
           
           <button
-            className="px-8 py-3 border border-gray-300 dark:border-gray-600 hover:border-blue-600 dark:hover:border-blue-400 rounded-lg flex items-center gap-2 justify-center font-medium transition-colors hover:bg-gray-50 dark:hover:bg-gray-800 text-gray-900 dark:text-white"
+            className="px-8 py-3 border border-gray-300 dark:border-gray-600 hover:border-blue-600 dark:hover:border-blue-400 rounded-lg flex items-center gap-2 justify-center font-medium transition-colors bg-green-200 hover:bg-gray-50 dark:hover:bg-gray-800 text-gray-900 dark:text-white"
           >
             Learn More
             <ChevronDown className="w-4 h-4" />

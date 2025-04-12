@@ -16,7 +16,7 @@ export default function CTASection() {
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/dashboard" className="relative group inline-block">
+            <Link href="/detection" className="relative group inline-block">
               <div className="absolute -inset-0.5 bg-gradient-to-r from-blue-600 to-blue-800 dark:from-cyan-400 dark:to-blue-500 rounded-lg blur opacity-70 group-hover:opacity-100 transition duration-500"></div>
               <button className="relative px-8 py-4 bg-white dark:bg-gray-800 rounded-lg font-medium text-lg text-gray-900 dark:text-white">
                 Try Sentinel AI Free

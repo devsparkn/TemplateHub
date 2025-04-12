@@ -8,28 +8,27 @@ const Footer = () => {
     {
       title: "Product",
       links: [
-        { href: "/dashboard", text: "Dashboard" },
-        { href: "/pricing", text: "Pricing" },
-        { href: "/api-docs", text: "API" },
-        { href: "/browser-extension", text: "Browser Extension" },
+        { href: "#", text: "Pricing" },
+        { href: "#", text: "API" },
+        { href: "#", text: "Browser Extension" },
       ],
     },
     {
       title: "Company",
       links: [
-        { href: "/about", text: "About Us" },
-        { href: "/blog", text: "Blog" },
-        { href: "/careers", text: "Careers" },
-        { href: "/contact", text: "Contact" },
+        { href: "#", text: "About Us" },
+        { href: "#", text: "Blog" },
+        { href: "#", text: "Careers" },
+        { href: "#", text: "Contact" },
       ],
     },
     {
       title: "Legal",
       links: [
-        { href: "/privacy", text: "Privacy Policy" },
-        { href: "/terms", text: "Terms of Service" },
-        { href: "/cookies", text: "Cookie Policy" },
-        { href: "/compliance", text: "Compliance" },
+        { href: "#", text: "Privacy Policy" },
+        { href: "#", text: "Terms of Service" },
+        { href: "#", text: "Cookie Policy" },
+        { href: "#", text: "Compliance" },
       ],
     },
   ];
@@ -41,9 +40,9 @@ const Footer = () => {
   ];
 
   const bottomLinks = [
-    { href: "/help", text: "Help Center" },
-    { href: "/status", text: "System Status" },
-    { href: "/security", text: "Security" },
+    { href: "#", text: "Help Center" },
+    { href: "#", text: "System Status" },
+    { href: "#", text: "Security" },
   ];
 
   return (
