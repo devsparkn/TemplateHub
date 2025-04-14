@@ -9,7 +9,6 @@ import PopularTemplate from '@/components/PopularTemplate'
 export default function Home() {
   return (
     <div className="flex flex-col min-h-screen">
-     <Navbar />
       <main className="flex flex-col">
         <HeroSection />
         <FeatureSection />
@@ -17,7 +16,6 @@ export default function Home() {
         <TestimonialSection />
         <CTASection />
       </main>
-      <Footer />
     </div>
   )
 }

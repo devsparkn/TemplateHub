@@ -8,6 +8,7 @@ export type Template = {
   category: string
   featured: boolean
   price: number | 'Free'
+  features: string[]
 }
 
 export const templates: Template[] = [
@@ -19,7 +20,16 @@ export const templates: Template[] = [
     demoUrl: 'https://cloud-cost-optimization.vercel.app/',
     category: 'SaaS',
     featured: true,
-    price: 79
+    price: 79,
+    features: [
+      'AI-powered cost optimization recommendations',
+      'Real-time cloud spending analytics',
+      'Custom dashboards and reporting',
+      'Multi-cloud provider support',
+      'Budget alerts and notifications',
+      'Resource utilization insights',
+      'Automated cost saving actions'
+    ]
   },
   {
     id: 'sentinel-ai',
@@ -29,7 +39,16 @@ export const templates: Template[] = [
     demoUrl: 'https://sentinel-ai-eight.vercel.app',
     category: 'SaaS',
     featured: true,
-    price: 79
+    price: 79,
+    features: [
+      'Advanced deepfake detection algorithms',
+      'Multi-media analysis (images, videos, audio)',
+      'Real-time scanning capabilities',
+      'Confidence scoring system',
+      'Detailed forensic reports',
+      'API integration for third-party apps',
+      'Regular algorithm updates'
+    ]
   },
   {
     id: 'dashboard-pro',
@@ -39,7 +58,16 @@ export const templates: Template[] = [
     demoUrl: '/demos/dashboard',
     category: 'Admin',
     featured: true,
-    price: 79
+    price: 79,
+    features: [
+      'Responsive admin interface',
+      'Real-time data visualization',
+      'User management system',
+      'Role-based access control',
+      'Customizable dashboard widgets',
+      'Dark and light theme support',
+      'Export capabilities (CSV, PDF, Excel)'
+    ]
   },
   {
     id: 'saas-starter',
@@ -49,7 +77,16 @@ export const templates: Template[] = [
     demoUrl: '/demos/saas',
     category: 'SaaS',
     featured: true,
-    price: 99
+    price: 99,
+    features: [
+      'User authentication and authorization',
+      'Subscription management',
+      'Stripe integration for payments',
+      'User dashboard',
+      'Team collaboration features',
+      'Email notification system',
+      'Usage analytics and reporting'
+    ]
   },
   {
     id: 'portfolio-minimal',
@@ -59,7 +96,16 @@ export const templates: Template[] = [
     demoUrl: '/demos/portfolio',
     category: 'Portfolio',
     featured: true,
-    price: 59
+    price: 59,
+    features: [
+      'Minimalist design aesthetic',
+      'Project showcase with filters',
+      'Responsive image gallery',
+      'Contact form integration',
+      'SEO optimized structure',
+      'Performance optimized assets',
+      'Easy customization options'
+    ]
   },
   {
     id: 'blog-modern',
@@ -69,7 +115,16 @@ export const templates: Template[] = [
     demoUrl: '/demos/blog',
     category: 'Blog',
     featured: true,
-    price: 69
+    price: 69,
+    features: [
+      'SEO optimized article structure',
+      'Comment system with moderation',
+      'Newsletter subscription form',
+      'Social sharing integration',
+      'Related posts suggestions',
+      'Reading time estimation',
+      'Markdown support for easy writing'
+    ]
   },
   {
     id: 'landing-page',
@@ -79,7 +134,16 @@ export const templates: Template[] = [
     demoUrl: '/demos/landing',
     category: 'Marketing',
     featured: true,
-    price: 49
+    price: 49,
+    features: [
+      'Conversion-optimized layout',
+      'A/B testing ready components',
+      'Lead capture forms',
+      'Testimonial carousel',
+      'Feature showcase sections',
+      'Call-to-action optimization',
+      'Analytics integration points'
+    ]
   },
   {
     id: 'simple-store',
@@ -89,7 +153,16 @@ export const templates: Template[] = [
     demoUrl: '/demos/store',
     category: 'E-commerce',
     featured: true,
-    price: 89
+    price: 89,
+    features: [
+      'Product catalog with filtering',
+      'Shopping cart functionality',
+      'Secure checkout process',
+      'Product image gallery',
+      'Inventory management',
+      'Customer reviews system',
+      'Order tracking functionality'
+    ]
   },
   {
     id: 'docs-template',
@@ -99,7 +172,16 @@ export const templates: Template[] = [
     demoUrl: '/demos/docs',
     category: 'Documentation',
     featured: false,
-    price: 'Free'
+    price: 'Free',
+    features: [
+      'Full-text search functionality',
+      'Documentation versioning',
+      'Syntax highlighting for code',
+      'Responsive navigation system',
+      'Dark mode support',
+      'Automatic table of contents',
+      'Last updated timestamps'
+    ]
   },
   {
     id: 'auth-starter',
@@ -109,6 +191,15 @@ export const templates: Template[] = [
     demoUrl: '/demos/auth',
     category: 'Authentication',
     featured: false,
-    price: 'Free'
+    price: 'Free',
+    features: [
+      'Multiple authentication providers',
+      'Social login integration',
+      'JWT authentication',
+      'Password reset workflow',
+      'Email verification system',
+      'Protected routes implementation',
+      'User profile management'
+    ]
   }
 ]

@@ -3,7 +3,11 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/ThemeProvider";
 import { AuthProvider } from "@/components/AuthProvider";
-import { Toaster } from "sonner";
+import { ReduxProvider } from "@/lib/providers";
+import { ToasterProvider } from "@/components/ToasterProvider";
+import { AnalyticsProvider } from "@/components/AnalyticsProvider";
+import { Navbar } from "@/components/Navbar";
+import { Footer } from "@/components/Footer";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -30,11 +34,16 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <AuthProvider>
-          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-            {children}
-          </ThemeProvider>
+          <ReduxProvider>
+            <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+              <Navbar />
+              {children}
+              <Footer />
+            </ThemeProvider>
+          </ReduxProvider>
         </AuthProvider>
-        <Toaster />
+        <ToasterProvider />
+        <AnalyticsProvider />
       </body>
     </html>
   );

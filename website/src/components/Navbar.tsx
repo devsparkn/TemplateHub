@@ -7,6 +7,7 @@ import { usePathname } from 'next/navigation'
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { ThemeToggle } from './ThemeToggle'
+import { CartButton } from './CartButton'
 import { Menu } from 'lucide-react'
 import {
   NavigationMenu,
@@ -47,6 +48,11 @@ export function Navbar() {
       href: '/docs',
       label: 'Documentation',
       active: pathname?.startsWith('/docs'),
+    },
+    {
+      href: '/admin/dashboard',
+      label: 'Admin',
+      active: pathname?.startsWith('/admin'),
     },
   ]
 
@@ -118,6 +124,7 @@ export function Navbar() {
         </div>
         
         <div className="flex items-center gap-4">
+          <CartButton />
           <ThemeToggle />
           <div className="hidden md:flex items-center gap-2">
             <Button variant="ghost" asChild>

@@ -1,0 +1,150 @@
+{
+  "salesData": [
+    {
+      "date": "2023-04-07",
+      "amount": 2450,
+      "orders": 12
+    },
+    {
+      "date": "2023-04-08",
+      "amount": 3480,
+      "orders": 16
+    },
+    {
+      "date": "2023-04-09",
+      "amount": 2970,
+      "orders": 14
+    },
+    {
+      "date": "2023-04-10",
+      "amount": 5420,
+      "orders": 21
+    },
+    {
+      "date": "2023-04-11",
+      "amount": 3890,
+      "orders": 18
+    },
+    {
+      "date": "2023-04-12",
+      "amount": 4250,
+      "orders": 19
+    },
+    {
+      "date": "2023-04-13",
+      "amount": 6120,
+      "orders": 24
+    }
+  ],
+  "totalSales": 28580,
+  "totalOrders": 124,
+  "downloadsData": {
+    "total": 3752,
+    "free": 2480,
+    "paid": 1272,
+    "byCategory": [
+      {
+        "name": "SaaS",
+        "downloads": 980
+      },
+      {
+        "name": "Admin",
+        "downloads": 720
+      },
+      {
+        "name": "Marketing",
+        "downloads": 540
+      },
+      {
+        "name": "E-commerce",
+        "downloads": 850
+      },
+      {
+        "name": "Portfolio",
+        "downloads": 420
+      },
+      {
+        "name": "Blog",
+        "downloads": 242
+      }
+    ]
+  },
+  "trafficData": [
+    {
+      "date": "2023-04-07",
+      "pageViews": 1250,
+      "uniqueVisitors": 780
+    },
+    {
+      "date": "2023-04-08",
+      "pageViews": 1450,
+      "uniqueVisitors": 820
+    },
+    {
+      "date": "2023-04-09",
+      "pageViews": 1350,
+      "uniqueVisitors": 750
+    },
+    {
+      "date": "2023-04-10",
+      "pageViews": 1650,
+      "uniqueVisitors": 930
+    },
+    {
+      "date": "2023-04-11",
+      "pageViews": 1520,
+      "uniqueVisitors": 870
+    },
+    {
+      "date": "2023-04-12",
+      "pageViews": 1680,
+      "uniqueVisitors": 950
+    },
+    {
+      "date": "2023-04-13",
+      "pageViews": 1780,
+      "uniqueVisitors": 1020
+    }
+  ],
+  "totalPageViews": 10680,
+  "totalUniqueVisitors": 6120,
+  "bounceRate": 42,
+  "popularTemplates": [
+    {
+      "id": "cloud-cost-optimisation",
+      "title": "Cloud Cost Optimisation",
+      "category": "SaaS",
+      "downloads": 320,
+      "revenue": 25280
+    },
+    {
+      "id": "sentinel-ai",
+      "title": "Sentinel AI",
+      "category": "SaaS",
+      "downloads": 285,
+      "revenue": 22515
+    },
+    {
+      "id": "dashboard-pro",
+      "title": "Dashboard Pro",
+      "category": "Admin",
+      "downloads": 245,
+      "revenue": 19355
+    },
+    {
+      "id": "saas-starter",
+      "title": "SaaS Starter",
+      "category": "SaaS",
+      "downloads": 230,
+      "revenue": 22770
+    },
+    {
+      "id": "portfolio-minimal",
+      "title": "Portfolio Minimal",
+      "category": "Portfolio",
+      "downloads": 210,
+      "revenue": 12390
+    }
+  ],
+  "lastUpdated": "2023-04-14T12:30:45.123Z"
+}
