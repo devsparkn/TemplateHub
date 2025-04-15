@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 'use client'
 
 import { useState } from 'react'
@@ -12,12 +11,14 @@ import { Separator } from '@/components/ui/separator'
 import { Github, Mail } from 'lucide-react'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { toast } from 'sonner'
+import { signIn } from 'next-auth/react'
+
 export default function LoginPage() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
   const [isLoading, setIsLoading] = useState(false)
-  const { signIn } = useAuth()
+  const { signIn: authSignIn } = useAuth()
   const router = useRouter()
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -26,18 +27,24 @@ export default function LoginPage() {
     setIsLoading(true)
     
     try {
-      await signIn(email, password)
+      await authSignIn(email, password)
+      toast.success('Logged in successfully!')
       router.push('/dashboard')
-    } catch (error) {
-      setError('Invalid email or password. Please try again.')
-      toast.error('Invalid email or password. Please try again.')
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        setError(error.message || 'Invalid email or password. Please try again.')
+        toast.error(error.message || 'Invalid email or password. Please try again.')
+      } else {
+        setError('Invalid email or password. Please try again.')
+        toast.error('Invalid email or password. Please try again.')
+      }
     } finally {
       setIsLoading(false)
     }
   }
 
   return (
-    <div className="container flex h-screen w-screen flex-col items-center justify-center px-4">
+    <div className="flex h-screen flex-col items-center justify-center px-4">
       <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
         <div className="flex flex-col space-y-2 text-center">
           <h1 className="text-2xl font-semibold tracking-tight">Welcome back</h1>
@@ -95,11 +102,19 @@ export default function LoginPage() {
             </div>
           </div>
           <div className="grid grid-cols-2 gap-4">
-            <Button variant="outline" type="button">
+            <Button 
+              variant="outline" 
+              type="button" 
+              onClick={() => signIn('github', { callbackUrl: '/dashboard' })}
+            >
               <Github className="mr-2 h-4 w-4" />
               GitHub
             </Button>
-            <Button variant="outline" type="button">
+            <Button 
+              variant="outline" 
+              type="button" 
+              onClick={() => signIn('google', { callbackUrl: '/dashboard' })}
+            >
               <Mail className="mr-2 h-4 w-4" />
               Google
             </Button>

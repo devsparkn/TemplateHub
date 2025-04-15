@@ -14,7 +14,7 @@ const CheckoutCancelPage = () => {
         
         <h1 className="text-3xl font-bold">Payment Canceled</h1>
         <p className="text-lg text-muted-foreground">
-          Your payment was not completed. Your cart items have been saved and you can try again whenever you're ready.
+          Your payment was not completed. Your cart items have been saved and you can try again whenever you&#39;re ready.
         </p>
         
         <div className="pt-8 grid gap-4 sm:grid-cols-2 max-w-md mx-auto">

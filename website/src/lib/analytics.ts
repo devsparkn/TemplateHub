@@ -11,7 +11,7 @@ export const initGA = () => {
   if (!GA_MEASUREMENT_ID) return;
 
   window.dataLayer = window.dataLayer || [];
-  function gtag(...args: any[]) {
+  function gtag(...args: unknown[]) {
     window.dataLayer.push(args);
   }
   gtag('js', new Date());
@@ -60,7 +60,7 @@ export const useAnalytics = () => {
 // Types for Google Analytics
 declare global {
   interface Window {
-    gtag: (...args: any[]) => void;
-    dataLayer: any[];
+    gtag: (...args: unknown[]) => void;
+    dataLayer: unknown[];
   }
 } 

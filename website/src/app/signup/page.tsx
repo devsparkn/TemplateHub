@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 'use client'
 
 import { useState } from 'react'
@@ -12,6 +11,7 @@ import { Separator } from '@/components/ui/separator'
 import { Github, Mail } from 'lucide-react'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { Checkbox } from '@/components/ui/checkbox'
+import { toast } from 'sonner'
 
 export default function SignupPage() {
   const [name, setName] = useState('')
@@ -31,35 +31,62 @@ export default function SignupPage() {
     // Validation
     if (password !== confirmPassword) {
       setError('Passwords do not match')
+      toast.error('Passwords do not match')
       return
     }
     
     if (!acceptTerms) {
       setError('You must accept the terms and conditions')
+      toast.error('You must accept the terms and conditions')
       return
     }
     
     setIsLoading(true)
     
     try {
-      // In a real app, you would have a separate signup function
-      // Here we're reusing signIn since we don't have a full implementation
-      await signIn(email, password)
-      router.push('/dashboard')
-    } catch (error) {
-      setError('Failed to create account. Please try again.')
+      // Create account via API
+      const response = await fetch('/api/auth/signup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          name,
+          email,
+          password,
+        }),
+      });
+      
+      const data = await response.json();
+      
+      if (!response.ok) {
+        throw new Error(data.error || 'Error creating account');
+      }
+      
+      // Sign in after account creation
+      await signIn(email, password);
+      toast.success('Account created successfully!');
+      router.push('/dashboard');
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        setError(error.message || 'Failed to create account. Please try again.');
+      } else {
+        setError('Failed to create account. Please try again.');
+      }
+      const errorMessage = error instanceof Error ? error.message : 'Failed to create account';
+      toast.error(errorMessage);
     } finally {
-      setIsLoading(false)
+      setIsLoading(false);
     }
   }
 
   return (
-    <div className="container flex h-screen w-screen flex-col items-center justify-center px-4">
-      <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[400px]">
+    <div className="flex h-screen flex-col items-center justify-center px-4">
+      <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
         <div className="flex flex-col space-y-2 text-center">
           <h1 className="text-2xl font-semibold tracking-tight">Create an account</h1>
           <p className="text-sm text-muted-foreground">
-            Enter your details below to create your account
+            Enter your information to create an account
           </p>
         </div>
         <div className="grid gap-6">
@@ -67,7 +94,7 @@ export default function SignupPage() {
             <div className="grid gap-4">
               {error && (
                 <Alert variant="destructive">
-                  <AlertDescription>{error}</AlertDescription>
+                  <AlertDescription>{ error }</AlertDescription>
                 </Alert>
               )}
               <div className="grid gap-2">
@@ -75,7 +102,6 @@ export default function SignupPage() {
                 <Input
                   id="name"
                   type="text"
-                  placeholder="John Doe"
                   value={name}
                   onChange={(e) => setName(e.target.value)}
                   required

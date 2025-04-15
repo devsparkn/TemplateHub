@@ -1,36 +1,139 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# TemplateHub - NextJS Template Marketplace
+
+A modern, fully-featured Next.js 14 application for a template marketplace with authentication, authorization, MongoDB integration, and Redux state management.
+
+## Features
+
+- **Authentication System**
+  - Email/Password login and signup
+  - OAuth providers (GitHub, Google)
+  - Secure password hashing
+  - Session management
+  
+- **Authorization**
+  - Role-based access control (user/admin)
+  - Protected routes
+  
+- **Database Integration**
+  - MongoDB connection with Mongoose ODM
+  - User and product models
+  - Efficient connection handling
+  
+- **State Management**
+  - Redux with Redux Toolkit
+  - User state management
+  - Cart state management
+  
+- **Payment Processing**
+  - Stripe integration
+  - Checkout workflow
+  - Order tracking
+  
+- **UI Components**
+  - Modern, responsive design
+  - Shadcn UI components
+  - Dark/light mode support
+
+## Tech Stack
+
+- **Frontend**: Next.js 14, React 19, TypeScript
+- **Styling**: Tailwind CSS, Shadcn UI
+- **State Management**: Redux Toolkit
+- **Authentication**: NextAuth.js
+- **Database**: MongoDB with Mongoose
+- **Payments**: Stripe
+- **Analytics**: Google Analytics
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- Node.js 18+ and npm
+- MongoDB database (local or Atlas)
+- Stripe account (for payments)
+- OAuth credentials (optional, for social login)
+
+### Installation
+
+1. Clone the repository:
+   ```bash
+   git clone https://github.com/your-username/template-hub.git
+   cd template-hub
+   ```
+
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+
+3. Set up environment variables:
+   - Copy `.env.example` to `.env.local`
+   - Update the variables with your credentials
+   ```bash
+   cp .env.example .env.local
+   ```
+
+4. Run the development server:
+   ```bash
+   npm run dev
+   ```
+
+5. Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+## Project Structure
+
+```
+├── public/          # Static assets
+├── src/
+│   ├── app/         # Next.js app router 
+│   │   ├── api/     # API routes
+│   │   ├── admin/   # Admin pages
+│   │   ├── account/ # User account pages
+│   │   └── ...      # Other page routes
+│   ├── components/  # React components
+│   │   ├── ui/      # UI components
+│   │   └── ...      # Other components
+│   ├── lib/         # Utilities and libraries
+│   │   ├── mongodb.ts          # MongoDB connection
+│   │   ├── store.ts            # Redux store
+│   │   ├── slices/             # Redux slices
+│   │   └── providers.tsx       # Context providers
+│   ├── models/      # Mongoose models
+│   ├── types/       # TypeScript type definitions
+│   └── utils/       # Helper functions
+├── .env.example     # Example environment variables
+└── ...
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Deployment
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+This application can be deployed to Vercel:
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```bash
+npm run build
+vercel --prod
+```
 
-## Learn More
+## Environment Variables
 
-To learn more about Next.js, take a look at the following resources:
+Required environment variables:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- `MONGODB_URI`: MongoDB connection string
+- `NEXTAUTH_SECRET`: Secret for NextAuth.js
+- `NEXTAUTH_URL`: Your application URL
+- `STRIPE_SECRET_KEY`: Stripe secret key
+- `STRIPE_PUBLIC_KEY`: Stripe publishable key
+- See `.env.example` for full list
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## License
 
-## Deploy on Vercel
+This project is licensed under the MIT License - see the LICENSE file for details.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Acknowledgements
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- [Next.js](https://nextjs.org/)
+- [Shadcn UI](https://ui.shadcn.com/)
+- [NextAuth.js](https://next-auth.js.org/)
+- [Mongoose](https://mongoosejs.com/)
+- [Redux Toolkit](https://redux-toolkit.js.org/)
+- [Stripe](https://stripe.com/)

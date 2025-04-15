@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useDispatch } from 'react-redux';
@@ -18,26 +18,22 @@ import { toast } from 'sonner';
 const Page = () => {
   const dispatch = useDispatch();
   const params = useParams();
-  const id = params?.id as string;
-  const [template, setTemplate] = useState(templates.find(t => t.id === id));
-  
-  // If template not found, show 404
-  useEffect(() => {
-    if (!template) {
-      notFound();
-    }
-  }, [template]);
-  
-  if (!template) return null;
-  
+  const id = typeof params?.id === 'string' ? params.id : '';
+
+  const template = templates.find(t => t.id === id);
+
+  if (!template) {
+    return notFound();
+  }
+
   const relatedTemplates = templates
     .filter(t => t.id !== template.id && t.category === template.category)
     .slice(0, 3);
-  
+
   const handleAddToCart = () => {
     dispatch(addToCart(template));
     toast.success('Added to cart', {
-      description: `${template.title} has been added to your cart`
+      description: `${template.title} has been added to your cart`,
     });
   };
   
