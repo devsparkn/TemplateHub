@@ -2,7 +2,6 @@ import NextAuth, { NextAuthOptions } from 'next-auth';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import GoogleProvider from 'next-auth/providers/google';
 import GithubProvider from 'next-auth/providers/github';
-import { compare } from 'bcryptjs';
 import dbConnect from '@/lib/mongodb';
 import User from '@/models/User';
 
@@ -17,26 +16,17 @@ export const authOptions: NextAuthOptions = {
       },
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) {
-          throw new Error('Invalid credentials');
+          return null;
         }
 
         await dbConnect();
 
-        // Find user by email and include password field
-        const user = await User.findOne({ email: credentials.email }).select('+password');
+        const user = await User.findOne({ email: credentials.email.toLowerCase() }).select('+password');
+        if (!user) return null;
 
-        if (!user) {
-          throw new Error('User not found');
-        }
-
-        // Verify password
         const isPasswordValid = await user.comparePassword(credentials.password);
+        if (!isPasswordValid) return null;
 
-        if (!isPasswordValid) {
-          throw new Error('Invalid password');
-        }
-
-        // Return user without password
         return {
           id: user._id.toString(),
           name: user.name,
@@ -59,7 +49,7 @@ export const authOptions: NextAuthOptions = {
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
-        token.role = (user as any).role;
+        token.role = (user as { role: 'user' | 'admin' }).role;
       }
       return token;
     },
@@ -83,5 +73,4 @@ export const authOptions: NextAuthOptions = {
 };
 
 const handler = NextAuth(authOptions);
-
-export { handler as GET, handler as POST }; 
+export { handler as GET, handler as POST };

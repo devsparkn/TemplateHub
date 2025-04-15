@@ -7,7 +7,7 @@ import { RootState } from '@/lib/store';
 import { clearCart } from '@/lib/slices/cartSlice';
 import Link from 'next/link';
 import Image from 'next/image';
-import { ChevronLeft, Trash2, ArrowRight, CreditCard } from 'lucide-react';
+import { ChevronLeft, Trash2, CreditCard } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Elements } from '@stripe/react-stripe-js';
 import { stripePromise } from '@/lib/stripe';

@@ -1,15 +1,13 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect, useState ,useCallback} from 'react';
 import { format } from 'date-fns';
 import { 
   DollarSign, 
   Users, 
   Download, 
   TrendingUp, 
-  BarChart2, 
   RefreshCw,
-  PieChart
 } from 'lucide-react';
 import { 
   Card, 
@@ -20,7 +18,7 @@ import {
 } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { CardMetric } from '@/components/ui/card-metric';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import {
   AreaChart,
   Area,
@@ -84,41 +82,43 @@ export default function AdminDashboard() {
   const [dashboardData, setDashboardData] = useState<DashboardData | null>(null);
   const [timeframe, setTimeframe] = useState('7d');
 
-  // Fetch dashboard data
-  const fetchDashboardData = async () => {
-    try {
-      setRefreshing(true);
-      // Track the dashboard refresh as an analytics event
-      trackEvent({
-        action: 'dashboard_refresh',
-        category: 'admin_dashboard',
-        label: `timeframe_${timeframe}`,
-      });
-      
-      const response = await fetch(`/api/admin/dashboard?timeframe=${timeframe}`);
-      const data = await response.json();
-      setDashboardData(data);
-      setLoading(false);
-    } catch (error) {
-      console.error('Error fetching dashboard data:', error);
-    } finally {
-      setRefreshing(false);
-    }
-  };
+ // Memoize fetchDashboardData to avoid re-creating it on each render
+ const fetchDashboardData = useCallback(async () => {
+  try {
+    setRefreshing(true);
+    // Track the dashboard refresh as an analytics event
+    trackEvent({
+      action: 'dashboard_refresh',
+      category: 'admin_dashboard',
+      label: `timeframe_${timeframe}`,
+    });
 
-  // Fetch data on mount and when timeframe changes
-  useEffect(() => {
-    fetchDashboardData();
-    
-    // Track when timeframe is changed
-    if (!loading) {
-      trackEvent({
-        action: 'timeframe_change',
-        category: 'admin_dashboard',
-        label: timeframe,
-      });
-    }
-  }, [timeframe]);
+    const response = await fetch(`/api/admin/dashboard?timeframe=${timeframe}`);
+    const data = await response.json();
+    setDashboardData(data);
+    setLoading(false);
+  } catch (error) {
+    console.error('Error fetching dashboard data:', error);
+  } finally {
+    setRefreshing(false);
+  }
+}, [timeframe]);  // Memoized to only re-create when 'timeframe' changes
+
+// Fetch data when 'timeframe' changes
+useEffect(() => {
+  fetchDashboardData();
+}, [fetchDashboardData]);
+
+// Track when timeframe is changed and loading is false
+useEffect(() => {
+  if (!loading) {
+    trackEvent({
+      action: 'timeframe_change',
+      category: 'admin_dashboard',
+      label: timeframe,
+    });
+  }
+}, [timeframe, loading]);
 
   // Format currency
   const formatCurrency = (value: number) => {

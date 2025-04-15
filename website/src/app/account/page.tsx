@@ -1,86 +1,104 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import { useSession } from 'next-auth/react';
-import { useDispatch, useSelector } from 'react-redux';
-import { 
-  selectUser, 
-  selectUserStatus, 
-  selectUserError,
-  updateUserProfile
-} from '@/lib/slices/userSlice';
-import { AppDispatch } from '@/lib/store';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { toast } from 'sonner';
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  selectUser,
+  selectUserStatus,
+  updateUserProfile,
+} from "@/lib/slices/userSlice";
+import { AppDispatch } from "@/lib/store";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { toast } from "sonner";
 
 export default function AccountPage() {
   const { data: session, status: sessionStatus } = useSession();
   const user = useSelector(selectUser);
   const userStatus = useSelector(selectUserStatus);
-  const userError = useSelector(selectUserError);
   const dispatch = useDispatch<AppDispatch>();
   const router = useRouter();
-  
-  const [name, setName] = useState('');
-  const [image, setImage] = useState('');
-  const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
-  
+
+  const [name, setName] = useState("");
+  const [image, setImage] = useState("");
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
+
   // Redirect if not logged in
   useEffect(() => {
-    if (sessionStatus === 'unauthenticated') {
-      router.push('/login');
+    if (sessionStatus === "unauthenticated") {
+      router.push("/login");
     }
   }, [sessionStatus, router]);
-  
+
   // Set form values from user data
   useEffect(() => {
     if (user) {
       setName(user.name);
-      setImage(user.image || '');
+      setImage(user.image || "");
     }
   }, [user]);
-  
+
   const handleProfileUpdate = async (e: React.FormEvent) => {
     e.preventDefault();
-    setError('');
-    setSuccess('');
-    
+    setError("");
+    setSuccess("");
+
     try {
+      if (!name || !image) {
+        throw new Error("Name and Image URL are required.");
+      }
       await dispatch(updateUserProfile({ name, image })).unwrap();
-      setSuccess('Profile updated successfully');
-      toast.success('Profile updated successfully');
-    } catch (error: any) {
-      setError(error.message || 'Failed to update profile');
-      toast.error(error.message || 'Failed to update profile');
+      setSuccess("Profile updated successfully");
+      toast.success("Profile updated successfully");
+    } catch (error: unknown) {
+      if (error instanceof Error) {
+        setError(error.message || "Failed to update profile");
+      } else {
+        setError("Failed to update profile");
+      }
+      toast.error(
+        error instanceof Error ? error.message : "Failed to update profile"
+      );
     }
   };
-  
-  if (sessionStatus === 'loading' || !user) {
+
+  if (sessionStatus === "loading" || !user) {
     return (
       <div className="container flex min-h-screen items-center justify-center">
         <p>Loading...</p>
       </div>
     );
   }
-  
+
   return (
     <div className="container py-10">
       <div className="mx-auto max-w-3xl">
         <h1 className="mb-8 text-3xl font-bold">Account Settings</h1>
-        
+        {session?.user?.name && (
+          <p className="text-muted-foreground text-sm mt-1">
+            Welcome, {session.user.name}
+          </p>
+        )}
+
         <Tabs defaultValue="profile">
           <TabsList className="mb-6">
             <TabsTrigger value="profile">Profile</TabsTrigger>
             <TabsTrigger value="security">Security</TabsTrigger>
           </TabsList>
-          
+
           <TabsContent value="profile">
             <Card>
               <CardHeader>
@@ -101,7 +119,7 @@ export default function AccountPage() {
                       <AlertDescription>{success}</AlertDescription>
                     </Alert>
                   )}
-                  
+
                   <div className="grid gap-4">
                     <div className="grid gap-2">
                       <Label htmlFor="name">Name</Label>
@@ -112,19 +130,15 @@ export default function AccountPage() {
                         required
                       />
                     </div>
-                    
+
                     <div className="grid gap-2">
                       <Label htmlFor="email">Email</Label>
-                      <Input
-                        id="email"
-                        value={user.email}
-                        disabled
-                      />
+                      <Input id="email" value={user.email} disabled />
                       <p className="text-xs text-muted-foreground">
                         Your email cannot be changed.
                       </p>
                     </div>
-                    
+
                     <div className="grid gap-2">
                       <Label htmlFor="image">Profile Image URL</Label>
                       <Input
@@ -135,24 +149,22 @@ export default function AccountPage() {
                       />
                     </div>
                   </div>
-                  
+
                   <div className="mt-6">
-                    <Button type="submit" disabled={userStatus === 'loading'}>
-                      {userStatus === 'loading' ? 'Saving...' : 'Save Changes'}
+                    <Button type="submit" disabled={userStatus === "loading"}>
+                      {userStatus === "loading" ? "Saving..." : "Save Changes"}
                     </Button>
                   </div>
                 </form>
               </CardContent>
             </Card>
           </TabsContent>
-          
+
           <TabsContent value="security">
             <Card>
               <CardHeader>
                 <CardTitle>Security Settings</CardTitle>
-                <CardDescription>
-                  Manage your account security
-                </CardDescription>
+                <CardDescription>Manage your account security</CardDescription>
               </CardHeader>
               <CardContent>
                 <div className="grid gap-4">
@@ -162,20 +174,25 @@ export default function AccountPage() {
                       Update your password to keep your account secure.
                     </p>
                   </div>
-                  
-                  <Button variant="outline" onClick={() => router.push('/account/change-password')}>
+
+                  <Button
+                    variant="outline"
+                    onClick={() => router.push("/account/change-password")}
+                  >
                     Change Password
                   </Button>
                 </div>
-                
+
                 <div className="mt-6 border-t pt-6">
                   <div>
-                    <h3 className="text-lg font-medium">Two-Factor Authentication</h3>
+                    <h3 className="text-lg font-medium">
+                      Two-Factor Authentication
+                    </h3>
                     <p className="text-sm text-muted-foreground">
                       Add an extra layer of security to your account.
                     </p>
                   </div>
-                  
+
                   <Button variant="outline" className="mt-2" disabled>
                     Coming Soon
                   </Button>
@@ -187,4 +204,4 @@ export default function AccountPage() {
       </div>
     </div>
   );
-} 
+}

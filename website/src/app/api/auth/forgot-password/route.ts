@@ -39,11 +39,13 @@ export async function POST(request: NextRequest) {
       { success: true, message: 'If your email exists in our system, you will receive a password reset OTP.' },
       { status: 200 }
     );
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Forgot password error:', error);
+
+    const errorMessage = error instanceof Error ? error.message : 'Something went wrong';
     
     return NextResponse.json(
-      { error: error.message || 'Something went wrong' },
+      { error: errorMessage },
       { status: 500 }
     );
   }

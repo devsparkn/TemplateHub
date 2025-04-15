@@ -1,7 +1,6 @@
 'use client';
 
 import { useEffect } from 'react';
-import { useRouter } from 'next/navigation';
 import { useDispatch } from 'react-redux';
 import { clearCart } from '@/lib/slices/cartSlice';
 import { Button } from '@/components/ui/button';
@@ -10,7 +9,6 @@ import Link from 'next/link';
 import { toast } from 'sonner';
 
 const CheckoutSuccessPage = () => {
-  const router = useRouter();
   const dispatch = useDispatch();
 
   // Clear the cart on successful checkout
