@@ -1,6 +1,5 @@
 import { templates } from '@/utils/template'
 import { Metadata } from 'next'
-import { notFound } from 'next/navigation'
 import { cache } from 'react'
 
 type Props = {
@@ -36,6 +35,6 @@ export async function generateStaticParams() {
   }))
 }
 
-export default function TemplateLayout({ params, children }: Props) {
+export default function TemplateLayout({ children }: Props) {
   return <>{children}</>
 }

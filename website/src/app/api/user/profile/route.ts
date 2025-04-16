@@ -49,11 +49,12 @@ export async function PUT(request: NextRequest) {
         role: updatedUser.role,
       },
     });
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Error updating user profile:', error);
     
+    const errorMessage = error instanceof Error ? error.message : 'Something went wrong';
     return NextResponse.json(
-      { error: error.message || 'Something went wrong' },
+      { error: errorMessage },
       { status: 500 }
     );
   }

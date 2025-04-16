@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import sampleData from '@/data/sample-dashboard-data.json';
 
 /**
