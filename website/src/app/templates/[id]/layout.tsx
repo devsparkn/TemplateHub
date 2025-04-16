@@ -7,13 +7,12 @@ const getTemplate = cache((id: string) => {
   return templates.find((t) => t.id === id);
 });
 
-// ✅ Use built-in Next.js typing for params
 export async function generateMetadata({
   params,
 }: {
   params: { id: string };
 }): Promise<Metadata> {
-  const template = await getTemplate(params.id);
+  const template = getTemplate(params.id);
 
   if (!template) {
     return {
@@ -28,20 +27,19 @@ export async function generateMetadata({
   };
 }
 
-export async function generateStaticParams() {
+export function generateStaticParams() {
   return templates.map((template) => ({
     id: template.id,
   }));
 }
 
-// ✅ layout expects a function with `children` and `params`
-export default function Layout({
-  children,
-  params,
-}: {
+// Explicitly define props interface
+interface LayoutProps {
   children: ReactNode;
   params: { id: string };
-}) {
-  console.log("Template ID:", params.id); // just to "use" it
+}
+
+export default function Layout({ children, params }: LayoutProps) {
+  console.log("Template ID:", params.id);
   return <>{children}</>;
 }
