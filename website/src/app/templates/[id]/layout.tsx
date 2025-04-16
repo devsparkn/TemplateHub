@@ -1,42 +1,47 @@
-import { templates } from '@/utils/template'
-import { Metadata } from 'next'
-import { cache } from 'react'
+import { templates } from "@/utils/template";
+import { Metadata } from "next";
+import { cache } from "react";
+import { ReactNode } from "react";
 
-type LayoutProps = {
-  children: React.ReactNode
-  params: { id: string }
-}
+const getTemplate = cache((id: string) => {
+  return templates.find((t) => t.id === id);
+});
 
-// Async-cached template getter
-const getTemplate = cache(async (id: string) => {
-  return templates.find(t => t.id === id)
-})
-
-// Generate metadata for the template
-export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
-  const template = await getTemplate(params.id)
+// ✅ Use built-in Next.js typing for params
+export async function generateMetadata({
+  params,
+}: {
+  params: { id: string };
+}): Promise<Metadata> {
+  const template = await getTemplate(params.id);
 
   if (!template) {
     return {
-      title: 'Template Not Found',
-      description: 'The requested template could not be found',
-    }
+      title: "Template Not Found",
+      description: "The requested template could not be found",
+    };
   }
 
   return {
     title: `${template.title} | Template`,
     description: template.description,
-  }
+  };
 }
 
-// Generate static params for pre-rendering
 export async function generateStaticParams() {
-  return templates.map(template => ({
+  return templates.map((template) => ({
     id: template.id,
-  }))
+  }));
 }
 
-// Layout wrapper for each template page
-export default function TemplateLayout({ children }: LayoutProps) {
-  return <>{children}</>
+// ✅ layout expects a function with `children` and `params`
+export default function Layout({
+  children,
+  params,
+}: {
+  children: ReactNode;
+  params: { id: string };
+}) {
+  console.log("Template ID:", params.id); // just to "use" it
+  return <>{children}</>;
 }
