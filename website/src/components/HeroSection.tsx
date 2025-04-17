@@ -1,4 +1,3 @@
-// components/hero-section.tsx - Hero section with animation
 'use client'
 
 import { useEffect, useState } from 'react'
@@ -18,78 +17,75 @@ export function HeroSection() {
   if (!mounted) return null
 
   return (
-    <section className="relative overflow-hidden bg-background pt-24 pb-32 md:py-32 px-8">
-      {/* Background gradient */}
-      <div className="absolute inset-0 bg-grid-pattern bg-[length:30px_30px] opacity-5 dark:opacity-10" />
-      <div className="absolute top-0 right-0 h-96 w-96 rounded-full bg-purple-300 blur-[150px] opacity-20 dark:bg-purple-800" />
-      <div className="absolute bottom-0 left-0 h-96 w-96 rounded-full bg-blue-300 blur-[150px] opacity-20 dark:bg-blue-800" />
+    <section className="relative overflow-hidden bg-background pt-16 pb-36 px-6 sm:px-10 lg:px-20">
+      {/* Decorative Background Elements */}
+      <div className="absolute inset-0 bg-grid-pattern bg-[length:30px_30px] opacity-5 dark:opacity-10 pointer-events-none" />
+      <div className="absolute top-[-100px] right-[-100px] h-[300px] w-[300px] rounded-full bg-purple-300 blur-[140px] opacity-25 dark:bg-purple-900" />
+      <div className="absolute bottom-[-100px] left-[-100px] h-[300px] w-[300px] rounded-full bg-blue-300 blur-[140px] opacity-25 dark:bg-blue-900" />
 
-      <div className="container relative">
-        <div className="grid gap-12 lg:grid-cols-2 lg:gap-8 items-center">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5 }}
-            className="flex flex-col"
-          >
-            <div className="inline-flex items-center rounded-full border px-3 py-1 text-sm mb-6 w-fit bg-muted">
-              <span className="mr-1">✨</span> Newly Released Templates
+      <div className="relative  mx-auto grid lg:grid-cols-2 gap-16 items-center z-10">
+        {/* Left Side */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="flex flex-col"
+        >
+          <div className="inline-flex items-center bg-muted border border-border px-4 text-sm py-1.5 rounded-full w-fit mb-6 shadow-sm">
+            <span className="">🚀</span> Launched New Templates
+          </div>
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-5 leading-tight text-foreground">
+            Launch Your Next <span className="text-primary">SaaS Startup</span> in Minutes
+          </h1>
+          <p className="text-lg md:text-xl text-muted-foreground max-w-xl mb-8">
+            Get access to beautifully designed, production-ready Next.js templates. Built with Tailwind CSS and TypeScript, optimized for startups and indie hackers.
+          </p>
+          <div className="flex flex-col sm:flex-row items-center gap-4 mb-6">
+            <Button asChild size="lg" className="w-full sm:w-auto">
+              <Link href="/templates">
+                Browse Templates <ArrowRight className="ml-2 h-4 w-4" />
+              </Link>
+            </Button>
+            <Button variant="outline" size="lg" className="w-full sm:w-auto">
+              <Link href="/docs">Learn More</Link>
+            </Button>
+          </div>
+
+          {/* Reviews & Trust */}
+          <div className="flex items-center flex-wrap gap-4 text-sm text-muted-foreground mt-4">
+            <div className="flex items-center">
+              {Array(5)
+                .fill(null)
+                .map((_, i) => (
+                  <Star key={i} className="h-4 w-4 fill-primary text-primary" />
+                ))}
+              <span className="ml-2 text-sm font-medium text-foreground">5.0 / 5.0</span>
             </div>
-            <h1 className="text-4xl font-bold leading-tight tracking-tighter md:text-5xl lg:text-6xl xl:leading-[1.1] mb-4">
-              Beautiful <span className="text-primary">Next.js Templates</span> For Your Next Project
-            </h1>
-            <p className="max-w-[600px] text-lg text-muted-foreground md:text-xl mb-8">
-              Launch your SaaS, portfolio, or marketing site in minutes with our premium, responsive templates built with Next.js, TypeScript, and Tailwind CSS.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Button asChild size="lg">
-                <Link href="/templates">
-                  Browse Templates <ArrowRight className="ml-2 h-4 w-4" />
-                </Link>
-              </Button>
-              <Button variant="outline" size="lg">
-                <Link href="/docs">
-                  Learn More
-                </Link>
-              </Button>
+            <span className="text-muted-foreground">★ 250+ Reviews</span>
+            <span className="text-muted-foreground">👨‍💻 Trusted by 2,500+ Developers</span>
+          </div>
+        </motion.div>
+
+        {/* Right Side: Image Card */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="relative"
+        >
+          <div className="relative aspect-video rounded-xl overflow-hidden shadow-2xl border border-border bg-background">
+            <Image
+              src="/templates/sentinel-ai.png"
+              alt="Next.js Template Preview"
+              fill
+              className="object-cover"
+            />
+            <div className="absolute bottom-4 right-4 backdrop-blur-md bg-background/80 border border-border px-4 py-2 rounded-full shadow-md flex items-center gap-2">
+              <Code className="h-4 w-4 text-primary" />
+              <span className="text-sm font-medium text-foreground">Next.js 14 Ready</span>
             </div>
-            <div className="flex items-center gap-4 mt-8">
-              <div className="flex items-center">
-                <Star className="h-4 w-4 fill-primary text-primary" />
-                <Star className="h-4 w-4 fill-primary text-primary" />
-                <Star className="h-4 w-4 fill-primary text-primary" />
-                <Star className="h-4 w-4 fill-primary text-primary" />
-                <Star className="h-4 w-4 fill-primary text-primary" />
-                <span className="ml-2 text-sm font-medium">5.0/5.0 (250+ reviews)</span>
-              </div>
-              <div className="text-sm">
-                <span className="font-medium">2,500+</span> Developers Trust Us
-              </div>
-            </div>
-          </motion.div>
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="lg:row-span-2 relative"
-          >
-            <div className="relative aspect-square md:aspect-[4/3] overflow-hidden rounded-lg border bg-background shadow-2xl">
-              <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-background to-background"></div>
-              <Image 
-                src="/templates/sentinel-ai.png"
-                alt="Next.js Template Preview"
-                fill
-                className="object-cover"
-              />
-              <div className="absolute bottom-4 right-4 bg-background/80 backdrop-blur-md rounded-full px-4 py-2 shadow-lg">
-                <div className="flex items-center gap-2">
-                  <Code className="h-4 w-4 text-primary" />
-                  <span className="text-sm font-medium">Next.js 14 Ready</span>
-                </div>
-              </div>
-            </div>
-          </motion.div>
-        </div>
+          </div>
+        </motion.div>
       </div>
     </section>
   )

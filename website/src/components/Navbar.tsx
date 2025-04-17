@@ -40,11 +40,6 @@ export function Navbar() {
       active: pathname === '/pricing',
     },
     {
-      href: '/blog',
-      label: 'Blog',
-      active: pathname === '/blog',
-    },
-    {
       href: '/docs',
       label: 'Documentation',
       active: pathname?.startsWith('/docs'),

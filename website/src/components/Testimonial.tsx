@@ -48,7 +48,7 @@ export function TestimonialSection() {
   ]
 
   return (
-    <section className="py-20 px-8">
+    <section className="py-20 px-6 sm:px-10 lg:px-20">
       <div className="max-w-6xl mx-auto">
         <div className="flex flex-col items-center text-center mb-12">
           <h2 className="text-3xl font-bold tracking-tight sm:text-4xl mb-4">

@@ -165,25 +165,6 @@ export const templates: Template[] = [
     ]
   },
   {
-    id: 'docs-template',
-    title: 'Docs Template',
-    description: 'Documentation site template with search and version control.',
-    imageUrl: '/templates/docs.png',
-    demoUrl: '/demos/docs',
-    category: 'Documentation',
-    featured: false,
-    price: 'Free',
-    features: [
-      'Full-text search functionality',
-      'Documentation versioning',
-      'Syntax highlighting for code',
-      'Responsive navigation system',
-      'Dark mode support',
-      'Automatic table of contents',
-      'Last updated timestamps'
-    ]
-  },
-  {
     id: 'auth-starter',
     title: 'Auth Starter',
     description: 'Authentication boilerplate with multiple providers.',

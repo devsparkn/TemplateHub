@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button'
 import { TemplateGrid } from '@/components/TemplateGrid'
 const PopularTemplate = () => {
   return (
-           <section className="py-20 px-8">
+           <section className="py-20 px-6 sm:px-10 lg:px-20">
              <div className="flex flex-col items-center text-center mb-16">
                <h2 className="text-3xl font-bold tracking-tight sm:text-4xl mb-4">
                  Our Most Popular Templates

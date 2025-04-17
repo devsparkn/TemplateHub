@@ -1,8 +1,6 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-
 'use client'
 
-import { createContext, useContext, useState, useEffect } from 'react'
+import { createContext, useContext } from 'react'
 import { SessionProvider, signIn as nextAuthSignIn, signOut as nextAuthSignOut, useSession } from 'next-auth/react'
 
 type AuthContextType = {
