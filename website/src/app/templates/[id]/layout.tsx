@@ -1,12 +1,13 @@
-import { templates } from "@/utils/template";
 import { Metadata } from "next";
+import { templates } from "@/utils/template";
 import { cache } from "react";
-import { ReactNode } from "react";
 
+// Cached fetch function
 const getTemplate = cache((id: string) => {
   return templates.find((t) => t.id === id);
 });
 
+// Metadata generation
 export async function generateMetadata({
   params,
 }: {
@@ -27,19 +28,9 @@ export async function generateMetadata({
   };
 }
 
+// Static params for SSG
 export function generateStaticParams() {
   return templates.map((template) => ({
     id: template.id,
   }));
-}
-
-export default function Layout({
-  children,
-  params,
-}: {
-  children: ReactNode;
-  params: { id: string };
-}) {
-  console.log("Template ID:", params.id);
-  return <>{children}</>;
 }
