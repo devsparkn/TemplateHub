@@ -33,13 +33,13 @@ export function generateStaticParams() {
   }));
 }
 
-// Explicitly define props interface
-interface LayoutProps {
+export default function Layout({
+  children,
+  params,
+}: {
   children: ReactNode;
   params: { id: string };
-}
-
-export default function Layout({ children, params }: LayoutProps) {
+}) {
   console.log("Template ID:", params.id);
   return <>{children}</>;
 }
