@@ -12,6 +12,7 @@ interface CardMetricProps {
   trend?: 'up' | 'down' | 'neutral';
   subtitle?: string;
   className?: string;
+  onClick?: () => void;
 }
 
 export function CardMetric({
@@ -22,9 +23,13 @@ export function CardMetric({
   trend = 'neutral',
   subtitle,
   className,
+  onClick,
 }: CardMetricProps) {
   return (
-    <Card className={cn("overflow-hidden", className)}>
+    <Card 
+      className={cn("overflow-hidden", className, onClick && "cursor-pointer hover:bg-muted/50 transition-colors")}
+      onClick={onClick}
+    >
       <CardContent className="p-6">
         <div className="flex items-center justify-between">
           <p className="text-sm font-medium text-muted-foreground">{title}</p>

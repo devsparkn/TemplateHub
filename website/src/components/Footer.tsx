@@ -132,7 +132,7 @@ export function Footer() {
         </div>
         <div className="border-t mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
           <p className="text-sm text-muted-foreground">
-            © {new Date().getFullYear()} TemplateHub. All rights reserved.
+            © 2025 TemplateHub. All rights reserved.
           </p>
           <p className="text-sm text-muted-foreground mt-4 md:mt-0">
             Made with ❤️ by Nadeem for developers

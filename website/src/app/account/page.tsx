@@ -23,6 +23,7 @@ import {
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "sonner";
+import Link from "next/link";
 
 export default function AccountPage() {
   const { data: session, status: sessionStatus } = useSession();
@@ -35,6 +36,8 @@ export default function AccountPage() {
   const [image, setImage] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
+  const isAdminEmail = session?.user?.email === 'nadeemchaudhary808@gmail.com';
+  const isAdmin = session?.user?.role === 'admin';
 
   // Redirect if not logged in
   useEffect(() => {
@@ -91,6 +94,41 @@ export default function AccountPage() {
           <p className="text-muted-foreground text-sm mt-1">
             Welcome, {session.user.name}
           </p>
+        )}
+
+        {/* Admin Section */}
+        {isAdminEmail && !isAdmin && (
+          <div className="mb-6 p-4 bg-yellow-100 dark:bg-yellow-900/30 border border-yellow-300 dark:border-yellow-800 rounded-lg">
+            <h2 className="text-lg font-medium mb-2 flex items-center">
+              <span className="mr-2">🔑</span> Admin Access
+            </h2>
+            <p className="mb-3 text-sm">
+              You have been identified as the site owner. Activate your admin privileges to access the admin dashboard.
+            </p>
+            <Button asChild variant="outline" className="bg-yellow-200 dark:bg-yellow-800 hover:bg-yellow-300 dark:hover:bg-yellow-700">
+              <Link href="/become-admin">Become Admin</Link>
+            </Button>
+          </div>
+        )}
+
+        {/* Admin Dashboard Link */}
+        {isAdmin && (
+          <div className="mb-6 p-4 bg-blue-100 dark:bg-blue-900/30 border border-blue-300 dark:border-blue-800 rounded-lg">
+            <h2 className="text-lg font-medium mb-2 flex items-center">
+              <span className="mr-2">👑</span> Admin Dashboard
+            </h2>
+            <p className="mb-3 text-sm">
+              You have admin privileges. Access the admin dashboard to manage users and site settings.
+            </p>
+            <div className="flex gap-3">
+              <Button asChild variant="outline" className="bg-blue-200 dark:bg-blue-800 hover:bg-blue-300 dark:hover:bg-blue-700">
+                <Link href="/admin">Admin Dashboard</Link>
+              </Button>
+              <Button asChild variant="outline">
+                <Link href="/admin/users">Manage Users</Link>
+              </Button>
+            </div>
+          </div>
         )}
 
         <Tabs defaultValue="profile">

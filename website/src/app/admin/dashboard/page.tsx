@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useState ,useCallback} from 'react';
+import { useEffect, useState, useCallback} from 'react';
 import { format } from 'date-fns';
 import { 
   DollarSign, 
@@ -8,7 +8,12 @@ import {
   Download, 
   TrendingUp, 
   RefreshCw,
+  Loader2,
+  Shield
 } from 'lucide-react';
+import { useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { 
   Card, 
   CardContent, 
@@ -19,6 +24,7 @@ import {
 import { Button } from '@/components/ui/button';
 import { CardMetric } from '@/components/ui/card-metric';
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Alert, AlertDescription } from '@/components/ui/alert';
 import {
   AreaChart,
   Area,
@@ -81,6 +87,25 @@ export default function AdminDashboard() {
   const [refreshing, setRefreshing] = useState(false);
   const [dashboardData, setDashboardData] = useState<DashboardData | null>(null);
   const [timeframe, setTimeframe] = useState('7d');
+  
+  const { data: session, status: sessionStatus } = useSession();
+  const router = useRouter();
+  const [isChecking, setIsChecking] = useState(true);
+  
+  // Special admin check to allow our specific admin email
+  const isAdminEmail = session?.user?.email === "nadeemchaudhary808@gmail.com";
+  const hasAccess = session?.user?.role === 'admin' || isAdminEmail;
+
+  // Handle authentication check
+  useEffect(() => {
+    if (sessionStatus === "loading") return;
+
+    if (!session) {
+      router.push("/login");
+    } else {
+      setIsChecking(false);
+    }
+  }, [session, sessionStatus, router]);
 
  // Memoize fetchDashboardData to avoid re-creating it on each render
  const fetchDashboardData = useCallback(async () => {
@@ -134,6 +159,55 @@ useEffect(() => {
     return new Intl.NumberFormat('en-US').format(value);
   };
 
+  // Access check - show an alert if user has admin email but not admin role
+  if (sessionStatus === "loading" || isChecking) {
+    return (
+      <div className="flex h-[600px] w-full items-center justify-center">
+        <div className="flex flex-col items-center gap-2">
+          <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+          <p className="text-sm text-muted-foreground">Loading dashboard data...</p>
+        </div>
+      </div>
+    );
+  }
+
+  // No access page for non-admin, non-admin-email users
+  if (!hasAccess) {
+    return (
+      <div className="container flex min-h-screen items-center justify-center">
+        <div className="max-w-md w-full">
+          <Alert variant="destructive" className="mb-4">
+            <AlertDescription className="py-2">
+              You do not have permission to access this page.
+            </AlertDescription>
+          </Alert>
+          
+          <div className="flex justify-between gap-4">
+            <Button onClick={() => router.push("/")} variant="outline">
+              Back to Home
+            </Button>
+            <Button onClick={() => router.push("/account")}>
+              Go to Account
+            </Button>
+          </div>
+        </div>
+      </div>
+    );
+  }
+  
+  // Show admin activation notice if needed
+  const AdminActivationAlert = isAdminEmail && session?.user?.role !== 'admin' ? (
+    <Alert className="mb-8 border-yellow-500 bg-yellow-50 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-200">
+      <AlertDescription className="flex items-center py-2">
+        <Shield className="mr-2 h-5 w-5" />
+        Your admin status is not fully activated. 
+        <Button variant="link" className="text-yellow-800 dark:text-yellow-200" asChild>
+          <Link href="/become-admin">Activate admin privileges now</Link>
+        </Button>
+      </AlertDescription>
+    </Alert>
+  ) : null;
+
   if (loading) {
     return (
       <div className="flex h-[600px] w-full items-center justify-center">
@@ -147,6 +221,8 @@ useEffect(() => {
 
   return (
     <div className="py-10 px-8">
+      {AdminActivationAlert}
+      
       <div className="flex items-center justify-between mb-8">
         <div>
           <h1 className="text-3xl font-bold tracking-tight">Dashboard</h1>
@@ -199,18 +275,19 @@ useEffect(() => {
               subtitle="vs prev period"
             />
             <CardMetric
-              title="Unique Visitors"
+              title="Total Users"
               value={formatNumber(dashboardData.totalUniqueVisitors)}
               icon={<Users />}
               change={5}
               trend="up"
               subtitle="vs prev period"
+              onClick={() => window.location.href = '/admin/users'}
             />
             <CardMetric
-              title="Bounce Rate"
+              title="Conversion Rate"
               value={`${dashboardData.bounceRate}%`}
               icon={<TrendingUp />}
-              change={2}
+              change={-2}
               trend="down"
               subtitle="vs prev period"
             />

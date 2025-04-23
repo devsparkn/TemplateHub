@@ -1,4 +1,3 @@
-// components/navbar.tsx - Main navigation bar
 'use client'
 
 import * as React from 'react'
@@ -8,7 +7,16 @@ import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { ThemeToggle } from './ThemeToggle'
 import { CartButton } from './CartButton'
-import { Menu } from 'lucide-react'
+import { 
+  Menu, 
+  User, 
+  ShieldCheck,
+  LogOut, 
+  Settings, 
+  Key, 
+  Users as UsersIcon 
+} from 'lucide-react'
+import { useSession, signOut } from 'next-auth/react'
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -24,9 +32,22 @@ import {
   SheetTrigger,
   SheetClose,
 } from '@/components/ui/sheet'
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 
 export function Navbar() {
   const pathname = usePathname()
+  const { data: session, status } = useSession()
+  const isAdmin = session?.user?.role === 'admin'
+  const isAdminEmail = session?.user?.email === 'nadeemchaudhary808@gmail.com'
   
   const routes = [
     {
@@ -44,12 +65,47 @@ export function Navbar() {
       label: 'Documentation',
       active: pathname?.startsWith('/docs'),
     },
-    {
+    ...(isAdmin ? [
+      {
+        href: '/admin',
+        label: 'Admin Dashboard',
+        active: pathname === '/admin',
+      },
+      {
       href: '/admin/dashboard',
-      label: 'Admin',
-      active: pathname?.startsWith('/admin'),
-    },
+        label: 'Analytics',
+        active: pathname === '/admin/dashboard',
+      },
+      {
+        href: '/admin/users',
+        label: 'Manage Users',
+        active: pathname === '/admin/users',
+      },
+    ] : []),
+    ...(isAdminEmail && !isAdmin ? [
+      {
+        href: '/become-admin',
+        label: '🔑 Become Admin',
+        active: pathname === '/become-admin',
+      }
+    ] : []),
   ]
+
+  const handleSignOut = async () => {
+    await signOut({ callbackUrl: '/' })
+  }
+
+  // Get user initials for avatar
+  const getUserInitials = (name: string | null | undefined): string => {
+    if (!name) return 'U';
+    
+    return name
+      .split(' ')
+      .map(n => n[0])
+      .join('')
+      .toUpperCase()
+      .substring(0, 2);
+  }
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 py-2 items-center">
@@ -112,7 +168,7 @@ export function Navbar() {
                       {route.label}
                     </NavigationMenuLink>
                   </Link>
-                  </NavigationMenuItem>
+                </NavigationMenuItem>
               ))}
             </NavigationMenuList>
           </NavigationMenu>
@@ -122,12 +178,90 @@ export function Navbar() {
           <CartButton />
           <ThemeToggle />
           <div className="hidden md:flex items-center gap-2">
-            <Button variant="ghost" asChild>
-              <Link href="/login">Sign In</Link>
-            </Button>
-            <Button asChild>
-              <Link href="/register">Sign Up</Link>
-            </Button>
+            {status === 'loading' ? (
+              <div className="h-10 w-10 animate-pulse rounded-full bg-muted" />
+            ) : session ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" className="relative h-10 w-10 rounded-full">
+                    <Avatar>
+                      <AvatarImage src={session.user?.image || ''} alt={session.user?.name || 'User'} />
+                      <AvatarFallback>{getUserInitials(session.user?.name)}</AvatarFallback>
+                    </Avatar>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-56" align="end" forceMount>
+                  <DropdownMenuLabel className="font-normal">
+                    <div className="flex flex-col space-y-1">
+                      <p className="text-sm font-medium leading-none">{session.user?.name}</p>
+                      <p className="text-xs leading-none text-muted-foreground">{session.user?.email}</p>
+                    </div>
+                  </DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuGroup>
+                    <DropdownMenuItem asChild>
+                      <Link href="/account" className="flex w-full cursor-pointer">
+                        <User className="mr-2 h-4 w-4" />
+                        <span>Account</span>
+                      </Link>
+                    </DropdownMenuItem>
+                    <DropdownMenuItem asChild>
+                      <Link href="/account/settings" className="flex w-full cursor-pointer">
+                        <Settings className="mr-2 h-4 w-4" />
+                        <span>Settings</span>
+                      </Link>
+                    </DropdownMenuItem>
+                  </DropdownMenuGroup>
+                  
+                  {isAdmin && (
+                    <>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuGroup>
+                        <DropdownMenuItem asChild>
+                          <Link href="/admin" className="flex w-full cursor-pointer">
+                            <ShieldCheck className="mr-2 h-4 w-4 text-primary" />
+                            <span className="font-medium">Admin Dashboard</span>
+                          </Link>
+                        </DropdownMenuItem>
+                        <DropdownMenuItem asChild>
+                          <Link href="/admin/users" className="flex w-full cursor-pointer">
+                            <UsersIcon className="mr-2 h-4 w-4" />
+                            <span>Manage Users</span>
+                          </Link>
+                        </DropdownMenuItem>
+                      </DropdownMenuGroup>
+                    </>
+                  )}
+                  
+                  {isAdminEmail && !isAdmin && (
+                    <>
+                      <DropdownMenuSeparator />
+                      <DropdownMenuItem asChild>
+                        <Link href="/become-admin" className="flex w-full cursor-pointer">
+                          <Key className="mr-2 h-4 w-4 text-yellow-500" />
+                          <span className="font-medium">Become Admin</span>
+                        </Link>
+                      </DropdownMenuItem>
+                    </>
+                  )}
+                  
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={handleSignOut} className="cursor-pointer">
+                    <LogOut className="mr-2 h-4 w-4" />
+                    <span>Sign Out</span>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <>
+                <Button variant="ghost" asChild>
+                  <Link href="/login">Sign In</Link>
+                </Button>
+                <Button asChild>
+                  <Link href="/register">Sign Up</Link>
+                </Button>
+              </>
+            )}
           </div>
           
           <Sheet>
@@ -141,11 +275,26 @@ export function Navbar() {
                 <div className="flex items-center justify-between">
                   <Link href="/" className="flex items-center gap-2">
                     <div className="bg-primary h-8 w-8 rounded-full flex items-center justify-center">
-                      <span className="text-primary-foreground font-bold">T</span>
+                      <span className="text-primary-foreground font-bold">N</span>
                     </div>
-                    <span className="font-bold text-xl">TemplateHub</span>
+                    <span className="font-bold text-xl">9abel</span>
                   </Link>
                 </div>
+                
+                {/* Mobile user profile */}
+                {session && (
+                  <div className="flex items-center gap-4 p-4 border rounded-lg">
+                    <Avatar>
+                      <AvatarImage src={session.user?.image || ''} alt={session.user?.name || 'User'} />
+                      <AvatarFallback>{getUserInitials(session.user?.name)}</AvatarFallback>
+                    </Avatar>
+                    <div>
+                      <p className="font-medium">{session.user?.name}</p>
+                      <p className="text-xs text-muted-foreground">{session.user?.email}</p>
+                    </div>
+                  </div>
+                )}
+                
                 <nav className="flex flex-col gap-4">
                   {routes.map((route) => (
                     <SheetClose key={route.href} asChild>
@@ -162,12 +311,25 @@ export function Navbar() {
                   ))}
                 </nav>
                 <div className="mt-auto flex flex-col gap-2">
-                  <Button variant="outline" asChild>
-                    <Link href="/login">Sign In</Link>
-                  </Button>
-                  <Button asChild>
-                    <Link href="/register">Sign Up</Link>
-                  </Button>
+                  {status === 'loading' ? (
+                    <div className="h-10 w-full animate-pulse rounded-md bg-muted" />
+                  ) : session ? (
+                    <>
+                      <Button variant="outline" asChild>
+                        <Link href="/account">Account</Link>
+                      </Button>
+                      <Button onClick={handleSignOut}>Sign Out</Button>
+                    </>
+                  ) : (
+                    <>
+                      <Button variant="outline" asChild>
+                        <Link href="/login">Sign In</Link>
+                      </Button>
+                      <Button asChild>
+                        <Link href="/register">Sign Up</Link>
+                      </Button>
+                    </>
+                  )}
                 </div>
               </div>
             </SheetContent>

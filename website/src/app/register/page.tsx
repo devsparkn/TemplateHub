@@ -13,7 +13,7 @@ import { Alert, AlertDescription } from '@/components/ui/alert'
 import { Checkbox } from '@/components/ui/checkbox'
 import { toast } from 'sonner'
 
-export default function SignupPage() {
+export default function Page() {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -66,7 +66,7 @@ export default function SignupPage() {
       // Sign in after account creation
       await signIn(email, password);
       toast.success('Account created successfully!');
-      router.push('/dashboard');
+      router.push('/');
     } catch (error: unknown) {
       if (error instanceof Error) {
         setError(error.message || 'Failed to create account. Please try again.');
@@ -81,8 +81,8 @@ export default function SignupPage() {
   }
 
   return (
-    <div className="flex h-screen flex-col items-center justify-center px-4">
-      <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
+    <div className="flex h-screen items-center justify-center bg-muted px-4">
+      <div className="w-full max-w-md space-y-6 rounded-xl border border-border bg-background p-8 shadow-lg">
         <div className="flex flex-col space-y-2 text-center">
           <h1 className="text-2xl font-semibold tracking-tight">Create an account</h1>
           <p className="text-sm text-muted-foreground">

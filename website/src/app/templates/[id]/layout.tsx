@@ -1,10 +1,12 @@
 import { Metadata } from "next";
-import { templates } from "@/utils/template";
 import { cache } from "react";
 
 // Cached fetch function
-const getTemplate = cache((id: string) => {
-  return templates.find((t) => t.id === id);
+const getTemplate = cache(async (id: string) => {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/templates/${id}`);
+  if (!res.ok) return null;
+  const data = await res.json();
+  return data.success ? data.data : null;
 });
 
 // Metadata generation
@@ -13,7 +15,7 @@ export async function generateMetadata({
 }: {
   params: { id: string };
 }): Promise<Metadata> {
-  const template = getTemplate(params.id);
+  const template = await getTemplate(params.id);
 
   if (!template) {
     return {
@@ -23,14 +25,18 @@ export async function generateMetadata({
   }
 
   return {
-    title: `${template.title} | Template`,
+    title: `${template.name} | Template`,
     description: template.description,
   };
 }
 
 // Static params for SSG
-export function generateStaticParams() {
-  return templates.map((template) => ({
-    id: template.id,
+export async function generateStaticParams() {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/templates`);
+  const data = await res.json();
+  const templates = data.success ? data.data : [];
+  
+  return templates.map((template: { _id: string }) => ({
+    id: template._id,
   }));
 }

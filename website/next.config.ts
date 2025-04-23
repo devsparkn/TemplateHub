@@ -3,8 +3,8 @@ import type { NextConfig } from "next";
 const nextConfig: NextConfig = {
   /* config options here */
   images: {
-    domains: ["github.com"]
-  }
+    domains: ['localhost', '9abel.vercel.app','github.com'], // Add your production domain
+  },
 };
 
 export default nextConfig;

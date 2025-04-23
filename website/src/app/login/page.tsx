@@ -29,7 +29,7 @@ export default function LoginPage() {
     try {
       await authSignIn(email, password)
       toast.success('Logged in successfully!')
-      router.push('/dashboard')
+      router.push('/')
     } catch (error: unknown) {
       if (error instanceof Error) {
         setError(error.message || 'Invalid email or password. Please try again.')
@@ -44,85 +44,87 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="flex h-screen flex-col items-center justify-center px-4">
-      <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
-        <div className="flex flex-col space-y-2 text-center">
-          <h1 className="text-2xl font-semibold tracking-tight">Welcome back</h1>
+    <div className="flex h-screen items-center justify-center bg-muted px-4">
+      <div className="w-full max-w-md space-y-6 rounded-xl border border-border bg-background p-8 shadow-lg">
+        <div className="text-center space-y-1">
+          <h1 className="text-2xl font-bold tracking-tight">Welcome back</h1>
           <p className="text-sm text-muted-foreground">
-            Sign in to your account to continue
+            Sign in to your account
           </p>
         </div>
-        <div className="grid gap-6">
-          <form onSubmit={handleSubmit}>
-            <div className="grid gap-4">
-              {error && (
-                <Alert variant="destructive">
-                  <AlertDescription>{ error }</AlertDescription>
-                </Alert>
-              )}
-              <div className="grid gap-2">
-                <Label htmlFor="email">Email</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="name@example.com"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                />
-              </div>
-              <div className="grid gap-2">
-                <div className="flex items-center justify-between">
-                  <Label htmlFor="password">Password</Label>
-                  <Link href="/forgot-password" className="text-sm text-primary hover:underline">
-                    Forgot password?
-                  </Link>
-                </div>
-                <Input
-                  id="password"
-                  type="password"
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                  required
-                />
-              </div>
-              <Button type="submit" disabled={isLoading}>
-                {isLoading ? "Signing in..." : "Sign In"}
-              </Button>
-            </div>
-          </form>
-          <div className="relative">
-            <div className="absolute inset-0 flex items-center">
-              <Separator className="w-full" />
-            </div>
-            <div className="relative flex justify-center text-xs uppercase">
-              <span className="bg-background px-2 text-muted-foreground">
-                Or continue with
-              </span>
-            </div>
+
+        <form onSubmit={handleSubmit} className="grid gap-4">
+          {error && (
+            <Alert variant="destructive">
+              <AlertDescription>{error}</AlertDescription>
+            </Alert>
+          )}
+          <div className="grid gap-2">
+            <Label htmlFor="email">Email</Label>
+            <Input
+              id="email"
+              type="email"
+              placeholder="name@example.com"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
           </div>
-          <div className="grid grid-cols-2 gap-4">
-            <Button 
-              variant="outline" 
-              type="button" 
-              onClick={() => signIn('github', { callbackUrl: '/dashboard' })}
-            >
-              <Github className="mr-2 h-4 w-4" />
-              GitHub
-            </Button>
-            <Button 
-              variant="outline" 
-              type="button" 
-              onClick={() => signIn('google', { callbackUrl: '/dashboard' })}
-            >
-              <Mail className="mr-2 h-4 w-4" />
-              Google
-            </Button>
+          <div className="grid gap-2">
+            <div className="flex justify-between items-center">
+              <Label htmlFor="password">Password</Label>
+              <Link href="/forgot-password" className="text-sm text-primary hover:underline">
+                Forgot?
+              </Link>
+            </div>
+            <Input
+              id="password"
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
+          <Button type="submit" disabled={isLoading} className="w-full">
+            {isLoading ? "Signing in..." : "Sign In"}
+          </Button>
+        </form>
+
+        <div className="relative">
+          <div className="absolute inset-0 flex items-center">
+            <Separator />
+          </div>
+          <div className="relative flex justify-center text-xs uppercase">
+            <span className="bg-background px-2 text-muted-foreground">
+              Or continue with
+            </span>
           </div>
         </div>
-        <p className="px-8 text-center text-sm text-muted-foreground">
-          Don&#36;t have an account?{" "}
-          <Link href="/signup" className="text-primary hover:underline">
+
+        <div className="grid grid-cols-2 gap-4">
+          <Button 
+            variant="outline"
+            type="button"
+            onClick={() => signIn('github', { callbackUrl: '/' })}
+            className="flex items-center justify-center gap-2"
+          >
+            <Github className="h-4 w-4" />
+            GitHub
+          </Button>
+          <Button 
+            variant="outline"
+            type="button"
+            onClick={() => signIn('google', { callbackUrl: '/' })}
+            className="flex items-center justify-center gap-2"
+          >
+            <Mail className="h-4 w-4" />
+            Google
+          </Button>
+        </div>
+
+        <p className="text-center text-sm text-muted-foreground">
+          Don&apos;t have an account?{' '}
+          <Link href="/register" className="text-primary hover:underline">
             Sign up
           </Link>
         </p>
