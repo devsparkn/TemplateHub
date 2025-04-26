@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Loader2, Shield, User, BarChart3, FileText } from "lucide-react";
+import { Loader2, Shield, User, BarChart3, FileText, Layout } from "lucide-react";
 
 export default function AdminPage() {
   const { data: session, status: sessionStatus } = useSession();
@@ -106,7 +106,9 @@ export default function AdminPage() {
 }
 
 // Extract dashboard content to reuse
-function renderDashboardContent(session: any) {
+import { Session } from "next-auth";
+
+function renderDashboardContent(session: Session | null) {
   return (
     <>
       <div className="flex items-center justify-between mb-8">
@@ -118,9 +120,14 @@ function renderDashboardContent(session: any) {
             </p>
           )}
         </div>
-        <Button asChild>
-          <Link href="/admin/users">Manage Users</Link>
-        </Button>
+        <div className="flex gap-2">
+          <Button asChild>
+            <Link href="/admin/templates">Manage Templates</Link>
+          </Button>
+          <Button asChild>
+            <Link href="/admin/users">Manage Users</Link>
+          </Button>
+        </div>
       </div>
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
@@ -209,36 +216,30 @@ function renderDashboardContent(session: any) {
 
         <Card>
           <CardHeader>
-            <CardTitle>Quick Actions</CardTitle>
-            <CardDescription>Common administrative tasks</CardDescription>
+            <CardTitle>Templates</CardTitle>
+            <CardDescription>
+              Overview of your templates
+            </CardDescription>
           </CardHeader>
           <CardContent>
-            <div className="grid gap-2">
-              <Button
-                className="justify-start"
-                variant="outline"
-                asChild
-              >
-                <Link href="/admin/dashboard">View Analytics</Link>
-              </Button>
-              <Button
-                className="justify-start"
-                variant="outline"
-                asChild
-              >
-                <Link href="/admin/users">Manage Users</Link>
-              </Button>
-              <Button
-                className="justify-start"
-                variant="outline"
-              >
-                Manage Subscriptions
-              </Button>
-              <Button
-                className="justify-start"
-                variant="outline"
-              >
-                System Settings
+            <div className="space-y-4">
+              <div className="flex items-center justify-between">
+                <span>Total Templates</span>
+                <span className="font-medium">24</span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span>Active Templates</span>
+                <span className="font-medium">18</span>
+              </div>
+              <div className="flex items-center justify-between">
+                <span>Featured Templates</span>
+                <span className="font-medium">6</span>
+              </div>
+              <Button asChild variant="outline" className="w-full mt-4">
+                <Link href="/admin/templates">
+                  <Layout className="mr-2 h-4 w-4" />
+                  Manage Templates
+                </Link>
               </Button>
             </div>
           </CardContent>

@@ -1,3 +1,5 @@
+// app/templates/[id]/layout.tsx
+import { ReactNode } from "react";
 import { Metadata } from "next";
 import { cache } from "react";
 
@@ -9,7 +11,16 @@ const getTemplate = cache(async (id: string) => {
   return data.success ? data.data : null;
 });
 
-// Metadata generation
+// ✅ Required Layout Component
+export default function TemplateLayout({
+  children,
+}: {
+  children: ReactNode;
+}) {
+  return <>{children}</>;
+}
+
+// 📦 Dynamic Metadata
 export async function generateMetadata({
   params,
 }: {
@@ -25,17 +36,17 @@ export async function generateMetadata({
   }
 
   return {
-    title: `${template.name} | Template`,
+    title: `${template.title} | Template`,
     description: template.description,
   };
 }
 
-// Static params for SSG
+// 🏗️ For Static Site Generation
 export async function generateStaticParams() {
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/templates`);
   const data = await res.json();
   const templates = data.success ? data.data : [];
-  
+
   return templates.map((template: { _id: string }) => ({
     id: template._id,
   }));

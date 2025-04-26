@@ -1,4 +1,6 @@
 import mongoose from 'mongoose';
+import { config } from 'dotenv';
+config(); // Load env variables from .env.local
 
 // Define the global cached mongoose connection
 interface MongooseCache {
