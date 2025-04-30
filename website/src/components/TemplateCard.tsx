@@ -19,7 +19,7 @@ type Template = {
   id: string;
   title: string;
   description: string;
-  imageUrl: string;
+  thumbnailUrls: string[];
   demoUrl: string;
   category: string;
   featured: boolean;
@@ -41,7 +41,7 @@ export function TemplateCard({ template }: TemplateCardProps) {
     >
       <div className="relative aspect-video overflow-hidden">
         <Image
-          src={template.imageUrl}
+          src={template.thumbnailUrls[0]}
           alt={template.title}
           fill
           className={`object-cover transition-transform duration-700 ${

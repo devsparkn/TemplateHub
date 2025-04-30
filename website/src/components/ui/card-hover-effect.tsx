@@ -14,7 +14,7 @@ type Template = {
   id: string;
   title: string;
   description: string;
-  imageUrl: string;
+  thumbnailUrls: string[];
   demoUrl: string;
   category: string;
   featured: boolean;
@@ -64,7 +64,7 @@ export const HoverEffect = ({ templates, className }: HoverEffectProps) => {
           <Card>
             <div className="relative aspect-video overflow-hidden">
               <Image
-                src={template.imageUrl}
+                src={template.thumbnailUrls[0]}
                 alt={template.title}
                 fill
                 className="object-cover rounded-md"

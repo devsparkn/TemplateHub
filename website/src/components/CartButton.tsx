@@ -54,7 +54,7 @@ export function CartButton() {
                   <div className="flex items-center gap-3 p-2 w-full hover:bg-accent rounded-md">
                     <div className="relative h-12 w-12 rounded overflow-hidden">
                       <Image 
-                        src={item.imageUrl} 
+                        src={item.thumbnailUrls[0]} 
                         alt={item.title} 
                         fill 
                         className="object-cover"

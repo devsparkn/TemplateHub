@@ -63,7 +63,7 @@ const Page = () => {
         <div className="space-y-6">
           <div className="relative aspect-video rounded-lg overflow-hidden shadow-xl">
             <Image
-              src={template.imageUrl}
+              src={template.thumbnailUrls[0]}
               alt={template.title}
               fill
               className="object-cover"

@@ -107,7 +107,7 @@ const CheckoutPage = () => {
                 <div key={item.templateId} className="p-6 flex items-center gap-4">
                   <div className="relative w-20 h-20 overflow-hidden rounded-md flex-shrink-0">
                     <Image
-                      src={item.imageUrl}
+                      src={item.thumbnailUrls[0]}
                       alt={item.title}
                       fill
                       className="object-cover"

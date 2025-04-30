@@ -1,7 +1,13 @@
 import mongoose from 'mongoose';
 
 const templateSchema = new mongoose.Schema({
-  name: {
+  id: {
+    type: String,
+    required: true,
+    unique: true,
+    trim: true,
+  },
+  title: {
     type: String,
     required: true,
     trim: true,
@@ -14,18 +20,17 @@ const templateSchema = new mongoose.Schema({
   category: {
     type: String,
     required: true,
-    enum: ['landing-page', 'dashboard', 'ecommerce', 'portfolio', 'blog'],
   },
   price: {
-    type: Number,
-    required: true,
-    min: 0,
-  },
-  thumbnail: {
-    type: String,
+    type: mongoose.Schema.Types.Mixed, // Allow number or 'Free'
     required: true,
   },
-  previewUrl: {
+  thumbnailUrls: {
+    type: [String],
+    required: true,
+  },
+  
+  demoUrl: {
     type: String,
     required: true,
   },
@@ -35,13 +40,26 @@ const templateSchema = new mongoose.Schema({
   }],
   techStack: [{
     type: String,
-    required: true,
+    default: [],
   }],
-  isFeatured: {
+  featured: {
     type: Boolean,
     default: false,
   },
   isActive: {
+    type: Boolean,
+    default: true,
+  },
+  tags: [{
+    type: String,
+    default: [],
+  }],
+  authorId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+    default: null,
+  },
+  isPublished: {
     type: Boolean,
     default: true,
   },
@@ -55,7 +73,7 @@ const templateSchema = new mongoose.Schema({
   },
 });
 
-// Update the updatedAt field before saving
+// Middleware to auto-update updatedAt
 templateSchema.pre('save', function(next) {
   this.updatedAt = new Date();
   next();
@@ -63,4 +81,4 @@ templateSchema.pre('save', function(next) {
 
 const Template = mongoose.models.Template || mongoose.model('Template', templateSchema);
 
-export default Template; 
+export default Template;

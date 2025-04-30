@@ -6,7 +6,7 @@ export interface CartItem {
   id: string;
   title: string;
   price: number | 'Free';
-  imageUrl: string;
+  thumbnailUrls: string[];
   quantity: number;
   category: string;
 }
@@ -39,7 +39,7 @@ const cartSlice = createSlice({
           id: template.id,
           title: template.title,
           price: template.price,
-          imageUrl: template.imageUrl,
+          thumbnailUrls: template.thumbnailUrls,
           category: template.category,
           quantity: 1,
         });
