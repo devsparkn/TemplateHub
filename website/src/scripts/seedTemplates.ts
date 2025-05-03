@@ -5,7 +5,8 @@ import { templates } from "@/utils/template.js";
 async function seed() {
   try {
     await dbConnect();
-    // await Template.deleteMany(); // Optional: Clear existing templates
+    await Template.deleteMany(); // Optional: Clear existing templates
+    console.log("🔄 Cleared existing templates");
     await Template.insertMany(templates);
     console.log("✅ Templates inserted!");
     process.exit();

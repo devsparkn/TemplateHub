@@ -11,7 +11,7 @@ import { Badge } from "@/components/ui/badge";
 import { Eye, ArrowRight } from "lucide-react";
 
 type Template = {
-  id: string;
+  slug: string;
   title: string;
   description: string;
   thumbnailUrls: string[];
@@ -38,7 +38,7 @@ export const HoverEffect = ({ templates, className }: HoverEffectProps) => {
     >
       {templates.map((template, idx) => (
         <div
-          key={template.id}
+          key={template.slug}
           className="relative group block p-2 h-full w-full"
           onMouseEnter={() => setHoveredIndex(idx)}
           onMouseLeave={() => setHoveredIndex(null)}
@@ -105,7 +105,7 @@ export const HoverEffect = ({ templates, className }: HoverEffectProps) => {
                 asChild
                 className="dark:bg-primary dark:hover:bg-primary/90"
               >
-                <Link href={`/templates/${template.id}`}>
+                <Link href={`/templates/${template.slug}`}>
                   Details <ArrowRight className="ml-2 h-4 w-4" />
                 </Link>
               </Button>

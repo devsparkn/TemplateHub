@@ -1,15 +1,22 @@
-import { HoverEffect } from "../ui/card-hover-effect";
-import { templates } from "@/utils/template";
-export default function RecentlyAddedTemplates() {
+"use client";
+
+import React, { useEffect, useState } from 'react'
+import { TemplateGrid } from '@/components/TemplateGrid'
+
+const RecentlyAddedTemplates = () => {
   return (
-    <div className="px-6 sm:px-10 lg:px-20">
-      <div>
-        <h2 className="text-3xl font-bold tracking-tight mb-2">New Arrivals</h2>
-        <p className="text-muted-foreground">
-          Check out our latest template additions
+    <section className="py-20 px-6 sm:px-10 lg:px-20">
+      <div className="flex flex-col items-center text-center mb-16">
+        <h2 className="text-3xl font-bold tracking-tight sm:text-4xl mb-4">
+          Recently Added Templates
+        </h2>
+        <p className="text-muted-foreground text-lg max-w-[700px]">
+          Check out our latest additions to the template collection.
         </p>
       </div>
-      <HoverEffect templates={templates} />
-    </div>
-  );
+      <TemplateGrid limit={4} />
+    </section>
+  )
 }
+
+export default RecentlyAddedTemplates

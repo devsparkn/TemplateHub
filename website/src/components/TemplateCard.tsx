@@ -16,7 +16,7 @@ import {
 import { Eye, ArrowRight } from "lucide-react";
 
 type Template = {
-  id: string;
+  slug: string;
   title: string;
   description: string;
   thumbnailUrls: string[];
@@ -72,7 +72,7 @@ export function TemplateCard({ template }: TemplateCardProps) {
             </Link>
           </Button>
           <Button asChild>
-            <Link href={`/templates/${template.id}`}>
+            <Link href={`/templates/${template.slug}`}>
               Details <ArrowRight className="ml-2 h-4 w-4" />
             </Link>
           </Button>

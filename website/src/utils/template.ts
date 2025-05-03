@@ -1,5 +1,5 @@
 export type Template = {
-  id: string
+  slug: string
   title: string
   description: string
   thumbnailUrls: string[]
@@ -15,7 +15,7 @@ export type Template = {
 
 export const templates: Template[] = [
   {
-    id: 'cloud-cost-optimisation',
+    slug: 'cloud-cost-optimisation',
     title: 'Cloud Cost Optimisation',
     description: 'AI based cloud cost optmisation Application with analytics, charts, and user management.',
     thumbnailUrls: ['https://res.cloudinary.com/dyg4weoem/image/upload/v1746024691/cloud-cost-optimization_axehri.png'],
@@ -37,7 +37,7 @@ export const templates: Template[] = [
     authorId: null
   },
   {
-    id: 'sentinel-ai',
+    slug: 'sentinel-ai',
     title: 'Sentinel AI',
     description: 'AI based deepfake detection.',
     thumbnailUrls: ['https://res.cloudinary.com/dyg4weoem/image/upload/v1746024916/sentinel-ai_xsmr4b.png'],
@@ -59,10 +59,10 @@ export const templates: Template[] = [
     authorId: null
   },
   {
-    id: 'saas-starter',
+    slug: 'saas-starter',
     title: 'SaaS Starter',
     description: 'Everything you need to launch your SaaS product with authentication and billing.',
-    thumbnailUrls: ['/templates/saas.png'],
+    thumbnailUrls: ['/images/templates/saas.png'],
     demoUrl: '/demos/saas',
     category: 'SaaS',
     featured: true,
@@ -81,10 +81,10 @@ export const templates: Template[] = [
     authorId: null
   },
   {
-    id: 'portfolio-minimal',
+    slug: 'portfolio-minimal',
     title: 'Portfolio Minimal',
     description: 'A clean, minimalist portfolio template for designers and developers.',
-    thumbnailUrls: ['/templates/portfolio.png'],
+    thumbnailUrls: ['/images/templates/portfolio.png'],
     demoUrl: '/demos/portfolio',
     category: 'Portfolio',
     featured: true,
@@ -103,10 +103,10 @@ export const templates: Template[] = [
     authorId: null
   },
   {
-    id: 'blog-modern',
+    slug: 'blog-modern',
     title: 'Blog Modern',
     description: 'A feature-rich blog template with comment system and newsletter signup.',
-    thumbnailUrls: ['/templates/blog.png'],
+    thumbnailUrls: ['/images/templates/blog.png'],
     demoUrl: '/demos/blog',
     category: 'Blog',
     featured: true,
@@ -125,10 +125,10 @@ export const templates: Template[] = [
     authorId: null
   },
   {
-    id: 'simple-store',
+    slug: 'simple-store',
     title: 'Simple Store',
     description: 'E-commerce store template with product listings and checkout.',
-    thumbnailUrls: ['/templates/store.png'],
+    thumbnailUrls: ['/images/templates/store.png'],
     demoUrl: '/demos/store',
     category: 'E-commerce',
     featured: true,
