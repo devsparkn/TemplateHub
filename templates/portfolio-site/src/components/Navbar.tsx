@@ -1,147 +1,224 @@
 "use client";
 
-import Link from "next/link";
 import { usePathname } from "next/navigation";
+import Link from "next/link";
 import { useState, useEffect } from "react";
-import { Moon, Sun } from "lucide-react";
+import { Menu, Moon, Sun } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import Image from "next/image";
+import { Button } from "@/components/ui/button";
+import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
+import { cn } from "@/lib/utils";
 
-export function Navbar() {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [scrolled, setScrolled] = useState(false);
+const navItems = [
+  { href: "/", label: "Home" },
+  { href: "/about", label: "About" },
+  { href: "/projects", label: "Projects" },
+  { href: "/contact", label: "Contact" },
+];
+
+export default function Navbar() {
   const [darkMode, setDarkMode] = useState(false);
   const pathname = usePathname();
+  const [isScrolled, setIsScrolled] = useState(false);
 
   // Handle scroll effect
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
+      setIsScrolled(window.scrollY > 10);
     };
-
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Initialize theme from localStorage or system preference
+  // Handle dark mode
   useEffect(() => {
-    const savedTheme = localStorage.getItem("theme");
-    if (savedTheme) {
-      setDarkMode(savedTheme === "dark");
-      document.documentElement.classList.toggle("dark", savedTheme === "dark");
-    } else {
-      const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-      setDarkMode(prefersDark);
-      document.documentElement.classList.toggle("dark", prefersDark);
-    }
+    const saved = localStorage.getItem("theme");
+    const prefersDark = window.matchMedia(
+      "(prefers-color-scheme: dark)"
+    ).matches;
+    const theme = saved || (prefersDark ? "dark" : "light");
+    setDarkMode(theme === "dark");
+    document.documentElement.classList.toggle("dark", theme === "dark");
   }, []);
 
   const toggleDarkMode = () => {
-    const newDarkMode = !darkMode;
-    setDarkMode(newDarkMode);
-    document.documentElement.classList.toggle("dark", newDarkMode);
-    localStorage.setItem("theme", newDarkMode ? "dark" : "light");
+    const newMode = !darkMode;
+    setDarkMode(newMode);
+    localStorage.setItem("theme", newMode ? "dark" : "light");
+    document.documentElement.classList.toggle("dark", newMode);
   };
-
-  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
   return (
     <nav
-      className={`fixed px-8 w-full z-50 top-0 transition-all duration-300 ${
-        scrolled
-          ? "bg-white/90 dark:bg-gray-900/90 backdrop-blur-lg shadow-md"
-          : "bg-transparent"
-      }`}
+      className={cn(
+        "fixed w-full z-50 top-0 transition-all duration-300",
+        isScrolled
+          ? "bg-white/95 dark:bg-gray-900/95 backdrop-blur-lg shadow-sm"
+          : "bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm"
+      )}
     >
-      <div className="flex flex-wrap items-center justify-between py-4">
-        <Link href="/" className="flex items-center space-x-3 z-10">
-          <span className="self-center text-gradient gradient-primary text-2xl font-bold whitespace-nowrap">
-            Portfolio
-          </span>
-        </Link>
-
-        <div className="flex items-center md:order-2 space-x-3">
-          <button
-            onClick={toggleDarkMode}
-            className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors"
-            aria-label="Toggle dark mode"
-          >
-            {darkMode ? (
-              <Sun className="h-5 w-5 text-yellow-400" />
-            ) : (
-              <Moon className="h-5 w-5 text-blue-600" />
-            )}
-          </button>
-
-          <button
-            onClick={toggleMenu}
-            type="button"
-            className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm rounded-lg md:hidden focus:outline-none focus:ring-2 text-gray-700 hover:bg-gray-100/80 focus:ring-gray-200 dark:text-gray-300 dark:hover:bg-gray-800/80 dark:focus:ring-gray-700"
-            aria-controls="navbar-menu"
-            aria-expanded={isMenuOpen}
-          >
-            <span className="sr-only">Toggle menu</span>
-            <svg
-              className="w-5 h-5"
-              aria-hidden="true"
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex items-center justify-between h-20">
+          <Link href="/" className="flex items-center space-x-2 z-10">
+            <motion.div
+              initial={{ scale: 0.9, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 0.3 }}
+              className="flex items-center gap-2"
             >
-              {isMenuOpen ? (
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              ) : (
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 6h16M4 12h16M4 18h16" />
-              )}
-            </svg>
-          </button>
-        </div>
+              <Image
+                src="/images/profile.png"
+                className="rounded-full h-12 w-12 bg-primary-400 "
+                alt="Profile"
+                width={100}
+                height={100}
+              />
+              <span className="text-2xl font-bold bg-gradient-to-r from-primary-600 to-primary-400 bg-clip-text text-transparent dark:from-primary-400 dark:to-primary-300">
+                Nadeem Chaudhary
+              </span>
+            </motion.div>
+          </Link>
 
-        <div
-          className={`items-center justify-between w-full md:flex md:w-auto md:order-1 md:relative transition-all duration-300 ${
-            isMenuOpen
-              ? "max-h-96 opacity-100"
-              : "max-h-0 md:max-h-96 opacity-0 md:opacity-100 invisible md:visible"
-          }`}
-          id="navbar-menu"
-        >
-          <ul
-            className={`flex flex-col py-4 px-6 my-4 rounded-xl space-y-2 md:space-y-0 md:flex-row md:space-x-8 md:p-0 md:my-0 md:border-0 font-medium text-sm glass ${
-              scrolled ? "md:bg-transparent" : "md:bg-transparent"
-            }`}
-          >
-            <NavItem href="/" label="Home" active={pathname === "/"} />
-            <NavItem href="/about" label="About" active={pathname === "/about"} />
-            <NavItem href="/projects" label="Projects" active={pathname === "/projects"} />
-            <NavItem href="/contact" label="Contact" active={pathname === "/contact"} />
-          </ul>
+          <div className="hidden md:flex flex-grow items-center justify-center gap-8 absolute left-1/2 -translate-x-1/2">
+            {navItems.map((item) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                className="relative group text-gray-700 dark:text-gray-300 hover:text-violet-600 dark:hover:text-violet-400 transition-colors py-2"
+              >
+                {item.label}
+                {pathname === item.href ? (
+                  <motion.span
+                    layoutId="navunderline"
+                    className="absolute -bottom-1 left-0 w-full h-0.5 bg-gradient-to-r from-violet-600 to-indigo-600 dark:from-violet-400 dark:to-indigo-400 rounded-full"
+                    transition={{ type: "spring", bounce: 0.3, duration: 0.6 }}
+                  />
+                ) : (
+                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-violet-600 to-indigo-600 dark:from-violet-400 dark:to-indigo-400 rounded-full transition-all duration-300 group-hover:w-full" />
+                )}
+              </Link>
+            ))}
+          </div>
+
+          <div className="flex items-center gap-4">
+            <Button
+              variant="ghost"
+              size="icon"
+              onClick={toggleDarkMode}
+              className="rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+              aria-label="Toggle dark mode"
+            >
+              <AnimatePresence mode="wait" initial={false}>
+                <motion.div
+                  key={darkMode ? "dark" : "light"}
+                  initial={{ y: -20, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  exit={{ y: 20, opacity: 0 }}
+                  transition={{ duration: 0.2 }}
+                >
+                  {darkMode ? (
+                    <Sun className="h-5 w-5 text-amber-400" />
+                  ) : (
+                    <Moon className="h-5 w-5 text-indigo-600" />
+                  )}
+                </motion.div>
+              </AnimatePresence>
+            </Button>
+
+            <Sheet>
+              <SheetTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="md:hidden rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                  aria-label="Open menu"
+                >
+                  <Menu className="h-5 w-5" />
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="left" className="p-0 w-[280px]">
+                <MobileSidebar
+                  pathname={pathname}
+                  toggleDarkMode={toggleDarkMode}
+                  darkMode={darkMode}
+                />
+              </SheetContent>
+            </Sheet>
+          </div>
         </div>
       </div>
     </nav>
   );
 }
 
-interface NavItemProps {
-  href: string;
-  label: string;
-  active: boolean;
+interface MobileSidebarProps {
+  pathname: string;
+  toggleDarkMode: () => void;
+  darkMode: boolean;
 }
 
-function NavItem({ href, label, active }: NavItemProps) {
+function MobileSidebar({
+  pathname,
+  toggleDarkMode,
+  darkMode,
+}: MobileSidebarProps) {
   return (
-    <li>
-      <Link
-        href={href}
-        className={`relative block py-2 px-3 rounded-lg md:p-0 transition-colors ${
-          active
-            ? "text-primary-600 dark:text-primary-400 font-semibold"
-            : "text-gray-700 hover:text-primary-600 dark:text-gray-300 dark:hover:text-primary-400"
-        }`}
-      >
-        {label}
-        {active && (
-          <span className="absolute -bottom-1 left-0 w-full md:w-2/3 h-0.5 bg-primary-500 dark:bg-primary-400 rounded-full" />
-        )}
-      </Link>
-    </li>
+    <div className="flex flex-col h-full bg-white dark:bg-gray-900">
+      <div className="flex items-center justify-between p-4 border-b dark:border-gray-800">
+        <Link
+          href="/"
+          className="text-xl font-bold bg-gradient-to-r from-violet-600 to-indigo-600 bg-clip-text text-transparent dark:from-violet-400 dark:to-indigo-400"
+        >
+          <div>
+            <Image
+              src="/images/profile.png"
+              className="rounded-full h-12 w-12 bg-primary-400 "
+              alt="Profile"
+              width={100}
+              height={100}
+            />
+          </div>
+        </Link>
+        <Sheet>
+          <SheetTrigger asChild></SheetTrigger>
+        </Sheet>
+      </div>
+
+      <div className="flex flex-col gap-1 p-4">
+        {navItems.map((item) => (
+          <Link
+            key={item.href}
+            href={item.href}
+            className={cn(
+              "flex items-center px-4 py-3 rounded-lg transition-colors",
+              pathname === item.href
+                ? "bg-violet-50 dark:bg-gray-800/60 text-violet-600 dark:text-violet-400 font-medium"
+                : "text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800/40"
+            )}
+          >
+            {item.label}
+            {pathname === item.href && (
+              <div className="ml-auto w-1.5 h-1.5 rounded-full bg-violet-600 dark:bg-violet-400" />
+            )}
+          </Link>
+        ))}
+      </div>
+
+      <div className="mt-auto p-4 border-t dark:border-gray-800">
+        <Button
+          variant="outline"
+          onClick={toggleDarkMode}
+          className="w-full justify-between"
+        >
+          <span>{darkMode ? "Light Mode" : "Dark Mode"}</span>
+          {darkMode ? (
+            <Sun className="h-4 w-4 text-amber-400 ml-2" />
+          ) : (
+            <Moon className="h-4 w-4 text-indigo-600 ml-2" />
+          )}
+        </Button>
+      </div>
+    </div>
   );
 }

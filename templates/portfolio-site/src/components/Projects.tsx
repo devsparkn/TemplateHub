@@ -20,22 +20,22 @@ type Project = {
 const projects: Project[] = [
   {
     id: 1,
-    title: "E-Commerce Website",
+    title: "9abel",
     description:
-      "A modern e-commerce platform with product listings, shopping cart, and payment integration.",
+      "A modern Nextjs Templates Provider.",
     image: "/projects/project1.jpg",
-    technologies: ["React", "Next.js", "Tailwind CSS", "Stripe"],
+    technologies: ["React", "Next.js","typescript", "Tailwind CSS", "Stripe"],
     demoUrl: "#",
     codeUrl: "#",
     category: "Web App",
   },
   {
     id: 2,
-    title: "Task Management App",
+    title: "Mern Chat App",
     description:
-      "A productivity app that helps users organize tasks with drag-and-drop functionality and real-time updates.",
+      "A modern mern stack chat application.",
     image: "/projects/project2.jpg",
-    technologies: ["React", "TypeScript", "Firebase", "Tailwind CSS"],
+    technologies: ["React", "JavaScript", "MongoDB", "Tailwind CSS"],
     demoUrl: "#",
     codeUrl: "#",
     category: "Web App",
@@ -61,28 +61,6 @@ const projects: Project[] = [
     demoUrl: "#",
     codeUrl: "#",
     category: "Website",
-  },
-  {
-    id: 5,
-    title: "Blog Platform",
-    description:
-      "A feature-rich blogging platform with content management, comments, and analytics.",
-    image: "/projects/project5.jpg",
-    technologies: ["Next.js", "GraphQL", "PostgreSQL", "Auth.js"],
-    demoUrl: "#",
-    codeUrl: "#",
-    category: "Web App",
-  },
-  {
-    id: 6,
-    title: "Weather Dashboard",
-    description:
-      "A weather application that provides real-time forecasts based on location with interactive maps.",
-    image: "/projects/project6.jpg",
-    technologies: ["React", "OpenWeather API", "Chart.js", "Tailwind CSS"],
-    demoUrl: "#",
-    codeUrl: "#",
-    category: "Web App",
   },
 ];
 
