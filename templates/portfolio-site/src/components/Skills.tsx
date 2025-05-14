@@ -16,7 +16,7 @@ import { SiMongodb } from "react-icons/si";
 import { SiPostgresql } from "react-icons/si";
 import { SiExpress } from "react-icons/si";
 import { SiTailwindcss } from "react-icons/si";
-import { RiNextjsLine } from "react-icons/ri";
+import { RiNextjsFill } from "react-icons/ri";
 import { FaReact } from "react-icons/fa";
 import { SiTypescript } from "react-icons/si";
 import { IoLogoJavascript } from "react-icons/io";
@@ -25,43 +25,45 @@ import { IoLogoVercel } from "react-icons/io5";
 import { SiNetlify } from "react-icons/si";
 import { SiOverleaf } from "react-icons/si";
 import { TbBrandSupabase } from "react-icons/tb";
+import { SiPostman } from "react-icons/si";
 const Skills = () => {
   const skills = [
     {
       category: "Frontend",
       icon: <Code2 className="w-6 h-6 text-primary-500" />,
       items: [
-        { name: "HTML", icon: <FaHtml5 className="w-4 h-4 text-primary-500" /> },
-        { name: "CSS", icon: <FaCss3Alt className="w-4 h-4 text-primary-500" /> },
-        { name: "JavaScript", icon: <IoLogoJavascript className="w-4 h-4 text-primary-500" /> },
-        { name: "TypeScript", icon: <SiTypescript className="w-4 h-4 text-primary-500" /> },
-        { name: "React", icon: <FaReact className="w-4 h-4 text-primary-500" /> },
-        { name: "Next.js", icon: <RiNextjsLine className="w-4 h-4 text-primary-500" /> },
-        { name: "Tailwind CSS", icon: <SiTailwindcss className="w-4 h-4 text-primary-500" /> },
+        { name: "HTML", icon: <FaHtml5 className="w-5 h-5 text-[#E34F26]" /> },
+        { name: "CSS", icon: <FaCss3Alt className="w-5 h-5 text-[#1572B6]" /> },
+        { name: "JavaScript", icon: <IoLogoJavascript className="w-5 h-5 text-[#F7DF1E]" /> },
+        { name: "TypeScript", icon: <SiTypescript className="w-5 h-5 text-[#3178C6]" /> },
+        { name: "React", icon: <FaReact className="w-5 h-5 text-[#61DAFB]" /> },
+        { name: "Next.js", icon: <RiNextjsFill className="w-5 h-5 text-[#000000] dark:text-primary-500" /> },
+        { name: "Tailwind CSS", icon: <SiTailwindcss className="w-5 h-5 text-[#06B6D4]" /> },
       ],
     },
     {
       category: "Backend",
       icon: <Server className="w-6 h-6 text-accent-500" />,
       items: [
-        { name: "Node.js", icon: <FaNodeJs className="w-4 h-4 text-accent-500" /> },
-        { name: "Express", icon: <SiExpress className="w-4 h-4 text-accent-500" /> },
-        { name: "MongoDB", icon: <SiMongodb className="w-4 h-4 text-accent-500" /> },
-        { name: "PostgreSQL", icon: <SiPostgresql className="w-4 h-4 text-accent-500" /> },
-        { name: "RESTful APIs", icon: <Cloud className="w-4 h-4 text-accent-500" /> },
-        { name: "Supabase", icon: <TbBrandSupabase className="w-4 h-4 text-accent-500" /> },
+        { name: "Node.js", icon: <FaNodeJs className="w-5 h-5 text-[#5FA04E]" /> },
+        { name: "Express", icon: <SiExpress className="w-5 h-5 text-[#000000] dark:text-primary-500" /> },
+        { name: "MongoDB", icon: <SiMongodb className="w-5 h-5 text-[#47A248]" /> },
+        { name: "PostgreSQL", icon: <SiPostgresql className="w-5 h-5 text-[#4169E1]" /> },
+        { name: "RESTful APIs", icon: <Cloud className="w-5 h-5 text-accent-500" /> },
+        { name: "Supabase", icon: <TbBrandSupabase className="w-5 h-5 text-[#3FCF8E]" /> },
       ],
     },
     {
       category: "Tools",
       icon: <PiToolbox className="w-6 h-6 text-primary-500" />,
       items: [
-        { name: "Git", icon: <GitBranch className="w-4 h-4 text-primary-500" /> },
-        { name: "GitHub", icon: <Github className="w-4 h-4 text-primary-500" /> },
-        { name: "VS Code", icon: <VscVscode className="w-4 h-4 text-primary-500" /> },
-        { name: "Vercel", icon: <IoLogoVercel className="w-4 h-4 text-primary-500" /> },
-        { name: "Netlify", icon: <SiNetlify className="w-4 h-4 text-primary-500" /> },
-        { name: "Overleaf", icon: <SiOverleaf className="w-4 h-4 text-primary-500" /> },
+        { name: "Git", icon: <GitBranch className="w-5 h-5 text-[#F05032]" /> },
+        { name: "GitHub", icon: <Github className="w-5 h-5 text-[#181717] dark:text-primary-500" /> },
+        { name: "VS Code", icon: <VscVscode className="w-5 h-5 text-primary-500" /> },
+        { name: "Vercel", icon: <IoLogoVercel className="w-5 h-5 text-[#000000] dark:text-primary-500" /> },
+        { name: "Netlify", icon: <SiNetlify className="w-5 h-5 text-[#00C7B7]" /> },
+        { name: "Postman", icon: <SiPostman className="w-5 h-5 text-[#FF6C37]" /> },
+        { name: "Overleaf", icon: <SiOverleaf className="w-5 h-5 text-[#47A141]" /> },
       ],
     },
   ];
