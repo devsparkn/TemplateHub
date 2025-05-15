@@ -58,11 +58,11 @@ export default function Navbar() {
           : "bg-white/80 dark:bg-gray-900/80 backdrop-blur-sm"
       )}
     >
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
           <Link href="/" className="flex items-center space-x-2 z-10">
             <motion.div
-              initial={{ scale: 0.9, opacity: 0 }}
+              initial={{ scale: 0.9, opacity: 1 }}
               animate={{ scale: 1, opacity: 1 }}
               transition={{ duration: 0.3 }}
               className="flex items-center gap-2"
@@ -74,77 +74,83 @@ export default function Navbar() {
                 width={100}
                 height={100}
               />
-              <span className="text-2xl font-bold bg-gradient-to-r from-primary-600 to-primary-400 bg-clip-text text-transparent dark:from-primary-400 dark:to-primary-300">
-                Nadeem Chaudhary
-              </span>
+              <div className="text-2xl font-bold bg-gradient-to-r from-primary-600 to-primary-400 bg-clip-text text-transparent dark:from-primary-400 dark:to-primary-300">
+                Nadeem <span className="hidden sm:inline-block">Chaudhary</span>
+              </div>
             </motion.div>
           </Link>
 
-          <div className="hidden md:flex flex-grow items-center justify-center gap-8 absolute left-1/2 -translate-x-1/2">
-            {navItems.map((item) => (
-              <Link
-                key={item.href}
-                href={item.href}
-                className="relative group text-gray-700 dark:text-gray-300 hover:text-violet-600 dark:hover:text-violet-400 transition-colors py-2"
-              >
-                {item.label}
-                {pathname === item.href ? (
-                  <motion.span
-                    layoutId="navunderline"
-                    className="absolute -bottom-1 left-0 w-full h-0.5 bg-gradient-to-r from-violet-600 to-indigo-600 dark:from-violet-400 dark:to-indigo-400 rounded-full"
-                    transition={{ type: "spring", bounce: 0.3, duration: 0.6 }}
-                  />
-                ) : (
-                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-violet-600 to-indigo-600 dark:from-violet-400 dark:to-indigo-400 rounded-full transition-all duration-300 group-hover:w-full" />
-                )}
-              </Link>
-            ))}
-          </div>
-
           <div className="flex items-center gap-4">
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={toggleDarkMode}
-              className="rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-              aria-label="Toggle dark mode"
-            >
-              <AnimatePresence mode="wait" initial={false}>
-                <motion.div
-                  key={darkMode ? "dark" : "light"}
-                  initial={{ y: -20, opacity: 0 }}
-                  animate={{ y: 0, opacity: 1 }}
-                  exit={{ y: 20, opacity: 0 }}
-                  transition={{ duration: 0.2 }}
+            <div className="hidden md:flex flex-grow items-center justify-center gap-8">
+              {navItems.map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className="relative group text-gray-700 dark:text-gray-300 hover:text-violet-600 dark:hover:text-violet-400 transition-colors py-2"
                 >
-                  {darkMode ? (
-                    <Sun className="h-5 w-5 text-amber-400" />
+                  {item.label}
+                  {pathname === item.href ? (
+                    <motion.span
+                      layoutId="navunderline"
+                      className="absolute -bottom-1 left-0 w-full h-0.5 bg-gradient-to-r from-violet-600 to-indigo-600 dark:from-violet-400 dark:to-indigo-400 rounded-full"
+                      transition={{
+                        type: "spring",
+                        bounce: 0.3,
+                        duration: 0.6,
+                      }}
+                    />
                   ) : (
-                    <Moon className="h-5 w-5 text-indigo-600" />
+                    <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-violet-600 to-indigo-600 dark:from-violet-400 dark:to-indigo-400 rounded-full transition-all duration-300 group-hover:w-full" />
                   )}
-                </motion.div>
-              </AnimatePresence>
-            </Button>
+                </Link>
+              ))}
+            </div>
 
-            <Sheet>
-              <SheetTrigger asChild>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  className="md:hidden rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-                  aria-label="Open menu"
-                >
-                  <Menu className="h-5 w-5" />
-                </Button>
-              </SheetTrigger>
-              <SheetContent side="left" className="p-0 w-[280px]">
-                <MobileSidebar
-                  pathname={pathname}
-                  toggleDarkMode={toggleDarkMode}
-                  darkMode={darkMode}
-                />
-              </SheetContent>
-            </Sheet>
+            <div className="flex items-center gap-4">
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={toggleDarkMode}
+                className="rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                aria-label="Toggle dark mode"
+              >
+                <AnimatePresence mode="wait" initial={false}>
+                  <motion.div
+                    key={darkMode ? "dark" : "light"}
+                    initial={{ y: -20, opacity: 0 }}
+                    animate={{ y: 0, opacity: 1 }}
+                    exit={{ y: 20, opacity: 0 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    {darkMode ? (
+                      <Sun className="h-5 w-5 text-amber-400" />
+                    ) : (
+                      <Moon className="h-5 w-5 text-indigo-600" />
+                    )}
+                  </motion.div>
+                </AnimatePresence>
+              </Button>
+
+              <Sheet>
+                <SheetTrigger asChild>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    className="md:hidden rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+                    aria-label="Open menu"
+                  >
+                    <Menu className="h-5 w-5" />
+                  </Button>
+                </SheetTrigger>
+                <SheetContent side="left" className="p-0 w-[280px]">
+                  <MobileSidebar
+                    pathname={pathname}
+                    toggleDarkMode={toggleDarkMode}
+                    darkMode={darkMode}
+                  />
+                </SheetContent>
+              </Sheet>
+            </div>
           </div>
         </div>
       </div>

@@ -94,7 +94,7 @@ export function Projects() {
   };
 
   return (
-    <section className="py-24 px-8 bg-gray-50 dark:bg-gray-800 gradient-background relative overflow-hidden">
+    <section className="py-24 px-8 bg-gray-50 dark:bg-gray-900 gradient-background relative overflow-hidden">
       {/* Decorative Elements */}
       <div className="absolute bottom-0 left-0 w-96 h-96 bg-primary-400/5 rounded-full mix-blend-multiply filter blur-3xl"></div>
       <div className="absolute top-0 right-0 w-96 h-96 bg-accent-400/5 rounded-full mix-blend-multiply filter blur-3xl"></div>
@@ -149,7 +149,7 @@ export function Projects() {
           {filteredProjects.map((project) => (
             <motion.div
               key={project.id}
-              className="rounded-lg border-2 border-primary-400 bg-white dark:bg-gray-900 group"
+              className="rounded-lg border-2 border-primary-400 bg-white dark:bg-gray-800 group"
               variants={item}
               onMouseEnter={() => setHoveredProject(project.id)}
               onMouseLeave={() => setHoveredProject(null)}
