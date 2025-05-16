@@ -1,7 +1,5 @@
-"use client";
-
-import React, { useEffect, useState } from 'react'
-import { TemplateGrid } from '@/components/TemplateGrid'
+import React from "react";
+import { TemplateGrid } from "@/components/TemplateGrid";
 
 const RecentlyAddedTemplates = () => {
   return (
@@ -16,7 +14,7 @@ const RecentlyAddedTemplates = () => {
       </div>
       <TemplateGrid limit={4} />
     </section>
-  )
-}
+  );
+};
 
-export default RecentlyAddedTemplates
+export default RecentlyAddedTemplates;

@@ -1,35 +1,41 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import { format } from 'date-fns';
-import { 
-  Users, 
+import { useState, useEffect, useCallback } from "react";
+import { format } from "date-fns";
+import {
+  Users,
   RefreshCw,
   Search,
   ChevronLeft,
   ChevronRight,
   User,
   Shield,
-  Loader2
-} from 'lucide-react';
-import { useSession } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
-import Link from 'next/link';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
-import { Badge } from '@/components/ui/badge';
-import { Skeleton } from '@/components/ui/skeleton';
-import { Alert, AlertDescription } from '@/components/ui/alert';
-import { 
-  Table, 
-  TableBody, 
-  TableCell, 
-  TableHead, 
-  TableHeader, 
-  TableRow 
-} from '@/components/ui/table';
+  Loader2,
+} from "lucide-react";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import Link from "next/link";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Badge } from "@/components/ui/badge";
+import { Skeleton } from "@/components/ui/skeleton";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
+} from "@/components/ui/table";
 
 // Types
 interface User {
@@ -37,7 +43,7 @@ interface User {
   name: string;
   email: string;
   image?: string;
-  role: 'user' | 'admin';
+  role: "user" | "admin";
   createdAt: string;
   updatedAt: string;
 }
@@ -59,15 +65,15 @@ export default function UsersPage() {
     limit: 10,
     pages: 0,
   });
-  const [searchQuery, setSearchQuery] = useState('');
-  
+  const [searchQuery, setSearchQuery] = useState("");
+
   const { data: session, status: sessionStatus } = useSession();
   const router = useRouter();
   const [isChecking, setIsChecking] = useState(true);
-  
+
   // Special admin check to allow our specific admin email
   const isAdminEmail = session?.user?.email === "nadeemchaudhary808@gmail.com";
-  const hasAccess = session?.user?.role === 'admin' || isAdminEmail;
+  const hasAccess = session?.user?.role === "admin" || isAdminEmail;
 
   // Handle authentication check
   useEffect(() => {
@@ -81,37 +87,42 @@ export default function UsersPage() {
   }, [session, sessionStatus, router]);
 
   // Fetch users data
-  const fetchUsers = async (page = 1) => {
-    try {
-      setRefreshing(true);
-      const response = await fetch(`/api/admin/users?page=${page}&limit=${pagination.limit}`);
-      const data = await response.json();
-      
-      if (data.success) {
-        setUsers(data.users);
-        setPagination(data.pagination);
+  const fetchUsers = useCallback(
+    async (page = 1) => {
+      try {
+        setRefreshing(true);
+        const response = await fetch(
+          `/api/admin/users?page=${page}&limit=${pagination.limit}`
+        );
+        const data = await response.json();
+
+        if (data.success) {
+          setUsers(data.users);
+          setPagination(data.pagination);
+        }
+      } catch (error) {
+        console.error("Error fetching users:", error);
+      } finally {
+        setLoading(false);
+        setRefreshing(false);
       }
-    } catch (error) {
-      console.error('Error fetching users:', error);
-    } finally {
-      setLoading(false);
-      setRefreshing(false);
-    }
-  };
+    },
+    [pagination.limit]
+  );
 
   // Initial data fetch
   useEffect(() => {
     if (hasAccess && !isChecking) {
       fetchUsers();
     }
-  }, [hasAccess, isChecking]);
+  }, [hasAccess, isChecking, fetchUsers]);
 
   // Get user initials for avatar fallback
   const getUserInitials = (name: string) => {
     return name
-      .split(' ')
-      .map(n => n[0])
-      .join('')
+      .split(" ")
+      .map((n) => n[0])
+      .join("")
       .toUpperCase()
       .substring(0, 2);
   };
@@ -130,7 +141,9 @@ export default function UsersPage() {
         <div className="flex items-center justify-center h-[600px]">
           <div className="flex flex-col items-center gap-2">
             <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
-            <p className="text-sm text-muted-foreground">Checking permissions...</p>
+            <p className="text-sm text-muted-foreground">
+              Checking permissions...
+            </p>
           </div>
         </div>
       </div>
@@ -147,7 +160,7 @@ export default function UsersPage() {
               You do not have permission to access this page.
             </AlertDescription>
           </Alert>
-          
+
           <div className="flex justify-between gap-4">
             <Button onClick={() => router.push("/")} variant="outline">
               Back to Home
@@ -160,26 +173,33 @@ export default function UsersPage() {
       </div>
     );
   }
-  
+
   // Show admin activation notice if needed
-  const AdminActivationAlert = isAdminEmail && session?.user?.role !== 'admin' ? (
-    <Alert className="mb-8 border-yellow-500 bg-yellow-50 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-200">
-      <AlertDescription className="flex items-center py-2">
-        <Shield className="mr-2 h-5 w-5" />
-        Your admin status is not fully activated. 
-        <Button variant="link" className="text-yellow-800 dark:text-yellow-200" asChild>
-          <Link href="/become-admin">Activate admin privileges now</Link>
-        </Button>
-      </AlertDescription>
-    </Alert>
-  ) : null;
+  const AdminActivationAlert =
+    isAdminEmail && session?.user?.role !== "admin" ? (
+      <Alert className="mb-8 border-yellow-500 bg-yellow-50 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-200">
+        <AlertDescription className="flex items-center py-2">
+          <Shield className="mr-2 h-5 w-5" />
+          Your admin status is not fully activated.
+          <Button
+            variant="link"
+            className="text-yellow-800 dark:text-yellow-200"
+            asChild
+          >
+            <Link href="/become-admin">Activate admin privileges now</Link>
+          </Button>
+        </AlertDescription>
+      </Alert>
+    ) : null;
 
   // Loading UI
   if (loading) {
     return (
       <div className="p-8">
         <div className="flex items-center justify-between mb-8">
-          <h1 className="text-3xl font-bold tracking-tight">Registered Users</h1>
+          <h1 className="text-3xl font-bold tracking-tight">
+            Registered Users
+          </h1>
           <Skeleton className="h-10 w-24" />
         </div>
         <Card>
@@ -198,15 +218,20 @@ export default function UsersPage() {
   return (
     <div className="p-8">
       {AdminActivationAlert}
-    
+
       <div className="flex items-center justify-between mb-8">
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Registered Users</h1>
+          <h1 className="text-3xl font-bold tracking-tight">
+            Registered Users
+          </h1>
           <p className="text-muted-foreground">
             Manage and view all registered users
           </p>
         </div>
-        <Button onClick={() => fetchUsers(pagination.page)} disabled={refreshing}>
+        <Button
+          onClick={() => fetchUsers(pagination.page)}
+          disabled={refreshing}
+        >
           {refreshing ? (
             <>
               <RefreshCw className="mr-2 h-4 w-4 animate-spin" />
@@ -266,9 +291,13 @@ export default function UsersPage() {
                 users
                   .filter(
                     (user) =>
-                      searchQuery === '' ||
-                      user.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                      user.email.toLowerCase().includes(searchQuery.toLowerCase())
+                      searchQuery === "" ||
+                      user.name
+                        .toLowerCase()
+                        .includes(searchQuery.toLowerCase()) ||
+                      user.email
+                        .toLowerCase()
+                        .includes(searchQuery.toLowerCase())
                   )
                   .map((user) => (
                     <TableRow key={user._id}>
@@ -276,22 +305,34 @@ export default function UsersPage() {
                         <div className="flex items-center gap-3">
                           <Avatar>
                             <AvatarImage src={user.image} />
-                            <AvatarFallback>{getUserInitials(user.name)}</AvatarFallback>
+                            <AvatarFallback>
+                              {getUserInitials(user.name)}
+                            </AvatarFallback>
                           </Avatar>
                           <div>
                             <p className="font-medium">{user.name}</p>
-                            <p className="text-xs text-muted-foreground">ID: {user._id}</p>
+                            <p className="text-xs text-muted-foreground">
+                              ID: {user._id}
+                            </p>
                           </div>
                         </div>
                       </TableCell>
                       <TableCell>{user.email}</TableCell>
                       <TableCell>
-                        <Badge variant={user.role === 'admin' ? 'destructive' : 'secondary'}>
+                        <Badge
+                          variant={
+                            user.role === "admin" ? "destructive" : "secondary"
+                          }
+                        >
                           {user.role}
                         </Badge>
                       </TableCell>
-                      <TableCell>{format(new Date(user.createdAt), 'MMM d, yyyy')}</TableCell>
-                      <TableCell>{format(new Date(user.updatedAt), 'MMM d, yyyy')}</TableCell>
+                      <TableCell>
+                        {format(new Date(user.createdAt), "MMM d, yyyy")}
+                      </TableCell>
+                      <TableCell>
+                        {format(new Date(user.updatedAt), "MMM d, yyyy")}
+                      </TableCell>
                     </TableRow>
                   ))
               )}
@@ -326,4 +367,4 @@ export default function UsersPage() {
       </Card>
     </div>
   );
-} 
+}

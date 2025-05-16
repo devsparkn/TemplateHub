@@ -59,33 +59,11 @@ export const templates: Template[] = [
     authorId: null
   },
   {
-    slug: 'saas-starter',
-    title: 'SaaS Starter',
-    description: 'Everything you need to launch your SaaS product with authentication and billing.',
-    thumbnailUrls: ['/images/templates/saas.png'],
-    demoUrl: '/demos/saas',
-    category: 'SaaS',
-    featured: true,
-    price: 'Free',
-    features: [
-      'User authentication and authorization',
-      'Subscription management',
-      'Stripe integration for payments',
-      'User dashboard',
-      'Team collaboration features',
-      'Email notification system',
-      'Usage analytics and reporting'
-    ],
-    techStack: ['Next.js', 'Stripe', 'MongoDB'],
-    tags: ['SaaS', 'Startup', 'Subscription'],
-    authorId: null
-  },
-  {
-    slug: 'portfolio-minimal',
-    title: 'Portfolio Minimal',
+    slug: 'portfolio-site',
+    title: 'Portfolio',
     description: 'A clean, minimalist portfolio template for designers and developers.',
-    thumbnailUrls: ['/images/templates/portfolio.png'],
-    demoUrl: '/demos/portfolio',
+    thumbnailUrls: ['https://res.cloudinary.com/dyg4weoem/image/upload/v1747415249/portfolio_wwkrgs.png'],
+    demoUrl: 'https://9abel-portfolio.vercel.app/',
     category: 'Portfolio',
     featured: true,
     price: 'Free',
@@ -100,50 +78,6 @@ export const templates: Template[] = [
     ],
     techStack: ['React', 'Tailwind', 'EmailJS'],
     tags: ['Portfolio', 'Minimal', 'Developer'],
-    authorId: null
-  },
-  {
-    slug: 'blog-modern',
-    title: 'Blog Modern',
-    description: 'A feature-rich blog template with comment system and newsletter signup.',
-    thumbnailUrls: ['/images/templates/blog.png'],
-    demoUrl: '/demos/blog',
-    category: 'Blog',
-    featured: true,
-    price: 'Free',
-    features: [
-      'SEO optimized article structure',
-      'Comment system with moderation',
-      'Newsletter subscription form',
-      'Social sharing integration',
-      'Related posts suggestions',
-      'Reading time estimation',
-      'Markdown support for easy writing'
-    ],
-    techStack: ['Next.js', 'MDX', 'Tailwind'],
-    tags: ['Blog', 'Content', 'SEO'],
-    authorId: null
-  },
-  {
-    slug: 'simple-store',
-    title: 'Simple Store',
-    description: 'E-commerce store template with product listings and checkout.',
-    thumbnailUrls: ['/images/templates/store.png'],
-    demoUrl: '/demos/store',
-    category: 'E-commerce',
-    featured: true,
-    price: 'Free',
-    features: [
-      'Product catalog with filtering',
-      'Shopping cart functionality',
-      'Secure checkout process',
-      'Product image gallery',
-      'Inventory management',
-      'Customer reviews system',
-      'Order tracking functionality'
-    ],
-    techStack: ['React', 'Redux', 'Node.js', 'MongoDB'],
-    tags: ['E-commerce', 'Store', 'Shopping'],
     authorId: null
   },
 ]
