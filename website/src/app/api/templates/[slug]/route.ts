@@ -2,12 +2,19 @@ import { NextRequest, NextResponse } from "next/server";
 import dbConnect from "@/lib/mongodb";
 import Template from "@/models/Template";
 
+type RouteContext = {
+  params: {
+    slug: string;
+  };
+};
+
 // GET template by slug
 export async function GET(
   request: NextRequest,
-  context: { params: { slug: string } }
+  { params }: RouteContext
 ) {
-  const { slug } = context.params;
+  const resolvedParams = await Promise.resolve(params);
+  const { slug } = resolvedParams;
 
   try {
     await dbConnect();
@@ -32,9 +39,10 @@ export async function GET(
 
 export async function PUT(
   request: NextRequest,
-  context: { params: { slug: string } }
+  { params }: RouteContext
 ) {
-  const { slug } = context.params;
+  const resolvedParams = await Promise.resolve(params);
+  const { slug } = resolvedParams;
 
   try {
     const body = await request.json();
@@ -63,9 +71,10 @@ export async function PUT(
 
 export async function DELETE(
   request: NextRequest,
-  context: { params: { slug: string } }
+  { params }: RouteContext
 ) {
-  const { slug } = context.params;
+  const resolvedParams = await Promise.resolve(params);
+  const { slug } = resolvedParams;
 
   try {
     await dbConnect();
