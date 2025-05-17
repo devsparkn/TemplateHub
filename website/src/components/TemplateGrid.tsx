@@ -4,7 +4,6 @@ import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Search, Filter, X, ChevronDown } from "lucide-react";
-import { templates } from "@/utils/template";
 import { HoverEffect } from "./ui/card-hover-effect";
 import {
   DropdownMenu,
@@ -15,6 +14,19 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
+
+interface Template {
+  slug: string;
+  title: string;
+  description: string;
+  thumbnailUrls: string[];
+  category: string;
+  price: number;
+  demoUrl: string;
+  features: string[];
+  techStack: string[];
+  featured: boolean;
+}
 
 interface TemplateGridProps {
   featured?: boolean;
@@ -36,6 +48,26 @@ export function TemplateGrid({
   const [priceFilter, setPriceFilter] = useState<PriceFilter>("all");
   const [isMobile, setIsMobile] = useState(false);
   const [showFilters, setShowFilters] = useState(false);
+  const [templates, setTemplates] = useState<Template[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const fetchTemplates = async () => {
+      try {
+        const response = await fetch('/api/templates');
+        const data = await response.json();
+        if (data.success) {
+          setTemplates(data.data);
+        }
+      } catch (error) {
+        console.error('Error fetching templates:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchTemplates();
+  }, []);
 
   const categories = Array.from(new Set(templates.map((t) => t.category)));
 
@@ -59,8 +91,8 @@ export function TemplateGrid({
     )
     .filter((template) => {
       if (priceFilter === "all") return true;
-      if (priceFilter === "free") return template.price === "Free";
-      if (priceFilter === "premium") return template.price !== "Free";
+      if (priceFilter === "free") return template.price === 0;
+      if (priceFilter === "premium") return template.price > 0;
       return true;
     })
     .filter(
@@ -78,6 +110,14 @@ export function TemplateGrid({
 
   const hasActiveFilters =
     searchQuery || selectedCategory || priceFilter !== "all";
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center min-h-[400px]">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-8 w-full mx-auto">

@@ -75,7 +75,7 @@ export function HeroSection() {
         >
           <div className="relative aspect-video rounded-xl overflow-hidden shadow-2xl border border-border bg-background">
             <Image
-              src="/templates/sentinel-ai.png"
+              src="https://res.cloudinary.com/dyg4weoem/image/upload/v1746024916/sentinel-ai_xsmr4b.png"
               alt="Next.js Template Preview"
               fill
               className="object-cover"
