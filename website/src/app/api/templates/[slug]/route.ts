@@ -2,105 +2,82 @@ import { NextRequest, NextResponse } from "next/server";
 import dbConnect from "@/lib/mongodb";
 import Template from "@/models/Template";
 
-// Helper to get slug value
-const getSlug = (params: { slug: string | string[] }) => {
-  return Array.isArray(params.slug) ? params.slug[0] : params.slug;
-};
+// Type for route parameters
+type RouteParams = { params: { slug: string } };
 
 // GET template by slug
-export async function GET(
-  request: NextRequest,
-  { params }: { params: { slug: string | string[] } }
-) {
-  const slug = getSlug(params);
-  if (!slug) return invalidSlugResponse();
-
+export async function GET(request: NextRequest, { params }: RouteParams) {
   try {
     await dbConnect();
-    const template = await Template.findOne({ slug });
-    return handleTemplateResponse(template);
+    const template = await Template.findOne({ slug: params.slug });
+
+    if (!template) {
+      return NextResponse.json(
+        { success: false, error: "Template not found" },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json(template);
   } catch (error) {
-    return serverErrorResponse(error, "fetch");
+    console.error("Error fetching template:", error);
+    return NextResponse.json(
+      { success: false, error: "Failed to fetch template" },
+      { status: 500 }
+    );
   }
 }
 
 // PUT handler
-export async function PUT(
-  request: NextRequest,
-  { params }: { params: { slug: string | string[] } }
-) {
-  const slug = getSlug(params);
-  if (!slug) return invalidSlugResponse();
-
+export async function PUT(request: NextRequest, { params }: RouteParams) {
   try {
     const body = await request.json();
     await dbConnect();
-    const updatedTemplate = await Template.findOneAndUpdate({ slug }, body, { new: true });
-    return handleTemplateUpdateResponse(updatedTemplate);
+
+    const updatedTemplate = await Template.findOneAndUpdate(
+      { slug: params.slug },
+      body,
+      { new: true }
+    );
+
+    if (!updatedTemplate) {
+      return NextResponse.json(
+        { success: false, error: "Template not found" },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json({ success: true, data: updatedTemplate });
   } catch (error) {
-    return serverErrorResponse(error, "update");
+    console.error("Error updating template:", error);
+    return NextResponse.json(
+      { success: false, error: "Failed to update template" },
+      { status: 400 }
+    );
   }
 }
 
 // DELETE handler
-export async function DELETE(
-  request: NextRequest,
-  { params }: { params: { slug: string | string[] } }
-) {
-  const slug = getSlug(params);
-  if (!slug) return invalidSlugResponse();
-
+export async function DELETE(request: NextRequest, { params }: RouteParams) {
   try {
     await dbConnect();
-    const deletedTemplate = await Template.findOneAndDelete({ slug });
-    return handleDeleteResponse(deletedTemplate);
+    const deletedTemplate = await Template.findOneAndDelete({
+      slug: params.slug,
+    });
+
+    if (!deletedTemplate) {
+      return NextResponse.json(
+        { success: false, error: "Template not found" },
+        { status: 404 }
+      );
+    }
+
+    return NextResponse.json({ success: true, message: "Template deleted" });
   } catch (error) {
-    return serverErrorResponse(error, "delete");
+    console.error("Error deleting template:", error);
+    return NextResponse.json(
+      { success: false, error: "Failed to delete template" },
+      { status: 500 }
+    );
   }
 }
-
-// Response helpers
-const invalidSlugResponse = () => {
-  return NextResponse.json(
-    { success: false, error: "Invalid slug parameter" },
-    { status: 400 }
-  );
-};
-
-const handleTemplateResponse = (template: unknown) => {
-  if (!template) {
-    return NextResponse.json(
-      { success: false, error: "Template not found" },
-      { status: 404 }
-    );
-  }
-  return NextResponse.json(template);
-};
-
-const handleTemplateUpdateResponse = (template: unknown) => {
-  if (!template) {
-    return NextResponse.json(
-      { success: false, error: "Template not found" },
-      { status: 404 }
-    );
-  }
-  return NextResponse.json({ success: true, data: template });
-};
-
-const handleDeleteResponse = (template: unknown) => {
-  if (!template) {
-    return NextResponse.json(
-      { success: false, error: "Template not found" },
-      { status: 404 }
-    );
-  }
-  return NextResponse.json({ success: true, message: "Template deleted" });
-};
-
-const serverErrorResponse = (error: unknown, operation: string) => {
-  console.error(`Error ${operation}ing template:`, error);
-  return NextResponse.json(
-    { success: false, error: `Failed to ${operation} template` },
-    { status: 500 }
-  );
-};
