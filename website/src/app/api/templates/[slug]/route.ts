@@ -4,11 +4,10 @@ import Template from "@/models/Template";
 
 // GET template by slug
 export async function GET(
-  req: NextRequest,
-  { params }: { params: { slug: string } }
+  request: NextRequest,
+  context: { params: { slug: string } }
 ) {
-  const resolvedParams = await Promise.resolve(params);
-  const { slug } = resolvedParams;
+  const { slug } = context.params;
 
   try {
     await dbConnect();
@@ -32,14 +31,13 @@ export async function GET(
 }
 
 export async function PUT(
-  req: NextRequest,
-  { params }: { params: { slug: string } }
+  request: NextRequest,
+  context: { params: { slug: string } }
 ) {
-  const resolvedParams = await Promise.resolve(params);
-  const { slug } = resolvedParams;
+  const { slug } = context.params;
 
   try {
-    const body = await req.json();
+    const body = await request.json();
     await dbConnect();
 
     const updatedTemplate = await Template.findOneAndUpdate({ slug }, body, {
@@ -64,11 +62,10 @@ export async function PUT(
 }
 
 export async function DELETE(
-  req: NextRequest,
-  { params }: { params: { slug: string } }
+  request: NextRequest,
+  context: { params: { slug: string } }
 ) {
-  const resolvedParams = await Promise.resolve(params);
-  const { slug } = resolvedParams;
+  const { slug } = context.params;
 
   try {
     await dbConnect();
