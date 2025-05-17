@@ -7,7 +7,8 @@ export async function GET(
   req: NextRequest,
   context: { params: { slug: string } }
 ) {
-  const { slug } = context.params;
+  const params = await Promise.resolve(context.params);
+  const { slug } = params;
 
   try {
     await dbConnect();
@@ -34,7 +35,8 @@ export async function PUT(
   req: NextRequest,
   context: { params: { slug: string } }
 ) {
-  const { slug } = context.params;
+  const params = await Promise.resolve(context.params);
+  const { slug } = params;
 
   try {
     const body = await req.json();
@@ -65,7 +67,8 @@ export async function DELETE(
   req: NextRequest,
   context: { params: { slug: string } }
 ) {
-  const { slug } = context.params;
+  const params = await Promise.resolve(context.params);
+  const { slug } = params;
 
   try {
     await dbConnect();

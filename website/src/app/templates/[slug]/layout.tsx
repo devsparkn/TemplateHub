@@ -41,8 +41,8 @@ export default async function TemplateLayout({
   children: ReactNode;
   params: { slug: string };
 }) {
-  // Access the slug only after ensuring params is awaited
-  const slug = await Promise.resolve(params.slug);
+  const resolvedParams = await Promise.resolve(params);
+  const slug = resolvedParams.slug;
   console.log(`Layout rendering for slug: ${slug}`);
   
   try {
@@ -66,8 +66,8 @@ export async function generateMetadata({
 }: {
   params: { slug: string };
 }): Promise<Metadata> {
-  // Access the slug only after ensuring params is awaited
-  const slug = await Promise.resolve(params.slug);
+  const resolvedParams = await Promise.resolve(params);
+  const slug = resolvedParams.slug;
   
   try {
     const template = await getTemplate(slug);
