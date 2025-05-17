@@ -5,10 +5,10 @@ import Template from "@/models/Template";
 // GET template by slug
 export async function GET(
   req: NextRequest,
-  context: { params: { slug: string } }
+  { params }: { params: { slug: string } }
 ) {
-  const params = await Promise.resolve(context.params);
-  const { slug } = params;
+  const resolvedParams = await Promise.resolve(params);
+  const { slug } = resolvedParams;
 
   try {
     await dbConnect();
@@ -33,10 +33,10 @@ export async function GET(
 
 export async function PUT(
   req: NextRequest,
-  context: { params: { slug: string } }
+  { params }: { params: { slug: string } }
 ) {
-  const params = await Promise.resolve(context.params);
-  const { slug } = params;
+  const resolvedParams = await Promise.resolve(params);
+  const { slug } = resolvedParams;
 
   try {
     const body = await req.json();
@@ -65,10 +65,10 @@ export async function PUT(
 
 export async function DELETE(
   req: NextRequest,
-  context: { params: { slug: string } }
+  { params }: { params: { slug: string } }
 ) {
-  const params = await Promise.resolve(context.params);
-  const { slug } = params;
+  const resolvedParams = await Promise.resolve(params);
+  const { slug } = resolvedParams;
 
   try {
     await dbConnect();
