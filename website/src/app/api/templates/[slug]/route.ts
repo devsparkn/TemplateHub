@@ -3,10 +3,13 @@ import dbConnect from "@/lib/mongodb";
 import Template from "@/models/Template";
 
 // GET template by slug
-export async function GET(request: NextRequest, context: { params: { slug: string } }) {
+export async function GET(
+  request: NextRequest,
+  { params }: { params: Promise<{ slug: string }> }
+): Promise<NextResponse> {
   try {
+    const { slug } = await params;
     await dbConnect();
-    const { slug } = context.params;
     const template = await Template.findOne({ slug });
 
     if (!template) {
@@ -27,17 +30,18 @@ export async function GET(request: NextRequest, context: { params: { slug: strin
 }
 
 // PUT handler
-export async function PUT(request: NextRequest, context: { params: { slug: string } }) {
+export async function PUT(
+  request: NextRequest,
+  { params }: { params: Promise<{ slug: string }> }
+): Promise<NextResponse> {
   try {
+    const { slug } = await params;
     const body = await request.json();
     await dbConnect();
 
-    const { slug } = context.params;
-    const updatedTemplate = await Template.findOneAndUpdate(
-      { slug },
-      body,
-      { new: true }
-    );
+    const updatedTemplate = await Template.findOneAndUpdate({ slug }, body, {
+      new: true,
+    });
 
     if (!updatedTemplate) {
       return NextResponse.json(
@@ -57,11 +61,13 @@ export async function PUT(request: NextRequest, context: { params: { slug: strin
 }
 
 // DELETE handler
-export async function DELETE(request: NextRequest, context: { params: { slug: string } }) {
+export async function DELETE(
+  request: NextRequest,
+  { params }: { params: Promise<{ slug: string }> }
+): Promise<NextResponse> {
   try {
+    const { slug } = await params;
     await dbConnect();
-
-    const { slug } = context.params;
     const deletedTemplate = await Template.findOneAndDelete({ slug });
 
     if (!deletedTemplate) {
