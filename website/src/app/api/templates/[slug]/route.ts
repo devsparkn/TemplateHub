@@ -2,14 +2,12 @@ import { NextRequest, NextResponse } from "next/server";
 import dbConnect from "@/lib/mongodb";
 import Template from "@/models/Template";
 
-// Type for route parameters
-type RouteParams = { params: { slug: string } };
-
 // GET template by slug
-export async function GET(request: NextRequest, { params }: RouteParams) {
+export async function GET(request: NextRequest, context: { params: { slug: string } }) {
   try {
     await dbConnect();
-    const template = await Template.findOne({ slug: params.slug });
+    const { slug } = context.params;
+    const template = await Template.findOne({ slug });
 
     if (!template) {
       return NextResponse.json(
@@ -29,13 +27,14 @@ export async function GET(request: NextRequest, { params }: RouteParams) {
 }
 
 // PUT handler
-export async function PUT(request: NextRequest, { params }: RouteParams) {
+export async function PUT(request: NextRequest, context: { params: { slug: string } }) {
   try {
     const body = await request.json();
     await dbConnect();
 
+    const { slug } = context.params;
     const updatedTemplate = await Template.findOneAndUpdate(
-      { slug: params.slug },
+      { slug },
       body,
       { new: true }
     );
@@ -58,12 +57,12 @@ export async function PUT(request: NextRequest, { params }: RouteParams) {
 }
 
 // DELETE handler
-export async function DELETE(request: NextRequest, { params }: RouteParams) {
+export async function DELETE(request: NextRequest, context: { params: { slug: string } }) {
   try {
     await dbConnect();
-    const deletedTemplate = await Template.findOneAndDelete({
-      slug: params.slug,
-    });
+
+    const { slug } = context.params;
+    const deletedTemplate = await Template.findOneAndDelete({ slug });
 
     if (!deletedTemplate) {
       return NextResponse.json(
