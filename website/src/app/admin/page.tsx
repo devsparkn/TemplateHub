@@ -15,14 +15,21 @@ import {
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Loader2, Shield, User, BarChart3, FileText, Layout } from "lucide-react";
+import {
+  Loader2,
+  Shield,
+  User,
+  BarChart3,
+  FileText,
+  Layout,
+} from "lucide-react";
 
 export default function AdminPage() {
   const { data: session, status: sessionStatus } = useSession();
   const isAdmin = useSelector(selectIsAdmin);
   const router = useRouter();
   const [isChecking, setIsChecking] = useState(true);
-  
+
   // Special admin check to allow our specific admin email
   const isAdminEmail = session?.user?.email === "nadeemchaudhary808@gmail.com";
   const hasAccess = isAdmin || isAdminEmail;
@@ -60,7 +67,7 @@ export default function AdminPage() {
               You do not have permission to access this page.
             </AlertDescription>
           </Alert>
-          
+
           <div className="flex justify-between gap-4">
             <Button onClick={() => router.push("/")} variant="outline">
               Back to Home
@@ -82,13 +89,17 @@ export default function AdminPage() {
           <Alert className="mb-8 border-yellow-500 bg-yellow-50 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-200">
             <AlertDescription className="flex items-center py-2">
               <Shield className="mr-2 h-5 w-5" />
-              Your admin status is not fully activated. 
-              <Button variant="link" className="text-yellow-800 dark:text-yellow-200" asChild>
+              Your admin status is not fully activated.
+              <Button
+                variant="link"
+                className="text-yellow-800 dark:text-yellow-200"
+                asChild
+              >
                 <Link href="/become-admin">Activate admin privileges now</Link>
               </Button>
             </AlertDescription>
           </Alert>
-          
+
           {renderDashboardContent(session)}
         </div>
       </div>
@@ -97,10 +108,8 @@ export default function AdminPage() {
 
   // Full admin access
   return (
-    <div className="container py-10">
-      <div className="mx-auto max-w-6xl">
-        {renderDashboardContent(session)}
-      </div>
+    <div className="py-10 px-4">
+      <div className="max-w-7xl mx-auto">{renderDashboardContent(session)}</div>
     </div>
   );
 }
@@ -110,7 +119,7 @@ import { Session } from "next-auth";
 
 function renderDashboardContent(session: Session | null) {
   return (
-    <>
+    <div className="">
       <div className="flex items-center justify-between mb-8">
         <div>
           <h1 className="text-3xl font-bold">Admin Dashboard</h1>
@@ -132,33 +141,33 @@ function renderDashboardContent(session: Session | null) {
 
       <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-4">
         {[
-          { 
-            title: "Active Users", 
-            value: "125", 
+          {
+            title: "Active Users",
+            value: "125",
             note: "+5% from last week",
             icon: <User className="h-8 w-8 text-blue-500" />,
-            color: "bg-blue-50 dark:bg-blue-950/50"
+            color: "bg-blue-50 dark:bg-blue-950/50",
           },
           {
             title: "Total Users",
             value: "1,457",
             note: "+12% from last month",
             icon: <User className="h-8 w-8 text-violet-500" />,
-            color: "bg-violet-50 dark:bg-violet-950/50"
+            color: "bg-violet-50 dark:bg-violet-950/50",
           },
           {
             title: "Total Revenue",
             value: "$12,543",
             note: "+23% from last month",
             icon: <BarChart3 className="h-8 w-8 text-green-500" />,
-            color: "bg-green-50 dark:bg-green-950/50"
+            color: "bg-green-50 dark:bg-green-950/50",
           },
           {
             title: "Active Subscriptions",
             value: "328",
             note: "+7% from last month",
             icon: <FileText className="h-8 w-8 text-amber-500" />,
-            color: "bg-amber-50 dark:bg-amber-950/50"
+            color: "bg-amber-50 dark:bg-amber-950/50",
           },
         ].map((item) => (
           <Card key={item.title}>
@@ -217,9 +226,7 @@ function renderDashboardContent(session: Session | null) {
         <Card>
           <CardHeader>
             <CardTitle>Templates</CardTitle>
-            <CardDescription>
-              Overview of your templates
-            </CardDescription>
+            <CardDescription>Overview of your templates</CardDescription>
           </CardHeader>
           <CardContent>
             <div className="space-y-4">
@@ -245,6 +252,6 @@ function renderDashboardContent(session: Session | null) {
           </CardContent>
         </Card>
       </div>
-    </>
+    </div>
   );
 }

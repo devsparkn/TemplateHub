@@ -51,6 +51,18 @@ const templateSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    views: {
+      type: Number,
+      default: 0,
+    },
+    downloads: {
+      type: Number,
+      default: 0,
+    },
+    lastViewed: {
+      type: Date,
+      default: Date.now,
+    },
     isActive: {
       type: Boolean,
       default: true,

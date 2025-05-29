@@ -1,4 +1,3 @@
-// components/template-card.tsx - Individual template card
 "use client";
 
 import { useState } from "react";

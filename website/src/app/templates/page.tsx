@@ -1,5 +1,5 @@
 import React from 'react'
-import { TemplateGrid } from '@/components/TemplateGrid'
+import { TemplateGrid } from '@/components/templates/Templates'
 
 export const metadata = {
   title: 'Templates | Modern UI',
@@ -10,11 +10,14 @@ const Page = () => {
   return (
     <div className="container py-12 space-y-8 px-8">
       <div className="text-center space-y-2">
-        <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl">
-          Premium Templates
-        </h1>
-        <p className="text-muted-foreground max-w-[700px] mx-auto">
-          Browse our collection of high-quality templates for your next project
+        <h2 className="text-4xl font-bold tracking-tight mb-4">
+          Browse Our{" "}
+          <span className="bg-gradient-to-r from-indigo-500 to-pink-500 bg-clip-text text-transparent">
+            Premium Templates
+          </span>
+        </h2>
+        <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+          Handcrafted templates for every type of business or SaaS. Just pick, customize and launch!
         </p>
       </div>
       

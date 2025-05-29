@@ -8,8 +8,8 @@ import { ToasterProvider } from "@/components/ToasterProvider";
 import { AnalyticsProvider } from "@/components/AnalyticsProvider";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
-import ErrorBoundary from '@/components/ui/ErrorBoundary';
-
+import ErrorBoundary from "@/components/ui/ErrorBoundary";
+import VisitorCounter from "@/components/VisitorCounter";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -22,7 +22,8 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "TemplateHub - Premium Next.js Templates",
-  description: "Browse and purchase high-quality Next.js templates for your next project",
+  description:
+    "Browse and purchase high-quality Next.js templates for your next project",
   keywords: ["Next.js", "React", "Templates", "Web Development"],
   authors: [{ name: "TemplateHub Team" }],
   openGraph: {
@@ -34,7 +35,8 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "TemplateHub - Premium Next.js Templates",
-    description: "Browse and purchase high-quality Next.js templates for your next project",
+    description:
+      "Browse and purchase high-quality Next.js templates for your next project",
   },
 };
 
@@ -55,6 +57,7 @@ export default function RootLayout({
                 <Navbar />
                 {children}
                 <Footer />
+                <VisitorCounter />
               </ErrorBoundary>
             </ThemeProvider>
           </ReduxProvider>
