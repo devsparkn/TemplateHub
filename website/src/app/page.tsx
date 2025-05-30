@@ -1,5 +1,4 @@
 import { HeroSection } from "@/components/home/HeroSection";
-import { TestimonialSection } from "@/components/Testimonial";
 import { CTASection } from "@/components/home/CTA";
 import PopularTemplate from "@/components/PopularTemplate";
 import RecentlyAddedTemplates from "@/components/home/RecentlyAddedTemplates";
@@ -9,7 +8,7 @@ import NewsLetterSection from "@/components/home/NewsLetterSection";
 import { FeaturesSection } from "@/components/home/FeaturesSection";
 import TrendingTemplates from "@/components/TrendingTemplates";
 import FeaturedTemplates from "@/components/FeaturedTemplates";
-
+import TestimonialSection from "@/components/TestimonialSection";
 export default function Home() {
   return (
     <div className="flex flex-col min-h-screen">

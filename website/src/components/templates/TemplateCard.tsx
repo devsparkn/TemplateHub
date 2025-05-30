@@ -15,7 +15,7 @@ const TemplateCard = ({ template }: TemplateCardProps) => {
 
   return (
     <div
-      className="relative group rounded-3xl overflow-hidden shadow-lg border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-950 transition-all duration-300 hover:shadow-2xl"
+      className="relative group rounded-3xl overflow-hidden shadow-lg border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 transition-all duration-300 hover:shadow-2xl"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
