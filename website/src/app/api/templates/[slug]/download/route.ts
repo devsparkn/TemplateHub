@@ -1,16 +1,16 @@
-import { NextResponse } from "next/server";
+import { NextRequest,NextResponse } from "next/server";
 import dbConnect from "@/lib/mongodb";
 import Template from "@/models/Template";
 
 export async function POST(
-  req: Request,
-  { params }: { params: { slug: string } }
-) {
+  request: NextRequest,
+  { params }: { params: Promise<{ slug: string }> }
+): Promise<NextResponse> {
   await dbConnect();
 
   try {
     const template = await Template.findOneAndUpdate(
-      { slug: params.slug },
+      { slug: (await params).slug },
       { $inc: { downloads: 1 } },
       { new: true }
     );
