@@ -16,6 +16,7 @@ export interface Template {
 }
 
 interface CartItem extends Template {
+  id: string | null | undefined;
   quantity: number;
 }
 
@@ -39,7 +40,10 @@ const cartSlice = createSlice({
       if (existingItem) {
         existingItem.quantity += 1;
       } else {
-        state.items.push({ ...action.payload, quantity: 1 });
+        state.items.push({
+          ...action.payload, quantity: 1,
+          id: undefined
+        });
       }
     },
     removeFromCart: (state, action: PayloadAction<string>) => {
