@@ -11,9 +11,9 @@ export function Footer() {
           <div>
             <Link href="/" className="flex items-center space-x-2 mb-4">
               <div className="bg-primary h-8 w-8 rounded-full flex items-center justify-center">
-                <span className="text-primary-foreground font-bold">T</span>
+                <span className="text-primary-foreground font-bold">N</span>
               </div>
-              <span className="font-bold text-xl">TemplateHub</span>
+              <span className="font-bold text-xl">9abel</span>
             </Link>
             <p className="text-muted-foreground mb-4">
               Premium Next.js templates for developers and businesses.
@@ -132,7 +132,7 @@ export function Footer() {
         </div>
         <div className="border-t mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
           <p className="text-sm text-muted-foreground">
-            © 2025 TemplateHub. All rights reserved.
+            © 2025 9abel. All rights reserved.
           </p>
           <p className="text-sm text-muted-foreground mt-4 md:mt-0">
             Made with ❤️ by Nadeem for developers

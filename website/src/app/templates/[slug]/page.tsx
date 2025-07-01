@@ -80,6 +80,10 @@ const Page = () => {
 
   const handleAddToCart = () => {
     if (template) {
+      if (template.price === 'Free') {
+        toast.info('Free templates cannot be added to the cart.');
+        return;
+      }
       dispatch(addToCart(template));
       toast.success('Added to cart', {
         description: `${template.title} has been added to your cart`,

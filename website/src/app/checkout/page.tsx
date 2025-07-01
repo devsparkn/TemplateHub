@@ -19,50 +19,64 @@ const CheckoutPage = () => {
   const cartItems = useSelector((state: RootState) => state.cart.items);
   const [isLoading, setIsLoading] = useState(false);
 
+  // Filter out free items for checkout
+  const paidItems = cartItems.filter(item => item.price !== 'Free');
+  const freeItems = cartItems.filter(item => item.price === 'Free');
+
   // Calculate totals
-  const subtotal = cartItems.reduce((total, item) => {
-    // Handle free items
-    if (item.price === 'Free') return total;
+  const subtotal = paidItems.reduce((total, item) => {
     return total + Number(item.price);
   }, 0);
   const tax = subtotal * 0.05; // 5% tax
   const total = subtotal + tax;
 
-  // Redirect if cart is empty
+  // Redirect if cart is empty or only contains free items
   useEffect(() => {
-    if (cartItems.length === 0) {
+    if (cartItems.length === 0 || (paidItems.length === 0 && freeItems.length > 0)) {
       router.push('/templates');
     }
-  }, [cartItems, router]);
+  }, [cartItems, paidItems, freeItems, router]);
 
   const handleCheckout = async () => {
     try {
       setIsLoading(true);
-      // Only send non-free items to the checkout
-      const itemsToCheckout = cartItems.filter(item => item.price !== 'Free');
-      
-      // If all items are free, just redirect to success
-      if (itemsToCheckout.length === 0) {
-        toast.success('Free templates added to your account!');
-        dispatch(clearCart());
-        router.push('/checkout/success');
+      const freeItems = cartItems.filter(item => item.price === 'Free');
+      const paidItems = cartItems.filter(item => item.price !== 'Free');
+
+      // If all items are free, call /api/checkout/free
+      if (paidItems.length === 0 && freeItems.length > 0) {
+        const response = await fetch('/api/checkout/free', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ items: freeItems.map(item => ({ ...item, templateId: item._id })) }),
+        });
+        if (response.ok) {
+          toast.success('Free templates added to your account!');
+          dispatch(clearCart());
+          router.push('/checkout/success?free=1');
+        } else {
+          toast.error('Failed to process free order.');
+        }
         return;
       }
-      
-      const response = await fetch('/api/checkout', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          items: itemsToCheckout,
-        }),
-      });
 
-      const { url } = await response.json();
-      
-      if (url) {
-        window.location.href = url;
+      // If there are paid items, call /api/checkout with paid items
+      if (paidItems.length > 0) {
+        // Store all items in sessionStorage for later verification after payment
+        if (typeof window !== 'undefined') {
+          window.sessionStorage.setItem('checkout_items', JSON.stringify(cartItems.map(item => ({ ...item, templateId: item._id }))));
+        }
+        const response = await fetch('/api/checkout', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ items: paidItems.map(item => ({ ...item, templateId: item._id })) }),
+        });
+        const { url } = await response.json();
+        if (url) {
+          window.location.href = url;
+        } else {
+          toast.error('Checkout failed. Please try again.');
+        }
       }
     } catch (error) {
       console.error('Error during checkout:', error);
@@ -97,14 +111,17 @@ const CheckoutPage = () => {
       <div className="grid md:grid-cols-3 gap-12">
         {/* Left column - Order summary */}
         <div className="md:col-span-2 space-y-8">
-          <div className="border rounded-lg shadow-sm">
-            <div className="p-6 border-b">
-              <h2 className="text-xl font-semibold">Order Summary</h2>
-            </div>
-            
-            <div className="divide-y">
-              {cartItems.map((item) => (
-                <div key={item.templateId} className="p-6 flex items-center gap-4">
+          <div className="p-6 border-b">
+            <h2 className="text-xl font-semibold">Order Summary</h2>
+          </div>
+          <div className="divide-y">
+            {paidItems.length === 0 ? (
+              <div className="p-6 text-center text-muted-foreground">
+                <p>Your cart only contains free templates. Please get them directly from the template page.</p>
+              </div>
+            ) : (
+              paidItems.map((item) => (
+                <div key={item._id} className="p-6 flex items-center gap-4">
                   <div className="relative w-20 h-20 overflow-hidden rounded-md flex-shrink-0">
                     <Image
                       src={item.thumbnailUrls[0]}
@@ -113,18 +130,16 @@ const CheckoutPage = () => {
                       className="object-cover"
                     />
                   </div>
-                  
                   <div className="flex-grow">
                     <h3 className="font-medium">{item.title}</h3>
                     <p className="text-sm text-muted-foreground">{item.category}</p>
                   </div>
-                  
                   <div className="text-right flex-shrink-0">
                     <div className="font-medium">
                       {item.price === 'Free' ? 'Free' : `$${item.price}`}
                     </div>
                     <button
-                      onClick={() => handleRemoveItem(item.templateId)}
+                      onClick={() => handleRemoveItem(item._id)}
                       className="text-sm text-red-500 hover:text-red-700 flex items-center mt-1"
                     >
                       <Trash2 className="h-3 w-3 mr-1" />
@@ -132,8 +147,8 @@ const CheckoutPage = () => {
                     </button>
                   </div>
                 </div>
-              ))}
-            </div>
+              ))
+            )}
           </div>
         </div>
 

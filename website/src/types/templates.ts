@@ -1,6 +1,7 @@
 export type PriceFilter = "all" | "free" | "premium";
 
 export interface Template {
+  _id: string;
   slug: string;
   title: string;
   description: string;

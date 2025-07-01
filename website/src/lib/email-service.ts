@@ -1,4 +1,3 @@
-// utils/otp.ts
 import nodemailer from 'nodemailer';
 import crypto from 'crypto';
 import OTPModel from '@/models/OTP';
@@ -93,6 +92,32 @@ export async function sendVerificationEmail(email: string, otp: string): Promise
   await transporter.sendMail(message);
 }
 
+// Send purchase confirmation email
+export async function sendPurchaseConfirmationEmail(email: string, templates: { title: string }[], orderId: string) {
+  const message = {
+    from: process.env.EMAIL_FROM || 'no-reply@templatehub.com',
+    to: email,
+    subject: 'Your Template Purchase Confirmation',
+    html: purchaseConfirmationTemplate(templates, orderId),
+    text: `Thank you for your purchase! Order #${orderId}. Templates: ${templates.map(t => t.title).join(', ')}`,
+  };
+  await transporter.sendMail(message);
+}
+
+function purchaseConfirmationTemplate(templates: { title: string }[], orderId: string): string {
+  return `
+    <div style="font-family: Arial, sans-serif; max-width: 600px; margin: auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 5px;">
+      <h2>Thank you for your purchase!</h2>
+      <p>Your order <b>#${orderId}</b> was successful. You now have access to the following templates:</p>
+      <ul>
+        ${templates.map(t => `<li>${t.title}</li>`).join('')}
+      </ul>
+      <p>You can download your templates anytime from your account.</p>
+      <p style="font-size: 12px; color: #999;">This is an automated message. Do not reply.</p>
+    </div>
+  `;
+}
+
 // HTML template
 function emailTemplate(title: string, otp: string, message: string): string {
   return `
@@ -115,6 +140,7 @@ const emailService = {
   verifyOTP,
   sendPasswordResetEmail,
   sendVerificationEmail,
+  sendPurchaseConfirmationEmail,
 };
 
 export default emailService;

@@ -7,17 +7,56 @@ import { Button } from '@/components/ui/button';
 import { CheckCircle, Home, FileText } from 'lucide-react';
 import Link from 'next/link';
 import { toast } from 'sonner';
+import { useSearchParams } from 'next/navigation';
+import { useState } from 'react';
 
 const CheckoutSuccessPage = () => {
   const dispatch = useDispatch();
+  const searchParams = useSearchParams();
+  const [loading, setLoading] = useState(false);
 
-  // Clear the cart on successful checkout
   useEffect(() => {
-    dispatch(clearCart());
-    toast.success('Payment successful!', {
-      description: 'Your templates are now available in your account',
-    });
-  }, [dispatch]);
+    const free = searchParams.get('free');
+    const sessionId = searchParams.get('session_id');
+    if (free === '1') {
+      dispatch(clearCart());
+      toast.success('Free templates added to your account!', {
+        description: 'Your templates are now available in your account',
+      });
+      return;
+    }
+    if (sessionId) {
+      // Paid order: verify session and assign templates
+      const verifyOrder = async () => {
+        setLoading(true);
+        try {
+          const itemsRaw = typeof window !== 'undefined' ? window.sessionStorage.getItem('checkout_items') : null;
+          const items = itemsRaw ? JSON.parse(itemsRaw) : [];
+          const response = await fetch('/api/checkout/verify', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ session_id: sessionId, items }),
+          });
+          if (response.ok) {
+            dispatch(clearCart());
+            if (typeof window !== 'undefined') {
+              window.sessionStorage.removeItem('checkout_items');
+            }
+            toast.success('Payment successful!', {
+              description: 'Your templates are now available in your account',
+            });
+          } else {
+            toast.error('Could not verify payment. Please contact support.');
+          }
+        } catch {
+          toast.error('An error occurred verifying your payment.');
+        } finally {
+          setLoading(false);
+        }
+      };
+      verifyOrder();
+    }
+  }, [dispatch, searchParams]);
 
   return (
     <div className="container max-w-3xl py-20 px-8">
@@ -28,8 +67,9 @@ const CheckoutSuccessPage = () => {
         
         <h1 className="text-3xl font-bold">Thank You For Your Purchase!</h1>
         <p className="text-lg text-muted-foreground">
-          Your payment was processed successfully and your templates are now available in your account.
-          You should receive a confirmation email shortly.
+          {loading
+            ? 'Verifying your payment and assigning templates...'
+            : 'Your payment was processed successfully and your templates are now available in your account. You should receive a confirmation email shortly.'}
         </p>
         
         <div className="pt-8 grid gap-4 sm:grid-cols-2 max-w-md mx-auto">

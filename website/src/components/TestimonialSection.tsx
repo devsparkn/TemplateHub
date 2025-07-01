@@ -13,7 +13,7 @@ export default function TestimonialsSection() {
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold text-black dark:text-white mb-4">
             Loved by{" "}
-              <span className="bg-gradient-to-r from-indigo-500 to-pink-500 bg-clip-text text-transparent">
+              <span className="text-yellow-400">
             Devs
           </span>
           </h2>

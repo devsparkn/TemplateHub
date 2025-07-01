@@ -32,6 +32,9 @@ const cartSlice = createSlice({
   initialState,
   reducers: {
     addToCart: (state, action: PayloadAction<Template>) => {
+      if (action.payload.price === 'Free') {
+        return;
+      }
       const existingItem = state.items.find(item => item._id === action.payload._id);
       if (existingItem) {
         existingItem.quantity += 1;

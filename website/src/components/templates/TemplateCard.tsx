@@ -1,10 +1,16 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 "use client";
 
 import { useState } from "react";
-import { Eye, Star, Download, ArrowRight, Info } from "lucide-react";
+import { Eye, Star, ArrowRight } from "lucide-react";
 import { Template } from "@/types/templates";
 import Image from "next/image";
+import { Button } from "../ui/button";
+import Link from "next/link";
+import { useDispatch, useSelector } from "react-redux";
+import { addToCart } from "@/lib/slices/cartSlice";
+import { toast } from "sonner";
+import { RootState } from "@/lib/store";
+import { useSession, signIn } from "next-auth/react";
 
 interface TemplateCardProps {
   template: Template;
@@ -12,6 +18,66 @@ interface TemplateCardProps {
 
 const TemplateCard = ({ template }: TemplateCardProps) => {
   const [isHovered, setIsHovered] = useState(false);
+  const dispatch = useDispatch();
+  const cartItems = useSelector((state: RootState) => state.cart.items);
+  const isInCart = cartItems.some((item) => item._id === template._id);
+  const { data: session, status } = useSession();
+  const [downloading, setDownloading] = useState(false);
+
+  const handleAddToCart = () => {
+    if (isInCart) {
+      toast.info("Already in cart");
+      return;
+    }
+
+    if (template.price === "Free") {
+      toast.info("Free templates cannot be added to the cart.");
+      return;
+    } else {
+      dispatch(addToCart(template));
+      toast.success("Template added to cart");
+    }
+  };
+
+  // Download handler for free templates
+  const handleFreeDownload = async () => {
+    if (status === "loading") return;
+    if (status !== "authenticated") {
+      signIn(undefined, { callbackUrl: `/templates/${template.slug}` });
+      return;
+    }
+    setDownloading(true);
+    try {
+      // Assign template to user (if not already assigned)
+      const res = await fetch(`/api/templates/${template.slug}/assign`, { method: "POST" });
+      const data = await res.json();
+      if (!data.success) {
+        toast.error(data.message || "Failed to assign template to your account.");
+        setDownloading(false);
+        return;
+      }
+      // Now fetch download URL
+      const downloadRes = await fetch(`/api/templates/${template.slug}/can-download`);
+      const downloadData = await downloadRes.json();
+      if (!downloadData.allowed || !downloadData.template?.downloadUrl) {
+        toast.error("You do not have access to download this template.");
+        setDownloading(false);
+        return;
+      }
+      // Trigger file download
+      const link = document.createElement("a");
+      link.href = downloadData.template.downloadUrl;
+      link.download = "";
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+      toast.success("Template added to your account and download started!");
+    } catch {
+      toast.error("Failed to download template.");
+    } finally {
+      setDownloading(false);
+    }
+  };
 
   return (
     <div
@@ -45,10 +111,11 @@ const TemplateCard = ({ template }: TemplateCardProps) => {
             isHovered ? "opacity-100" : "opacity-0"
           }`}
         >
-          <button className="flex cursor-pointer items-center gap-2 px-5 py-2.5 bg-white text-gray-900 rounded-full font-semibold shadow hover:bg-gray-100 transition hover:scale-105">
-            <Eye className="w-5 h-5" />
-            Live Preview
-          </button>
+          <Button variant="outline" size="sm" asChild>
+            <Link href={template.demoUrl} target="_blank">
+              <Eye className="mr-2 h-4 w-4" /> Preview
+            </Link>
+          </Button>
         </div>
       </div>
 
@@ -65,7 +132,7 @@ const TemplateCard = ({ template }: TemplateCardProps) => {
             </p>
           </div>
           <span
-            className={`px-3 py-1 text-xs font-medium rounded-full whitespace-nowrap ${
+            className={`px-3 py-1 text-base font-medium rounded-full whitespace-nowrap ${
               template.price === "Free"
                 ? "bg-emerald-100 text-emerald-700 dark:bg-emerald-900/20 dark:text-emerald-400"
                 : "bg-blue-100 text-blue-700 dark:bg-blue-900/20 dark:text-blue-400"
@@ -74,12 +141,6 @@ const TemplateCard = ({ template }: TemplateCardProps) => {
             {template.price === "Free" ? "Free" : `$${template.price}`}
           </span>
         </div>
-
-        {/* Downloads */}
-        {/* <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-300 mb-2">
-          <Download className="w-4 h-4" />
-          <span>{template.downloads.toLocaleString()}+ downloads</span>
-        </div> */}
 
         {/* Description */}
         <p className="text-sm text-gray-600 dark:text-gray-400 line-clamp-3 leading-relaxed mb-4">
@@ -99,20 +160,31 @@ const TemplateCard = ({ template }: TemplateCardProps) => {
         </div>
 
         {/* Actions */}
-        <div className="flex gap-3">
-          {/* Purchase Button */}
-          <button className="flex-grow flex items-center justify-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 px-5 rounded-2xl shadow-md transition-all duration-200 min-w-[140px]">
-            <span className="text-sm sm:text-base">Purchase</span>
-            <ArrowRight className="w-4 h-4" />
-          </button>
-
-          {/* Details Button */}
-          <button className="flex items-center gap-2 px-4 py-3 border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-900 hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-700 dark:text-gray-300 rounded-2xl transition-all duration-200 shadow-sm min-w-[120px]">
-            <Info className="w-5 h-5" />
-            <span className="text-sm font-medium whitespace-nowrap">
-              Details
-            </span>
-          </button>
+        <div className="flex w-full justify-between gap-2">
+          {template.price === "Free" ? (
+            <Button
+              variant="secondary"
+              size="sm"
+              onClick={handleFreeDownload}
+              disabled={downloading}
+            >
+              {downloading ? "Downloading..." : "Download"}
+            </Button>
+          ) : (
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={handleAddToCart}
+              disabled={isInCart}
+            >
+              {isInCart ? "Added" : "Add to Cart"}
+            </Button>
+          )}
+          <Button asChild>
+            <Link href={`/templates/${template.slug}`}>
+              Details <ArrowRight className="ml-2 h-4 w-4" />
+            </Link>
+          </Button>
         </div>
       </div>
     </div>
