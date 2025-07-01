@@ -1,14 +1,21 @@
- "use client";
+/* eslint-disable @typescript-eslint/no-unused-vars */
+"use client";
 import { useEffect, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useParams } from "next/navigation";
 import { Button } from "@/components/ui/button";
 
+type Template = {
+  title: string;
+  downloadUrl: string;
+  // add other properties if needed
+};
+
 const DownloadTemplatePage = () => {
   const { data: session, status } = useSession();
   const params = useParams();
   const [allowed, setAllowed] = useState(false);
-  const [template, setTemplate] = useState(null);
+  const [template, setTemplate] = useState<Template | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -24,7 +31,12 @@ const DownloadTemplatePage = () => {
   }, [status, params]);
 
   if (loading) return <div className="p-8">Loading...</div>;
-  if (!allowed) return <div className="p-8 text-red-500">You do not have access to download this template.</div>;
+  if (!allowed)
+    return (
+      <div className="p-8 text-red-500">
+        You do not have access to download this template.
+      </div>
+    );
   if (!template) return <div className="p-8">Template not found.</div>;
 
   return (

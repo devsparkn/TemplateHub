@@ -82,6 +82,10 @@ const templateSchema = new mongoose.Schema(
       type: Boolean,
       default: true,
     },
+    downloadUrl: {
+      type: String,
+      required: true,
+    },
   },
   {
     timestamps: true,
