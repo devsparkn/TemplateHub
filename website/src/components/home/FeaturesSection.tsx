@@ -61,17 +61,15 @@ const features = [
 
 export const FeaturesSection = () => {
   return (
-    <section id="features" className="py-24 px-4 bg-white dark:bg-gray-950">
+    <section id="features" className="py-16 px-4 md:px-6">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="text-center mb-16">
-          <h2 className="text-4xl font-bold tracking-tight mb-4">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
             Everything You Need to{" "}
-            <span className="bg-gradient-to-r from-indigo-500 to-pink-500 bg-clip-text text-transparent">
-              Launch Fast
-            </span>
+            <span className="text-yellow-400">Launch Fast</span>
           </h2>
-          <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-base sm:text-lg text-zinc-700 dark:text-zinc-400 max-w-2xl mx-auto">
             Launch your SaaS or business effortlessly with our production-ready
             templates.
           </p>
@@ -109,7 +107,7 @@ export const FeaturesSection = () => {
               Fortune 500 companies
             </span>{" "}
             and{" "}
-            <span className="font-semibold text-pink-600 dark:text-pink-400">
+            <span className="font-semibold text-yellow-400">
               fast-growing startups
             </span>
           </p>

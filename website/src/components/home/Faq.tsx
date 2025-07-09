@@ -4,6 +4,9 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
+import { ArrowRight } from "lucide-react";
+import { Button } from "../ui/button";
+import Link from "next/link";
 
 export default function FAQ() {
   const faqs = [
@@ -40,30 +43,67 @@ export default function FAQ() {
   ];
 
   return (
-    <section className="py-16 px-4 md:px-6 bg-background">
-      <div className="container mx-auto max-w-5xl">
+    <section className="py-16 px-4 md:px-6">
+      <div className=" mx-auto max-w-4xl">
+        {/* Header */}
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-black dark:text-white mb-4">
-            Frequently Asked{" "}
-              <span className="text-yellow-400">
-            Questions
-          </span>
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
+            Frequently Asked <span className="text-yellow-400">Questions</span>
           </h2>
-          <p className="text-lg text-zinc-700 dark:text-zinc-400 max-w-2xl mx-auto">
-            Find answers to common questions about our templates and services
+          <p className="text-base sm:text-lg text-zinc-700 dark:text-zinc-400 max-w-2xl mx-auto">
+            Everything you need to know about our templates and services
           </p>
         </div>
 
-        <Accordion type="single" collapsible className="w-full">
+        {/* FAQ Accordion */}
+        <Accordion type="single" collapsible className="w-full space-y-4">
           {faqs.map((faq, index) => (
-            <AccordionItem key={index} value={`item-${index}`}>
-              <AccordionTrigger className="text-left">
-                {faq.question}
+            <AccordionItem
+              key={index}
+              value={`item-${index}`}
+              className="border-gray-950/[.1] bg-gray-950/[.02] hover:bg-gray-950/[.05] dark:border-gray-50/[.1] dark:bg-gray-50/[.10] dark:hover:bg-gray-50/[.15] rounded-xl backdrop-blur-sm transition-all hover:shadow-lg"
+            >
+              <AccordionTrigger className="px-6 py-5 text-left hover:no-underline group">
+                <div className="flex items-start">
+                  <span className="font-medium text-base text-gray-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
+                    {faq.question}
+                  </span>
+                </div>
               </AccordionTrigger>
-              <AccordionContent>{faq.answer}</AccordionContent>
+
+              <AccordionContent className="px-6 pb-5 text-gray-600 dark:text-gray-300 leading-relaxed transition-all duration-300 ease-out">
+                <div className="pl-10 border-l-2 border-blue-100 dark:border-gray-700">
+                  {faq.answer}
+                </div>
+              </AccordionContent>
             </AccordionItem>
           ))}
         </Accordion>
+
+        {/* Support Section */}
+        <div className="pt-16 text-center">
+          <div className="bg-yellow-50 dark:bg-yellow-900/10 rounded-2xl p-4 sm:p-8 border border-yellow-300 dark:border-yellow-600 relative overflow-hidden">
+            <div className="absolute -top-12 -right-12 w-24 h-24 rounded-full bg-yellow-300/30 dark:bg-yellow-600/30"></div>
+            <div className="relative z-10">
+              <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-3">
+                Still have questions?
+              </h3>
+              <p className="text-lg  text-zinc-700 dark:text-zinc-400 mb-6 max-w-md mx-auto">
+                Our support team is ready to help you
+              </p>
+              <Button
+                asChild
+                size="lg"
+                className="h-14 px-8 text-lg font-semibold bg-yellow-400 hover:bg-yellow-500 shadow-lg hover:shadow-xl transition-all duration-300 group"
+              >
+                <Link href="/contact" className="flex items-center gap-2">
+                  Contact Support
+                  <ArrowRight className="w-5 h-5 transition-transform group-hover:translate-x-1" />
+                </Link>
+              </Button>
+            </div>
+          </div>
+        </div>
       </div>
     </section>
   );

@@ -7,17 +7,17 @@ export default function TestimonialsSection() {
   const secondRow = testimonials.slice(Math.ceil(testimonials.length / 2));
 
   return (
-    <section className="py-20 px-4 bg-background transition-colors duration-300">
+    <section className="py-16 px-4 md:px-6">
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-black dark:text-white mb-4">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-black dark:text-white mb-2 sm:mb-4">
             Loved by{" "}
               <span className="text-yellow-400">
             Devs
           </span>
           </h2>
-          <p className="text-lg text-zinc-700 dark:text-zinc-400 max-w-2xl mx-auto">
+          <p className="text-base sm:text-lg text-zinc-700 dark:text-zinc-400 max-w-2xl mx-auto">
             9abel is popular among developers worldwide.
           </p>
         </div>

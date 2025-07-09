@@ -1,21 +1,14 @@
 "use client";
 
 import * as React from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { ThemeToggle } from "./ThemeToggle";
 import { CartButton } from "./CartButton";
-import {
-  Menu,
-  User,
-  ShieldCheck,
-  LogOut,
-  Settings,
-  Key,
-  Users as UsersIcon,
-} from "lucide-react";
+import { Menu, User, ShieldCheck, LogOut, ChevronRight } from "lucide-react";
 import { useSession, signOut } from "next-auth/react";
 import {
   NavigationMenu,
@@ -29,6 +22,7 @@ import {
   SheetContent,
   SheetTrigger,
   SheetClose,
+  SheetHeader,
 } from "@/components/ui/sheet";
 import {
   DropdownMenu,
@@ -40,68 +34,39 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
-
+import { Badge } from "@/components/ui/badge";
+import Image from "next/image";
 export function Navbar() {
   const pathname = usePathname();
   const { data: session, status } = useSession();
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const isAdmin = session?.user?.role === "admin";
-  const isAdminEmail = session?.user?.email === "nadeemchaudhary808@gmail.com";
 
   const routes = [
     {
-      href: '/',
-      label: 'Home',
-      active: pathname === '/',
-    },
-     {
-      href: '/templates',
-      label: 'Templates',
-      active: pathname === '/templates',
+      href: "/",
+      label: "Home",
+      active: pathname === "/",
     },
     {
-      href: '/pricing',
-      label: 'Pricing',
-      active: pathname === '/pricing',
+      href: "/templates",
+      label: "Templates",
+      active: pathname === "/templates",
     },
     {
-      href: '/docs',
-      label: 'Documentation',
-      active: pathname?.startsWith('/docs'),
+      href: "/pricing",
+      label: "Pricing",
+      active: pathname === "/pricing",
     },
-    // ...(isAdmin ? [
-    //   {
-    //     href: '/admin',
-    //     label: 'Admin Dashboard',
-    //     active: pathname === '/admin',
-    //   },
-    //   {
-    //   href: '/admin/dashboard',
-    //     label: 'Analytics',
-    //     active: pathname === '/admin/dashboard',
-    //   },
-    //   {
-    //     href: '/admin/users',
-    //     label: 'Manage Users',
-    //     active: pathname === '/admin/users',
-    //   },
-    // ] : []),
-    // ...(isAdminEmail && !isAdmin ? [
-    //   {
-    //     href: '/become-admin',
-    //     label: '🔑 Become Admin',
-    //     active: pathname === '/become-admin',
-    //   }
-    // ] : []),
-  ]
+  ];
 
   const handleSignOut = async () => {
     await signOut({ callbackUrl: "/" });
+    setIsMobileMenuOpen(false);
   };
 
-  // Get user initials for avatar
   const getUserInitials = (name: string | null | undefined): string => {
     if (!name) return "U";
-
     return name
       .split(" ")
       .map((n) => n[0])
@@ -110,28 +75,52 @@ export function Navbar() {
       .substring(0, 2);
   };
 
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth >= 768 && isMobileMenuOpen) {
+        setIsMobileMenuOpen(false);
+      }
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, [isMobileMenuOpen]);
+
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60 py-2 items-center">
-      <div className="flex h-16 items-center px-8 max-w-[88rem] mx-auto justify-between">
-        <div className="flex items-center gap-8">
-          <Link href="/" className="flex items-center space-x-2">
-            <div className="bg-primary h-8 w-8 rounded-full flex items-center justify-center">
-              <span className="text-primary-foreground font-bold">N</span>
+    <header className="sticky top-0 z-50 w-full border-b bg-background/80 backdrop-blur-md supports-[backdrop-filter]:bg-background/60">
+      <div className="flex h-16 items-center px-4 sm:px-6 max-w-7xl mx-auto justify-between">
+        {/* Logo Section */}
+        <div className="flex items-center gap-6 lg:gap-8">
+          <Link href="/" className="flex items-center group">
+            <div className="relative">
+              <Image
+                src="/images/logo.png"
+                alt="9able Logo"
+                width={40}
+                height={40}
+                className="h-10 w-10 object-contain"
+              />
             </div>
-            <span className="font-bold text-xl hidden sm:inline-block">
-              9abel
-            </span>
+            <span className="-ml-1 text-xl font-bold">able</span>
           </Link>
 
+          {/* Desktop Navigation */}
           <NavigationMenu className="hidden md:flex">
-            <NavigationMenuList>
+            <NavigationMenuList className="gap-1">
               {routes.map((route) => (
                 <NavigationMenuItem key={route.href}>
                   <Link href={route.href} legacyBehavior passHref>
                     <NavigationMenuLink
-                      className={navigationMenuTriggerStyle()}
+                      className={cn(
+                        navigationMenuTriggerStyle(),
+                        "relative font-medium hover:bg-accent/50",
+                        route.active && "bg-accent text-accent-foreground"
+                      )}
                     >
                       {route.label}
+                      {route.active && (
+                        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-1 h-1 bg-yellow-400 rounded-full" />
+                      )}
                     </NavigationMenuLink>
                   </Link>
                 </NavigationMenuItem>
@@ -140,10 +129,13 @@ export function Navbar() {
           </NavigationMenu>
         </div>
 
-        <div className="flex items-center gap-4">
+        {/* Right Section */}
+        <div className="flex items-center gap-3">
           <CartButton />
           <ThemeToggle />
-          <div className="hidden md:flex items-center gap-2">
+
+          {/* Desktop Auth Section */}
+          <div className="hidden md:flex items-center gap-3">
             {status === "loading" ? (
               <div className="h-10 w-10 animate-pulse rounded-full bg-muted" />
             ) : session ? (
@@ -151,25 +143,37 @@ export function Navbar() {
                 <DropdownMenuTrigger asChild>
                   <Button
                     variant="ghost"
-                    className="relative h-10 w-10 rounded-full"
+                    className="relative h-10 w-10 rounded-full hover:ring-2 hover:ring-primary/20 transition-all duration-200"
                   >
-                    <Avatar>
+                    <Avatar className="h-9 w-9">
                       <AvatarImage
                         src={session.user?.image || ""}
                         alt={session.user?.name || "User"}
                       />
-                      <AvatarFallback>
+                      <AvatarFallback className="bg-primary/10 text-primary font-semibold">
                         {getUserInitials(session.user?.name)}
                       </AvatarFallback>
                     </Avatar>
+                    {isAdmin && (
+                      <div className="absolute -top-1 -right-1 h-5 w-5 bg-yellow-400 rounded-full flex items-center justify-center">
+                        <ShieldCheck className=" text-white text-xs font-bold" />
+                      </div>
+                    )}
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent className="w-56" align="end" forceMount>
+                <DropdownMenuContent className="w-64" align="end" forceMount>
                   <DropdownMenuLabel className="font-normal">
-                    <div className="flex flex-col space-y-1">
-                      <p className="text-sm font-medium leading-none">
-                        {session.user?.name}
-                      </p>
+                    <div className="flex flex-col space-y-2">
+                      <div className="flex items-center gap-2">
+                        <p className="text-sm font-medium leading-none">
+                          {session.user?.name}
+                        </p>
+                        {isAdmin && (
+                          <Badge variant="secondary" className="text-xs">
+                            Admin
+                          </Badge>
+                        )}
+                      </div>
                       <p className="text-xs leading-none text-muted-foreground">
                         {session.user?.email}
                       </p>
@@ -182,165 +186,159 @@ export function Navbar() {
                         href="/account"
                         className="flex w-full cursor-pointer"
                       >
-                        <User className="mr-2 h-4 w-4" />
+                        <User className="mr-3 h-4 w-4" />
                         <span>Account</span>
                       </Link>
                     </DropdownMenuItem>
-                    <DropdownMenuItem asChild>
-                      <Link
-                        href="/account/settings"
-                        className="flex w-full cursor-pointer"
-                      >
-                        <Settings className="mr-2 h-4 w-4" />
-                        <span>Settings</span>
-                      </Link>
-                    </DropdownMenuItem>
                   </DropdownMenuGroup>
-
-                  {isAdmin && (
-                    <>
-                      <DropdownMenuSeparator />
-                      <DropdownMenuGroup>
-                        <DropdownMenuItem asChild>
-                          <Link
-                            href="/admin"
-                            className="flex w-full cursor-pointer"
-                          >
-                            <ShieldCheck className="mr-2 h-4 w-4 text-primary" />
-                            <span className="font-medium">Admin Dashboard</span>
-                          </Link>
-                        </DropdownMenuItem>
-                        <DropdownMenuItem asChild>
-                          <Link
-                            href="/admin/users"
-                            className="flex w-full cursor-pointer"
-                          >
-                            <UsersIcon className="mr-2 h-4 w-4" />
-                            <span>Manage Users</span>
-                          </Link>
-                        </DropdownMenuItem>
-                      </DropdownMenuGroup>
-                    </>
-                  )}
-
-                  {isAdminEmail && !isAdmin && (
-                    <>
-                      <DropdownMenuSeparator />
-                      <DropdownMenuItem asChild>
-                        <Link
-                          href="/become-admin"
-                          className="flex w-full cursor-pointer"
-                        >
-                          <Key className="mr-2 h-4 w-4 text-yellow-500" />
-                          <span className="font-medium">Become Admin</span>
-                        </Link>
-                      </DropdownMenuItem>
-                    </>
-                  )}
-
                   <DropdownMenuSeparator />
                   <DropdownMenuItem
                     onClick={handleSignOut}
-                    className="cursor-pointer"
+                    className="cursor-pointer text-red-600 focus:text-red-600"
                   >
-                    <LogOut className="mr-2 h-4 w-4" />
+                    <LogOut className="mr-3 h-4 w-4" />
                     <span>Sign Out</span>
                   </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
             ) : (
-              <>
-                <Button variant="ghost" asChild>
+              <div className="flex items-center gap-2">
+                <Button variant="ghost" size="sm" asChild>
                   <Link href="/login">Sign In</Link>
                 </Button>
-                <Button asChild>
+                <Button size="sm" asChild className="shadow-sm">
                   <Link href="/register">Sign Up</Link>
                 </Button>
-              </>
+              </div>
             )}
           </div>
 
-          <Sheet>
-            <SheetTrigger asChild>
-              <Button variant="ghost" size="icon" className="md:hidden">
-                <Menu className="h-8 w-8" />
-              </Button>
-            </SheetTrigger>
-            <SheetContent>
-              <div className="flex flex-col gap-8 h-full">
-                <div className="flex items-center justify-between">
-                  <Link href="/" className="flex items-center gap-2">
-                    <div className="bg-primary h-8 w-8 rounded-full flex items-center justify-center">
-                      <span className="text-primary-foreground font-bold">
-                        N
-                      </span>
-                    </div>
-                    <span className="font-bold text-xl">9abel</span>
-                  </Link>
-                </div>
-
-                {/* Mobile user profile */}
-                {session && (
-                  <div className="flex items-center gap-4 p-4 border rounded-lg">
-                    <Avatar>
-                      <AvatarImage
-                        src={session.user?.image || ""}
-                        alt={session.user?.name || "User"}
-                      />
-                      <AvatarFallback>
-                        {getUserInitials(session.user?.name)}
-                      </AvatarFallback>
-                    </Avatar>
-                    <div>
-                      <p className="font-medium">{session.user?.name}</p>
-                      <p className="text-xs text-muted-foreground">
-                        {session.user?.email}
-                      </p>
-                    </div>
-                  </div>
-                )}
-
-                <nav className="flex flex-col gap-4">
-                  {routes.map((route) => (
-                    <SheetClose key={route.href} asChild>
-                      <Link
-                        href={route.href}
-                        className={cn(
-                          "text-lg font-medium transition-colors hover:text-primary",
-                          route.active
-                            ? "text-primary"
-                            : "text-muted-foreground"
-                        )}
-                      >
-                        {route.label}
+          {/* Mobile Menu Trigger */}
+          <div className="block md:hidden">
+            <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
+              <SheetTrigger asChild>
+                <Button variant="ghost" size="icon" className="md:hidden">
+                  <Menu className="h-6 w-6" />
+                </Button>
+              </SheetTrigger>
+              <SheetContent side="left" className="w-80 p-0">
+                <div className="flex flex-col h-full">
+                  {/* Header */}
+                  <SheetHeader className="p-6 border-b">
+                    <div className="flex items-center justify-between">
+                      <Link href="/" className="flex items-center group">
+                        <div className="relative">
+                          <Image
+                            src="/images/logo.png"
+                            alt="9able Logo"
+                            width={40}
+                            height={40}
+                            className="h-10 w-10 object-contain"
+                          />
+                        </div>
+                        <span className="-ml-1 text-xl font-bold">able</span>
                       </Link>
-                    </SheetClose>
-                  ))}
-                </nav>
-                <div className="mt-auto flex flex-col gap-2">
-                  {status === "loading" ? (
-                    <div className="h-10 w-full animate-pulse rounded-md bg-muted" />
-                  ) : session ? (
-                    <>
-                      <Button variant="outline" asChild>
-                        <Link href="/account">Account</Link>
-                      </Button>
-                      <Button onClick={handleSignOut}>Sign Out</Button>
-                    </>
-                  ) : (
-                    <>
-                      <Button variant="outline" asChild>
-                        <Link href="/login">Sign In</Link>
-                      </Button>
-                      <Button asChild>
-                        <Link href="/register">Sign Up</Link>
-                      </Button>
-                    </>
-                  )}
+                    </div>
+
+                    {/* Mobile User Profile */}
+                    {session && (
+                      <div className="flex items-center gap-3 p-4 bg-accent/30 rounded-lg mt-4">
+                        <Avatar className="h-12 w-12">
+                          <AvatarImage
+                            src={session.user?.image || ""}
+                            alt={session.user?.name || "User"}
+                          />
+                          <AvatarFallback className="bg-primary/10 text-primary font-semibold">
+                            {getUserInitials(session.user?.name)}
+                          </AvatarFallback>
+                        </Avatar>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2">
+                            <p className="font-medium truncate">
+                              {session.user?.name}
+                            </p>
+                            {isAdmin && (
+                              <Badge variant="secondary" className="text-xs">
+                                Admin
+                              </Badge>
+                            )}
+                          </div>
+                          <p className="text-sm text-muted-foreground truncate">
+                            {session.user?.email}
+                          </p>
+                        </div>
+                      </div>
+                    )}
+                  </SheetHeader>
+
+                  {/* Navigation */}
+                  <div className="flex-1 overflow-y-auto">
+                    <nav className="p-6 space-y-2">
+                      {routes.map((route) => (
+                        <SheetClose key={route.href} asChild>
+                          <Link
+                            href={route.href}
+                            className={cn(
+                              "flex items-center justify-between p-3 rounded-lg text-sm font-medium transition-colors hover:bg-accent group",
+                              route.active
+                                ? "bg-accent text-accent-foreground"
+                                : "text-muted-foreground hover:text-foreground"
+                            )}
+                          >
+                            <span>{route.label}</span>
+                            <ChevronRight className="h-4 w-4 opacity-0 group-hover:opacity-100 transition-opacity" />
+                          </Link>
+                        </SheetClose>
+                      ))}
+                    </nav>
+                  </div>
+
+                  {/* Footer Actions */}
+                  <div className="p-6 border-t bg-muted/30">
+                    {status === "loading" ? (
+                      <div className="h-12 w-full animate-pulse rounded-lg bg-muted" />
+                    ) : session ? (
+                      <div className="space-y-3">
+                        <SheetClose asChild>
+                          <Button
+                            variant="outline"
+                            className="w-full justify-start"
+                            asChild
+                          >
+                            <Link href="/account">
+                              <User className="mr-2 h-4 w-4" />
+                              Account Settings
+                            </Link>
+                          </Button>
+                        </SheetClose>
+                        <Button
+                          onClick={handleSignOut}
+                          variant="ghost"
+                          className="w-full justify-start text-red-600 hover:text-red-600 hover:bg-red-50"
+                        >
+                          <LogOut className="mr-2 h-4 w-4" />
+                          Sign Out
+                        </Button>
+                      </div>
+                    ) : (
+                      <div className="space-y-3">
+                        <SheetClose asChild>
+                          <Button variant="outline" className="w-full" asChild>
+                            <Link href="/login">Sign In</Link>
+                          </Button>
+                        </SheetClose>
+                        <SheetClose asChild>
+                          <Button className="w-full" asChild>
+                            <Link href="/register">Sign Up</Link>
+                          </Button>
+                        </SheetClose>
+                      </div>
+                    )}
+                  </div>
                 </div>
-              </div>
-            </SheetContent>
-          </Sheet>
+              </SheetContent>
+            </Sheet>
+          </div>
         </div>
       </div>
     </header>

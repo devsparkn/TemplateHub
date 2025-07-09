@@ -32,7 +32,7 @@ export function CartButton() {
         <Button variant="ghost" size="icon" className="relative">
           <ShoppingCart className="h-5 w-5" />
           {itemCount > 0 && (
-            <span className="absolute -top-1 -right-1 bg-primary text-primary-foreground text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
+            <span className="absolute -top-1 -right-1 bg-yellow-400 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
               {itemCount}
             </span>
           )}

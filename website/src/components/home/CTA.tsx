@@ -4,19 +4,19 @@ import { ArrowRight, Rocket, ShieldCheck, RefreshCcw } from "lucide-react";
 
 export function CTASection() {
   return (
-    <section className="relative py-16 px-6 sm:px-10 lg:px-20 overflow-hidden">
+    <section className="relative py-16 px-4 md:px-6 overflow-hidden">
       {/* Background Elements */}
       <div className="absolute inset-0 "></div>
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px]"></div>
 
-      <div className="relative max-w-6xl mx-auto">
+      <div className="relative max-w-7xl mx-auto">
         {/* Main Content */}
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-black dark:text-white mb-4">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
             Ready to Build{" "}
             <span className="text-yellow-400">Something Amazing?</span>
           </h2>
-          <p className="text-lg text-zinc-700 dark:text-zinc-400 max-w-2xl mx-auto">
+          <p className="text-base sm:text-lg text-zinc-700 dark:text-zinc-400 max-w-2xl mx-auto">
             Transform your development workflow with our premium Next.js
             templates.
           </p>

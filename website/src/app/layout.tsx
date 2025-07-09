@@ -10,7 +10,6 @@ import { AnalyticsProvider } from "@/components/AnalyticsProvider";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import ErrorBoundary from "@/components/ui/ErrorBoundary";
-import VisitorCounter from "@/components/VisitorCounter";
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -58,7 +57,6 @@ export default function RootLayout({
                 <Navbar />
                 {children}
                 <Footer />
-                <VisitorCounter />
               </ErrorBoundary>
             </ThemeProvider>
           </ReduxProvider>

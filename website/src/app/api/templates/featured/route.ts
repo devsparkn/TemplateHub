@@ -1,4 +1,3 @@
-// app/api/templates/featured/route.ts
 import { NextResponse } from "next/server";
 import dbConnect from "@/lib/mongodb";
 import Template from "@/models/Template";

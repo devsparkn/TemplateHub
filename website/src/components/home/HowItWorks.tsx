@@ -32,14 +32,14 @@ export default function HowItWorksSection() {
   ];
 
   return (
-    <section className="py-20 px-6 sm:px-10 lg:px-20">
-      <div className="container mx-auto max-w-7xl">
+    <section className="py-16 px-4 md:px-6">
+      <div className="mx-auto max-w-7xl">
         {/* Header */}
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4 tracking-tight">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4 tracking-tight">
             How it <span className="text-yellow-400">Works</span>
           </h2>
-          <p className="text-lg text-zinc-700 dark:text-zinc-400 max-w-3xl mx-auto leading-relaxed">
+          <p className="text-base sm:text-lg text-zinc-700 dark:text-zinc-400 max-w-2xl mx-auto leading-relaxed">
             Transform your ideas into reality with our streamlined three-step
             process designed for developers and businesses of all sizes.
           </p>

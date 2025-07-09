@@ -4,15 +4,15 @@ import { Bell } from "lucide-react";
 
 export default function NewsLetterSection() {
   return (
-    <section className="py-20 px-4 md:px-6">
-      <div className="container mx-auto max-w-5xl">
+    <section className="py-16 px-4 md:px-6">
+      <div className="mx-auto max-w-5xl">
         <div className="flex flex-col md:flex-row items-center justify-between gap-10 p-10 bg-card rounded-2xl shadow-lg border border-border">
           {/* Text Section */}
           <div className="text-center md:text-left md:max-w-md">
             <div className="mb-4 inline-flex items-center justify-center p-3 rounded-full bg-primary/10">
               <Bell className="h-6 w-6 text-primary" />
             </div>
-            <h2 className="text-3xl font-bold tracking-tight mb-2">
+            <h2 className="text-3xl font-bold tracking-tight mb-4">
               Stay Updated
             </h2>
             <p className="text-muted-foreground">

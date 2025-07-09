@@ -21,7 +21,6 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { toast } from "sonner";
 import Link from "next/link";
 
@@ -36,8 +35,8 @@ export default function AccountPage() {
   const [image, setImage] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
-  const isAdminEmail = session?.user?.email === 'nadeemchaudhary808@gmail.com';
-  const isAdmin = session?.user?.role === 'admin';
+  const isAdminEmail = session?.user?.email === "nadeemchaudhary808@gmail.com";
+  const isAdmin = session?.user?.role === "admin";
 
   // Redirect if not logged in
   useEffect(() => {
@@ -87,11 +86,11 @@ export default function AccountPage() {
   }
 
   return (
-    <div className="container py-10">
+    <div className="pb-10">
       <div className="flex flex-col md:flex-row gap-8">
         <div className="flex-1">
           <div className="mx-auto">
-            <h1 className="mb-8 text-3xl font-bold">Account Settings</h1>
+            <h1 className="mb-8 text-3xl font-bold">Account</h1>
             {session?.user?.name && (
               <p className="text-muted-foreground text-sm mt-1">
                 Welcome, {session.user.name}
@@ -105,9 +104,14 @@ export default function AccountPage() {
                   <span className="mr-2">🔑</span> Admin Access
                 </h2>
                 <p className="mb-3 text-sm">
-                  You have been identified as the site owner. Activate your admin privileges to access the admin dashboard.
+                  You have been identified as the site owner. Activate your
+                  admin privileges to access the admin dashboard.
                 </p>
-                <Button asChild variant="outline" className="bg-yellow-200 dark:bg-yellow-800 hover:bg-yellow-300 dark:hover:bg-yellow-700">
+                <Button
+                  asChild
+                  variant="outline"
+                  className="bg-yellow-200 dark:bg-yellow-800 hover:bg-yellow-300 dark:hover:bg-yellow-700"
+                >
                   <Link href="/become-admin">Become Admin</Link>
                 </Button>
               </div>
@@ -120,10 +124,15 @@ export default function AccountPage() {
                   <span className="mr-2">👑</span> Admin Dashboard
                 </h2>
                 <p className="mb-3 text-sm">
-                  You have admin privileges. Access the admin dashboard to manage users and site settings.
+                  You have admin privileges. Access the admin dashboard to
+                  manage users and site settings.
                 </p>
                 <div className="flex gap-3">
-                  <Button asChild variant="outline" className="bg-blue-200 dark:bg-blue-800 hover:bg-blue-300 dark:hover:bg-blue-700">
+                  <Button
+                    asChild
+                    variant="outline"
+                    className="bg-blue-200 dark:bg-blue-800 hover:bg-blue-300 dark:hover:bg-blue-700"
+                  >
                     <Link href="/admin">Admin Dashboard</Link>
                   </Button>
                   <Button asChild variant="outline">
@@ -133,114 +142,64 @@ export default function AccountPage() {
               </div>
             )}
 
-            <Tabs defaultValue="profile">
-              <TabsList className="mb-6">
-                <TabsTrigger value="profile">Profile</TabsTrigger>
-                <TabsTrigger value="security">Security</TabsTrigger>
-              </TabsList>
+            <Card>
+              <CardHeader>
+                <CardTitle>Profile Information</CardTitle>
+                <CardDescription>
+                  Update your account profile information
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <form onSubmit={handleProfileUpdate}>
+                  {error && (
+                    <Alert variant="destructive" className="mb-4">
+                      <AlertDescription>{error}</AlertDescription>
+                    </Alert>
+                  )}
+                  {success && (
+                    <Alert className="mb-4 border-green-500 bg-green-50 text-green-800">
+                      <AlertDescription>{success}</AlertDescription>
+                    </Alert>
+                  )}
 
-              <TabsContent value="profile">
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Profile Information</CardTitle>
-                    <CardDescription>
-                      Update your account profile information
-                    </CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <form onSubmit={handleProfileUpdate}>
-                      {error && (
-                        <Alert variant="destructive" className="mb-4">
-                          <AlertDescription>{error}</AlertDescription>
-                        </Alert>
-                      )}
-                      {success && (
-                        <Alert className="mb-4 border-green-500 bg-green-50 text-green-800">
-                          <AlertDescription>{success}</AlertDescription>
-                        </Alert>
-                      )}
-
-                      <div className="grid gap-4">
-                        <div className="grid gap-2">
-                          <Label htmlFor="name">Name</Label>
-                          <Input
-                            id="name"
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
-                            required
-                          />
-                        </div>
-
-                        <div className="grid gap-2">
-                          <Label htmlFor="email">Email</Label>
-                          <Input id="email" value={user.email} disabled />
-                          <p className="text-xs text-muted-foreground">
-                            Your email cannot be changed.
-                          </p>
-                        </div>
-
-                        <div className="grid gap-2">
-                          <Label htmlFor="image">Profile Image URL</Label>
-                          <Input
-                            id="image"
-                            value={image}
-                            onChange={(e) => setImage(e.target.value)}
-                            placeholder="https://example.com/your-avatar.jpg"
-                          />
-                        </div>
-                      </div>
-
-                      <div className="mt-6">
-                        <Button type="submit" disabled={userStatus === "loading"}>
-                          {userStatus === "loading" ? "Saving..." : "Save Changes"}
-                        </Button>
-                      </div>
-                    </form>
-                  </CardContent>
-                </Card>
-              </TabsContent>
-
-              <TabsContent value="security">
-                <Card>
-                  <CardHeader>
-                    <CardTitle>Security Settings</CardTitle>
-                    <CardDescription>Manage your account security</CardDescription>
-                  </CardHeader>
-                  <CardContent>
-                    <div className="grid gap-4">
-                      <div>
-                        <h3 className="text-lg font-medium">Change Password</h3>
-                        <p className="text-sm text-muted-foreground">
-                          Update your password to keep your account secure.
-                        </p>
-                      </div>
-
-                      <Button
-                        variant="outline"
-                        onClick={() => router.push("/account/change-password")}
-                      >
-                        Change Password
-                      </Button>
+                  <div className="grid gap-4">
+                    <div className="grid gap-2">
+                      <Label htmlFor="name">Name</Label>
+                      <Input
+                        id="name"
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        required
+                      />
                     </div>
 
-                    <div className="mt-6 border-t pt-6">
-                      <div>
-                        <h3 className="text-lg font-medium">
-                          Two-Factor Authentication
-                        </h3>
-                        <p className="text-sm text-muted-foreground">
-                          Add an extra layer of security to your account.
-                        </p>
-                      </div>
-
-                      <Button variant="outline" className="mt-2" disabled>
-                        Coming Soon
-                      </Button>
+                    <div className="grid gap-2">
+                      <Label htmlFor="email">Email</Label>
+                      <Input id="email" value={user.email} disabled />
+                      <p className="text-xs text-muted-foreground">
+                        Your email cannot be changed.
+                      </p>
                     </div>
-                  </CardContent>
-                </Card>
-              </TabsContent>
-            </Tabs>
+
+                    <div className="grid gap-2">
+                      <Label htmlFor="image">Profile Image URL</Label>
+                      <Input
+                        id="image"
+                        value={image}
+                        onChange={(e) => setImage(e.target.value)}
+                        placeholder="https://example.com/your-avatar.jpg"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="mt-6">
+                    <Button type="submit" disabled={userStatus === "loading"}>
+                      {userStatus === "loading" ? "Saving..." : "Save Changes"}
+                    </Button>
+                  </div>
+                </form>
+              </CardContent>
+            </Card>
           </div>
         </div>
       </div>

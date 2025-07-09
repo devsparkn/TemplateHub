@@ -29,11 +29,6 @@ const TemplateCard = ({ template }: TemplateCardProps) => {
     if (isInCart) {
       toast.info("Already in cart");
       return;
-    }
-
-    if (template.price === "Free") {
-      toast.info("Free templates cannot be added to the cart.");
-      return;
     } else {
       dispatch(addToCart(template));
       toast.success("Template added to cart");
@@ -50,15 +45,21 @@ const TemplateCard = ({ template }: TemplateCardProps) => {
     setDownloading(true);
     try {
       // Assign template to user (if not already assigned)
-      const res = await fetch(`/api/templates/${template.slug}/assign`, { method: "POST" });
+      const res = await fetch(`/api/templates/${template.slug}/assign`, {
+        method: "POST",
+      });
       const data = await res.json();
       if (!data.success) {
-        toast.error(data.message || "Failed to assign template to your account.");
+        toast.error(
+          data.message || "Failed to assign template to your account."
+        );
         setDownloading(false);
         return;
       }
       // Now fetch download URL
-      const downloadRes = await fetch(`/api/templates/${template.slug}/can-download`);
+      const downloadRes = await fetch(
+        `/api/templates/${template.slug}/can-download`
+      );
       const downloadData = await downloadRes.json();
       if (!downloadData.allowed || !downloadData.template?.downloadUrl) {
         toast.error("You do not have access to download this template.");
@@ -86,16 +87,6 @@ const TemplateCard = ({ template }: TemplateCardProps) => {
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
-      {/* Featured Badge */}
-      {template.featured && (
-        <div className="absolute top-4 left-4 z-20 animate-pulse">
-          <div className="flex items-center gap-1.5 px-3 py-1 bg-gradient-to-r from-yellow-400 to-pink-500 text-white rounded-full text-xs font-semibold shadow-lg">
-            <Star className="w-4 h-4 fill-current stroke-none" />
-            Featured
-          </div>
-        </div>
-      )}
-
       {/* Thumbnail */}
       <div className="relative aspect-video overflow-hidden">
         <Image

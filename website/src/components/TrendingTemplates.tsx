@@ -18,13 +18,13 @@ const TrendingTemplates = () => {
   return (
     <section className="py-20 px-6 sm:px-10 lg:px-20">
       <div className="flex flex-col items-center text-center mb-16">
-        <h2 className="text-4xl font-bold tracking-tight mb-4">
+        <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight mb-4">
           Browse Our{" "}
           <span className="bg-gradient-to-r from-indigo-500 to-pink-500 bg-clip-text text-transparent">
             Trending Picks
           </span>
         </h2>
-        <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+        <p className="textbase sm:text-lg text-muted-foreground max-w-2xl mx-auto">
           Handcrafted templates for every type of business or SaaS. Just pick,
           customize and launch!
         </p>
