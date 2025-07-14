@@ -195,7 +195,7 @@ export default function UsersPage() {
   // Loading UI
   if (loading) {
     return (
-      <div className="p-8">
+      <div className="">
         <div className="flex items-center justify-between mb-8">
           <h1 className="text-3xl font-bold tracking-tight">
             Registered Users
@@ -216,7 +216,7 @@ export default function UsersPage() {
   }
 
   return (
-    <div className="p-8">
+    <div className="">
       {AdminActivationAlert}
 
       <div className="flex items-center justify-between mb-8">

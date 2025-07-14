@@ -14,7 +14,11 @@ import {
   FileText,
   Menu,
   X,
+  ChevronLeft,
+  ChevronRight,
+  Layout,
 } from "lucide-react";
+import Image from "next/image";
 
 const sidebarLinks = [
   { href: "/account", label: "Account", icon: User, roles: ["user", "admin"] },
@@ -51,6 +55,12 @@ const adminLinks = [
     icon: UsersIcon,
     roles: ["admin"],
   },
+  {
+    href: "/admin/templates",
+    label: "Manage Templates",
+    icon: Layout,
+    roles: ["admin"],
+  },
 ];
 
 export default function AccountSidebar() {
@@ -77,33 +87,38 @@ export default function AccountSidebar() {
     link.roles.includes(userRole)
   );
 
-  const renderLinks = (
-    links: typeof sidebarLinks,
-    showLabel: boolean,
-    onClick?: () => void
-  ) =>
+  const renderDesktopLinks = (links: typeof sidebarLinks, showLabel: boolean) =>
     links.map(({ href, label, icon: Icon }) => {
       const isActive = pathname === href;
       return (
         <div key={href} className="relative group">
           <Link
             href={href}
-            onClick={onClick}
-            className={`flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors ${
+            className={`flex items-center h-10 px-3 rounded-md text-sm font-medium transition-colors ${
               isActive
                 ? "bg-accent text-accent-foreground"
                 : "hover:bg-muted text-muted-foreground"
             }`}
           >
-            <Icon className="h-5 w-5" />
-            {showLabel && label}
-          </Link>
-
-          {/* Tooltip when collapsed */}
-          {!showLabel && (
-            <span className="absolute left-full top-1/2 z-50 ml-2 -translate-y-1/2 whitespace-nowrap rounded bg-muted px-2 py-1 text-xs text-foreground opacity-0 shadow-md group-hover:opacity-100 transition-opacity duration-300">
+            {/* Icon wrapper - fixed width to prevent shifting */}
+            <div className="flex items-center justify-center w-5 h-5 flex-shrink-0">
+              <Icon className="h-5 w-5" />
+            </div>
+            {/* Text label with smooth transition */}
+            <span
+              className={`ml-3 transition-all duration-300 ease-in-out whitespace-nowrap overflow-hidden ${
+                showLabel ? "opacity-100 w-auto" : "opacity-0 w-0"
+              }`}
+            >
               {label}
             </span>
+          </Link>
+
+          {/* Tooltip on collapsed sidebar */}
+          {!showLabel && (
+            <div className="absolute left-full top-1/2 z-50 ml-2 -translate-y-1/2 whitespace-nowrap rounded bg-popover border px-2 py-1 text-xs text-popover-foreground opacity-0 shadow-md group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
+              {label}
+            </div>
           )}
         </div>
       );
@@ -113,7 +128,7 @@ export default function AccountSidebar() {
     <>
       {/* Mobile toggle button */}
       <button
-        className="md:hidden fixed top-20 left-4 z-50 bg-background border shadow-md p-2 rounded-full"
+        className="md:hidden absolute top-20 left-4 z-10 bg-background border shadow-md p-2 rounded-full"
         onClick={() => setMobileOpen(true)}
         aria-label="Open sidebar"
       >
@@ -135,7 +150,13 @@ export default function AccountSidebar() {
         }`}
       >
         <div className="flex justify-between items-center p-4 border-b">
-          <span className="text-lg font-bold">Account</span>
+          <Image
+            src="/images/logo.png"
+            alt="9able Logo"
+            width={40}
+            height={40}
+            className="h-6 w-6 object-contain"
+          />
           <button
             onClick={() => setMobileOpen(false)}
             aria-label="Close sidebar"
@@ -144,15 +165,44 @@ export default function AccountSidebar() {
           </button>
         </div>
         <nav className="p-4 space-y-2">
-          {renderLinks(filteredSidebarLinks, true, () => setMobileOpen(false))}
+          {filteredSidebarLinks.map(({ href, label, icon: Icon }) => {
+            const isActive = pathname === href;
+            return (
+              <Link
+                key={href}
+                href={href}
+                onClick={() => setMobileOpen(false)}
+                className={`flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium ${
+                  isActive
+                    ? "bg-accent text-accent-foreground"
+                    : "hover:bg-muted text-muted-foreground"
+                }`}
+              >
+                <Icon className="h-5 w-5" />
+                {label}
+              </Link>
+            );
+          })}
           {filteredAdminLinks.length > 0 && (
             <>
-              {/* <div className="text-xs font-semibold text-muted-foreground uppercase mt-4">
-                Admin
-              </div> */}
-              {renderLinks(filteredAdminLinks, true, () =>
-                setMobileOpen(false)
-              )}
+              {filteredAdminLinks.map(({ href, label, icon: Icon }) => {
+                const isActive = pathname === href;
+                return (
+                  <Link
+                    key={href}
+                    href={href}
+                    onClick={() => setMobileOpen(false)}
+                    className={`flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium ${
+                      isActive
+                        ? "bg-accent text-accent-foreground"
+                        : "hover:bg-muted text-muted-foreground"
+                    }`}
+                  >
+                    <Icon className="h-5 w-5" />
+                    {label}
+                  </Link>
+                );
+              })}
             </>
           )}
           <button
@@ -170,79 +220,94 @@ export default function AccountSidebar() {
 
       {/* Desktop Sidebar */}
       <aside
-        className={`hidden md:fixed md:top-16 md:left-0 md:h-[calc(100vh-5rem)] bg-background border-r shadow-sm md:flex md:flex-col transition-all duration-300 ${
+        className={`hidden md:fixed md:top-16 md:left-0 md:h-[calc(100vh-5rem)] bg-background border-r shadow-sm md:flex md:flex-col transition-all duration-300 ease-in-out ${
           open ? "md:w-64" : "md:w-16"
         }`}
       >
-        <nav className="flex flex-col gap-2 px-2 py-4">
-          {/* Sidebar Header */}
+        {/* Sidebar Header with Toggle Button */}
+        <div className="flex items-center justify-between p-3 border-b">
           {open ? (
-            <div className="flex items-center justify-between px-3 py-2 rounded-md">
-              <Link
-                href="/account"
-                className="text-sm font-semibold text-muted-foreground"
-              >
-                Logo
+            <>
+              <Link href="/" className="flex items-center group">
+                <div className="relative">
+                  <Image
+                    src="/images/logo.png"
+                    alt="9able Logo"
+                    width={40}
+                    height={40}
+                    className="h-6 w-6 object-contain"
+                  />
+                </div>
+                {/* <span className="-ml-1 text-xl font-bold">able</span> */}
               </Link>
               <button
                 onClick={() => setOpen(false)}
                 aria-label="Collapse sidebar"
-                className="text-muted-foreground hover:text-foreground"
+                className="flex items-center justify-center w-6 h-6 text-muted-foreground hover:text-foreground hover:bg-muted rounded transition-colors"
               >
-                <X className="h-5 w-5" />
+                <ChevronLeft className="h-4 w-4" />
+              </button>
+            </>
+          ) : (
+            <div className="w-full flex justify-center">
+              <button
+                onClick={() => setOpen(true)}
+                className="flex items-center justify-center w-6 h-6 text-muted-foreground hover:text-foreground hover:bg-muted rounded transition-colors"
+                aria-label="Expand sidebar"
+              >
+                <ChevronRight className="h-4 w-4" />
               </button>
             </div>
-          ) : (
-            <div className="group relative">
-              <Link
-                href="#"
-                onClick={() => setOpen(true)}
-                className="flex items-center justify-center h-10 w-10 text-muted-foreground hover:bg-muted rounded-md"
-              >
-                <Menu className="h-5 w-5" />
-              </Link>
-              <span className="absolute left-full top-1/2 -translate-y-1/2 ml-2 whitespace-nowrap bg-muted px-2 py-1 text-xs text-foreground rounded shadow-md opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-50">
-                Expand
-              </span>
-            </div>
           )}
+        </div>
 
-          {/* Sidebar Links */}
-          {renderLinks(filteredSidebarLinks, open)}
+        {/* Sidebar Navigation */}
+        <nav className="flex flex-col gap-1 p-2 flex-1">
+          {/* Main Navigation Links */}
+          {renderDesktopLinks(filteredSidebarLinks, open)}
 
+          {/* Admin Links */}
           {filteredAdminLinks.length > 0 && (
             <>
-              {/* <div
-                className={`text-xs font-semibold uppercase text-muted-foreground px-2 ${
-                  !open ? "hidden" : ""
-                }`}
-              >
-                Admin
-              </div> */}
-              {renderLinks(filteredAdminLinks, open)}
+              <div className="border-t my-2" />
+              {renderDesktopLinks(filteredAdminLinks, open)}
             </>
           )}
 
-          {/* Sign Out */}
-          <div className="relative group">
-            <button
-              onClick={() => signOut({ callbackUrl: "/login" })}
-              className="flex items-center gap-3 px-3 py-2 text-sm text-muted-foreground hover:bg-muted w-full rounded-md mt-4"
-            >
-              <LogOut className="h-5 w-5" />
-              {open && "Sign Out"}
-            </button>
-            {!open && (
-              <span className="absolute left-full top-1/2 z-50 ml-2 -translate-y-1/2 whitespace-nowrap rounded bg-muted px-2 py-1 text-xs text-foreground opacity-0 shadow-md group-hover:opacity-100 transition-opacity duration-300">
-                Sign Out
-              </span>
-            )}
+          {/* Sign Out Button */}
+          <div className="mt-auto pt-2 border-t">
+            <div className="relative group">
+              <button
+                onClick={() => signOut({ callbackUrl: "/login" })}
+                className="flex items-center h-10 px-3 text-sm text-muted-foreground hover:bg-muted hover:text-foreground w-full rounded-md transition-colors"
+              >
+                <div className="flex items-center justify-center w-5 h-5 flex-shrink-0">
+                  <LogOut className="h-5 w-5" />
+                </div>
+                <span
+                  className={`ml-3 transition-all duration-300 ease-in-out whitespace-nowrap overflow-hidden ${
+                    open ? "opacity-100 w-auto" : "opacity-0 w-0"
+                  }`}
+                >
+                  Sign Out
+                </span>
+              </button>
+              {!open && (
+                <div className="absolute left-full top-1/2 z-50 ml-2 -translate-y-1/2 whitespace-nowrap rounded bg-popover border px-2 py-1 text-xs text-popover-foreground opacity-0 shadow-md group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
+                  Sign Out
+                </div>
+              )}
+            </div>
           </div>
         </nav>
       </aside>
 
       {/* Content shift for sidebar */}
-      <div className={open ? "md:ml-64" : "md:ml-16"} />
+      <div
+        className={`transition-all duration-300 ease-in-out ${
+          open ? "md:ml-64" : "md:ml-16"
+        }`}
+      />
     </>
   );
 }

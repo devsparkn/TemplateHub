@@ -108,7 +108,7 @@ export default function AdminPage() {
 
   // Full admin access
   return (
-    <div className="py-10 px-4">
+    <div className="">
       <div className="max-w-7xl mx-auto">{renderDashboardContent(session)}</div>
     </div>
   );
@@ -128,14 +128,6 @@ function renderDashboardContent(session: Session | null) {
               Welcome, {session.user.name}
             </p>
           )}
-        </div>
-        <div className="flex gap-2">
-          <Button asChild>
-            <Link href="/admin/templates">Manage Templates</Link>
-          </Button>
-          <Button asChild>
-            <Link href="/admin/users">Manage Users</Link>
-          </Button>
         </div>
       </div>
 

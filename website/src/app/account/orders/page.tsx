@@ -37,7 +37,7 @@ const OrdersPage = () => {
     return <div className="p-8">Please log in to view your orders.</div>;
 
   return (
-    <div className="container py-12 px-8">
+    <div className="pb-10">
       <div className="flex flex-col md:flex-row gap-8">
         <div className="flex-1">
           <h1 className="text-3xl font-bold mb-8">My Orders</h1>

@@ -267,7 +267,7 @@ export default function AdminTemplatesPage() {
   }
 
   return (
-    <div className=" px-4 md:px-6 py-10">
+    <div className="">
       <div className="mb-8 flex items-center justify-between">
         <h1 className="text-2xl font-bold">Manage Templates</h1>
         <Button

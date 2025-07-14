@@ -34,7 +34,7 @@ const DownloadsPage = () => {
     return <div className="p-8">Please log in to view your downloads.</div>;
 
   return (
-    <div className="container py-12 px-8">
+    <div className="pb-10">
       <h1 className="text-3xl font-bold mb-8">My Templates</h1>
       {templates.length === 0 ? (
         <div>You have not purchased or downloaded any templates yet.</div>
