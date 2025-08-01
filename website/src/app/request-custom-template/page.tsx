@@ -6,16 +6,20 @@ import {
   Rocket,
   Wrench,
   MailCheck,
-  ChevronDown,
   FileImage,
   Calendar,
   DollarSign,
   LayoutTemplate,
 } from "lucide-react";
-
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 export default function RequestCustomTemplatePage() {
   const [submitted, setSubmitted] = useState(false);
-  const [activeFaq, setActiveFaq] = useState<number | null>(null);
 
   const [formData, setFormData] = useState({
     name: "",
@@ -62,10 +66,6 @@ export default function RequestCustomTemplatePage() {
     // API integration would go here
   };
 
-  const toggleFaq = (index: number) => {
-    setActiveFaq(activeFaq === index ? null : index);
-  };
-
   const designStyles = [
     "Modern Minimal",
     "Corporate Professional",
@@ -75,31 +75,29 @@ export default function RequestCustomTemplatePage() {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#f9fafb] to-[#f0f4f8] dark:from-[#0f172a] dark:to-[#1e293b] text-foreground">
+    <div className="min-h-screen bg-gradient-to-b from-[#f4f4f4] via-white to-[#eaeaea] dark:from-[#0e1117] dark:via-[#0a0e14] dark:to-black">
       <div className="max-w-6xl mx-auto px-4 py-16 sm:px-8 lg:px-16">
         {/* Enhanced Hero */}
         <section className="text-center mb-20 px-4 sm:px-6 lg:px-8">
-          {/* Badge */}
-          <div className="inline-flex items-center justify-center px-4 py-1.5 rounded-full bg-purple-100 text-purple-700 dark:bg-purple-900 dark:text-purple-100 mb-6 text-sm font-medium shadow-sm">
-            <Rocket className="w-4 h-4 mr-2" />
-            Premium Custom Templates
+          <div className="text-center mb-16">
+            <div className="inline-flex items-center justify-center mb-6 bg-yellow-100 dark:bg-yellow-900/40 text-yellow-800 dark:text-yellow-200 px-6 py-2 rounded-full">
+              <LayoutTemplate className="w-5 h-5 mr-2" />
+              <span>Custom Solutions</span>
+            </div>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
+              Request Your Perfect{" "}
+              <span className="text-yellow-500">Template</span>
+            </h2>
+            <p className="text-base sm:text-lg text-zinc-700 dark:text-zinc-400 max-w-2xl mx-auto">
+              Need a custom solution? Get a professionally designed template
+              tailored to your exact needs. Our team delivers pixel-perfect,
+              high-performance templates fast.
+            </p>
           </div>
-
-          {/* Heading */}
-          <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold leading-tight mb-4 bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-indigo-600 dark:from-purple-400 dark:to-indigo-400">
-            Request Your Perfect Template
-          </h1>
-
-          {/* Description */}
-          <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto dark:text-gray-300">
-            Need a custom solution? Get a professionally designed template
-            tailored to your exact needs. Our team delivers pixel-perfect,
-            high-performance templates fast.
-          </p>
         </section>
 
         {/* Form Section */}
-        <section className="bg-white rounded-2xl shadow-xl p-8 mb-20 border border-gray-100 dark:bg-gray-900 dark:border-gray-700 dark:text-gray-200">
+        <section className="bg-white rounded-2xl shadow-xl p-8 mb-20 border border-gray-100 dark:bg-gray-900 dark:border-gray-800 dark:text-gray-200">
           {!submitted ? (
             <form onSubmit={handleSubmit} className="space-y-8">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -117,7 +115,7 @@ export default function RequestCustomTemplatePage() {
                     placeholder="John Doe"
                     value={formData.name}
                     onChange={handleInputChange}
-                    className="w-full py-3 px-4 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-purple-600"
+                    className="w-full py-3 px-4 rounded-lg border border-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-yellow-500"
                   />
                 </div>
                 <div>
@@ -135,7 +133,7 @@ export default function RequestCustomTemplatePage() {
                     placeholder="you@company.com"
                     value={formData.email}
                     onChange={handleInputChange}
-                    className="w-full py-3 px-4 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-purple-600"
+                    className="w-full py-3 px-4 rounded-lg border border-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-yellow-500"
                   />
                 </div>
               </div>
@@ -153,54 +151,81 @@ export default function RequestCustomTemplatePage() {
                   placeholder="e.g. SaaS Dashboard Redesign"
                   value={formData.projectName}
                   onChange={handleInputChange}
-                  className="w-full py-3 px-4 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-purple-600"
+                  className="w-full py-3 px-4 rounded-lg border border-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-yellow-500"
                 />
               </div>
-
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-10">
+                {/* Budget Range Select */}
                 <div>
                   <label
+                    className="mb-2 font-medium text-gray-700 dark:text-gray-300 block"
                     htmlFor="budgetRange"
-                    className="mb-2 font-medium text-gray-700 dark:text-gray-300 flex items-center"
                   >
-                    <DollarSign className="w-4 h-4 mr-2 text-gray-500 dark:text-gray-400" />
-                    Budget Range
+                    <span className="flex items-center">
+                      <DollarSign className="w-4 h-4 mr-2 text-gray-500 dark:text-gray-400" />
+                      Budget Range
+                    </span>
                   </label>
-                  <select
-                    id="budgetRange"
-                    name="budgetRange"
+                  <Select
                     value={formData.budgetRange}
-                    onChange={handleInputChange}
-                    className="w-full p-3 rounded-lg border border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-600 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-purple-600"
+                    onValueChange={(value: string) =>
+                      setFormData((prev) => ({ ...prev, budgetRange: value }))
+                    }
                   >
-                    <option value="">Select budget range</option>
-                    <option value="$500 - $1,000">$500 - $1,000</option>
-                    <option value="$1,000 - $2,500">$1,000 - $2,500</option>
-                    <option value="$2,500 - $5,000">$2,500 - $5,000</option>
-                    <option value="$5,000+">$5,000+</option>
-                  </select>
+                    <SelectTrigger
+                      id="budgetRange"
+                      className="w-full py-6 px-4 rounded-lg border border-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                    >
+                      <SelectValue placeholder="Select budget range" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {[
+                        "$500 - $1,000",
+                        "$1,000 - $2,500",
+                        "$2,500 - $5,000",
+                        "$5,000+",
+                      ].map((range) => (
+                        <SelectItem key={range} value={range}>
+                          {range}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
                 </div>
+
+                {/* Timeline Select */}
                 <div>
                   <label
+                    className="mb-2 font-medium text-gray-700 dark:text-gray-300 block"
                     htmlFor="timeline"
-                    className="mb-2 font-medium text-gray-700 dark:text-gray-300 flex items-center"
                   >
-                    <Calendar className="w-4 h-4 mr-2 text-gray-500 dark:text-gray-400" />
-                    Timeline
+                    <span className="flex items-center">
+                      <Calendar className="w-4 h-4 mr-2 text-gray-500 dark:text-gray-400" />
+                      Timeline
+                    </span>
                   </label>
-                  <select
-                    id="timeline"
-                    name="timeline"
+                  <Select
                     value={formData.timeline}
-                    onChange={handleInputChange}
-                    className="w-full p-3 rounded-lg border border-gray-300 bg-white dark:bg-gray-800 dark:border-gray-600 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-purple-600"
+                    onValueChange={(value) =>
+                      setFormData((prev) => ({ ...prev, timeline: value }))
+                    }
                   >
-                    <option value="">Select timeline</option>
-                    <option value="1-2 weeks">1-2 weeks</option>
-                    <option value="2-4 weeks">2-4 weeks</option>
-                    <option value="1-2 months">1-2 months</option>
-                    <option value="Flexible">Flexible</option>
-                  </select>
+                    <SelectTrigger
+                      id="timeline"
+                      className="w-full py-6 px-4 rounded-lg border border-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-yellow-500"
+                    >
+                      <SelectValue placeholder="Select timeline" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {["1-2 weeks", "2-4 weeks", "1-2 months", "Flexible"].map(
+                        (option) => (
+                          <SelectItem key={option} value={option}>
+                            {option}
+                          </SelectItem>
+                        )
+                      )}
+                    </SelectContent>
+                  </Select>
                 </div>
               </div>
 
@@ -218,8 +243,8 @@ export default function RequestCustomTemplatePage() {
                         onClick={() => handleDesignPreferenceToggle(style)}
                         className={`px-3 py-1.5 rounded-full text-sm border transition-colors focus:outline-none focus:ring-2 ${
                           selected
-                            ? "bg-purple-600 text-white border-transparent hover:bg-purple-700"
-                            : "bg-gray-100 text-gray-700 border-gray-300 hover:bg-gray-200 dark:bg-gray-700 dark:text-gray-200 dark:border-gray-600 dark:hover:bg-gray-600"
+                            ? "bg-yellow-500 text-white border-transparent hover:bg-yellow-600"
+                            : "bg-gray-100 text-gray-700 border-gray-300 hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-200 dark:border-gray-700 dark:hover:bg-gray-700"
                         }`}
                         aria-pressed={selected}
                       >
@@ -249,7 +274,7 @@ export default function RequestCustomTemplatePage() {
 - Any reference websites or designs`}
                   value={formData.customizationDetails}
                   onChange={handleInputChange}
-                  className="w-full py-3 px-4 rounded-lg border border-gray-300 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 resize-none focus:outline-none focus:ring-2 focus:ring-purple-600"
+                  className="w-full py-3 px-4 rounded-lg border border-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-100 resize-none focus:outline-none focus:ring-2 focus:ring-yellow-500"
                 />
               </div>
 
@@ -264,7 +289,7 @@ export default function RequestCustomTemplatePage() {
                 <div className="flex items-center justify-center w-full">
                   <label
                     htmlFor="fileUpload"
-                    className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-600 dark:hover:bg-gray-700 transition"
+                    className="flex flex-col items-center justify-center w-full h-32 border-2 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700 transition"
                   >
                     <svg
                       className="w-8 h-8 mb-4 text-gray-400 dark:text-gray-500"
@@ -308,7 +333,7 @@ export default function RequestCustomTemplatePage() {
               <div className="pt-4">
                 <button
                   type="submit"
-                  className="px-4 py-2 text-lg font-semibold text-white rounded-lg bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-700 hover:to-indigo-700 transition-all focus:outline-none focus:ring-4 focus:ring-purple-500"
+                  className="bg-gradient-to-r from-yellow-400 to-yellow-600 text-white font-medium py-3 px-8 rounded-full hover:opacity-90 transition-all transform hover:-translate-y-0.5 shadow-lg shadow-yellow-500/20"
                 >
                   Submit Request
                 </button>
@@ -329,138 +354,89 @@ export default function RequestCustomTemplatePage() {
             </div>
           )}
         </section>
-        <section className="mb-20">
-          <h2 className="text-3xl font-bold text-center mb-16 dark:text-white">
-            Our Custom Template Process
-          </h2>
-          <div className="relative">
-            {/* Vertical line */}
-            <div className="absolute left-1/2 transform -translate-x-1/2 h-full w-0.5 bg-card dark:bg-gray-700 hidden md:block"></div>
 
-            {/* Timeline items */}
-            <div className="grid md:grid-cols-2 gap-y-10">
+        <section className="mb-24">
+          <h2 className="text-4xl font-bold text-center mb-20 text-gray-900 dark:text-white">
+            Our Custom Template <span className="text-yellow-500">Process</span>
+          </h2>
+
+          <div className="relative max-w-6xl mx-auto px-4">
+            {/* Vertical line */}
+            <div className="hidden md:block absolute left-1/2 top-0 w-1 h-full bg-gradient-to-b from-yellow-400 to-yellow-600 transform -translate-x-1/2 z-0" />
+
+            <div className="flex flex-col gap-20 relative z-10">
               {[
                 {
                   step: 1,
                   title: "Requirement Analysis",
                   description:
-                    "We dive deep into your needs and business objectives",
-                  icon: (
-                    <Wrench className="w-8 h-8 text-purple-600 dark:text-purple-400" />
-                  ),
+                    "We dive deep into your needs and business objectives to understand your vision.",
+                  icon: <Wrench className="w-5 h-5 text-white" />,
                 },
                 {
                   step: 2,
                   title: "Design Proposal",
                   description:
-                    "Our designers create mockups based on your requirements",
-                  icon: (
-                    <LayoutTemplate className="w-8 h-8 text-purple-600 dark:text-purple-400" />
-                  ),
+                    "Our designers create mockups based on your requirements and brand identity.",
+                  icon: <LayoutTemplate className="w-5 h-5 text-white" />,
                 },
                 {
                   step: 3,
                   title: "Development Phase",
                   description:
-                    "We build your template with modern technologies",
-                  icon: (
-                    <Rocket className="w-8 h-8 text-purple-600 dark:text-purple-400" />
-                  ),
+                    "We build your template with modern technologies and best practices.",
+                  icon: <Rocket className="w-5 h-5 text-white" />,
                 },
                 {
                   step: 4,
                   title: "Delivery & Support",
                   description:
-                    "We deliver the final product and provide support",
-                  icon: (
-                    <MailCheck className="w-8 h-8 text-purple-600 dark:text-purple-400" />
-                  ),
+                    "We deliver the final product and provide ongoing support.",
+                  icon: <MailCheck className="w-5 h-5 text-white" />,
                 },
-              ].map((item, index) => (
-                <div
-                  key={item.step}
-                  className={`relative ${
-                    index % 2 === 0
-                      ? "md:text-right md:pr-12"
-                      : "md:text-left md:pl-12 md:mt-20"
-                  }`}
-                >
-                  <div className="bg-white dark:bg-gray-900 p-6 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 relative">
-                    {/* Icon */}
-                    <div className="absolute top-6 -left-4 md:-left-4 w-10 h-10 p-2 rounded-full bg-purple-100 dark:bg-purple-900 flex items-center justify-center">
+              ].map((item, index) => {
+                const isLeft = index % 2 === 0;
+                return (
+                  <div
+                    key={item.step}
+                    className={`relative md:flex md:items-center ${
+                      isLeft ? "md:justify-end" : "md:justify-start"
+                    }`}
+                  >
+                    {/* Node (dot with icon) */}
+                    <div className="hidden md:flex absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10 w-12 h-12 rounded-full bg-gradient-to-r from-yellow-500 to-yellow-600 border-4 border-white dark:border-gray-900 items-center justify-center shadow-lg">
                       {item.icon}
                     </div>
 
-                    <h3 className="text-xl font-semibold mb-2 dark:text-white">
-                      {item.title}
-                    </h3>
-                    <p className="text-muted-foreground dark:text-gray-300">
-                      {item.description}
-                    </p>
-                    <div className="mt-3 text-sm font-medium text-purple-600 dark:text-purple-400">
-                      Step {item.step}/4
+                    {/* Connector line from node to card */}
+                    <div
+                      className={`hidden md:block absolute top-1/2 w-12 h-1 bg-gradient-to-r ${
+                        isLeft
+                          ? "left-1/2 from-yellow-600 to-yellow-400"
+                          : "right-1/2 from-yellow-400 to-yellow-600"
+                      } z-0`}
+                    ></div>
+
+                    {/* Card */}
+                    <div
+                      className={`relative bg-white dark:bg-gray-900 p-6 rounded-xl shadow-lg border border-gray-100 dark:border-gray-800 w-full md:max-w-md z-10 transform transition-all duration-300 hover:scale-[1.02] hover:shadow-xl ${
+                        isLeft ? " md:ml-10" : " md:mr-10"
+                      }`}
+                    >
+                      <div className="absolute -top-3 left-6 bg-yellow-500 text-white text-xs font-bold px-3 py-1 rounded-full">
+                        Step {item.step}
+                      </div>
+                      <h3 className="text-xl font-semibold mb-2 text-gray-900 dark:text-white">
+                        {item.title}
+                      </h3>
+                      <p className="text-gray-600 dark:text-gray-300">
+                        {item.description}
+                      </p>
                     </div>
                   </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
-          </div>
-        </section>
-
-        {/* Enhanced FAQ */}
-        <section className="mb-20">
-          <h2 className="text-3xl font-bold text-center mb-10">
-            Frequently Asked Questions
-          </h2>
-          <div className="max-w-3xl mx-auto">
-            {[
-              {
-                question: "How much does a custom template cost?",
-                answer:
-                  "Pricing depends on complexity, starting at $500 for basic templates. Enterprise solutions with advanced functionality typically range from $2,500 to $10,000. We provide detailed quotes after understanding your requirements.",
-              },
-              {
-                question: "What's included in a custom template?",
-                answer:
-                  "Each custom template includes: responsive design for all devices, 3 rounds of revisions, complete documentation, 30 days of technical support, and source code delivery.",
-              },
-              {
-                question: "How long does development take?",
-                answer:
-                  "Timelines vary based on complexity. Simple templates take 1-2 weeks, while more complex projects require 3-6 weeks. We provide a detailed timeline in our proposal after the initial consultation.",
-              },
-              {
-                question: "What technologies do you use?",
-                answer:
-                  "We primarily work with React, Next.js, Tailwind CSS, and TypeScript. Our templates are compatible with modern frameworks and include responsive design principles. We can adapt to your specific tech stack requirements.",
-              },
-              {
-                question: "Do you offer post-delivery support?",
-                answer:
-                  "Yes, all custom templates include 30 days of complimentary support. We also offer ongoing maintenance packages and priority support options for enterprise clients.",
-              },
-            ].map((faq, index) => (
-              <div key={index} className="border-b border-gray-200 py-6">
-                <button
-                  className="flex justify-between items-center w-full text-left font-semibold text-lg"
-                  onClick={() => toggleFaq(index)}
-                >
-                  <span>{faq.question}</span>
-                  <ChevronDown
-                    className={`w-5 h-5 text-gray-500 transition-transform duration-300 ${
-                      activeFaq === index ? "rotate-180" : ""
-                    }`}
-                  />
-                </button>
-                <div
-                  className={`overflow-hidden transition-all duration-300 ease-in-out ${
-                    activeFaq === index ? "mt-4 opacity-100" : "h-0 opacity-0"
-                  }`}
-                >
-                  <p className="text-muted-foreground">{faq.answer}</p>
-                </div>
-              </div>
-            ))}
           </div>
         </section>
       </div>

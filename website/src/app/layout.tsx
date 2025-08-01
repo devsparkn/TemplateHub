@@ -21,20 +21,20 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "TemplateHub - Premium Next.js Templates",
+  title: "9abel - Premium Next.js Templates",
   description:
     "Browse and purchase high-quality Next.js templates for your next project",
   keywords: ["Next.js", "React", "Templates", "Web Development"],
-  authors: [{ name: "TemplateHub Team" }],
+  authors: [{ name: "9abel Team" }],
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://templatehub.com",
-    siteName: "TemplateHub",
+    url: "https://9abel.com",
+    siteName: "9abel",
   },
   twitter: {
     card: "summary_large_image",
-    title: "TemplateHub - Premium Next.js Templates",
+    title: "9abel - Premium Next.js Templates",
     description:
       "Browse and purchase high-quality Next.js templates for your next project",
   },

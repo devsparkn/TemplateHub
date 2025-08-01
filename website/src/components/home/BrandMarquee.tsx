@@ -6,32 +6,36 @@ import Image from "next/image";
 import { OrganicWaves } from "./GradientLines";
 const clientLogos = [
   {
-    name: "Melita",
-    src: "https://cdn.prod.website-files.com/66e53bf67b6fc1646ce077bb/67e1212ca4365330f663f8c0_Melita%20Study.png",
+    name: "Google",
+    src: "https://aceternity.com/cdn-cgi/image/width=256/https://assets.aceternity.com/companies/google.webp",
   },
   {
-    name: "Tele2",
-    src: "https://cdn.prod.website-files.com/66e53bf67b6fc1646ce077bb/67e116cf0b1a1d16ffb8bfcd_Tele%20(1).png",
+    name: "Microsoft",
+    src: "https://aceternity.com/cdn-cgi/image/width=256/https://assets.aceternity.com/companies/microsoft.png",
   },
   {
-    name: "Equitel",
-    src: "https://cdn.prod.website-files.com/66e53bf67b6fc1646ce077bb/6752d7db38482a35156c0fd4_Equitel.png",
+    name: "Cisco",
+    src: "https://aceternity.com/cdn-cgi/image/width=256/https://assets.aceternity.com/companies/cisco.png",
   },
   {
-    name: "Carrefour",
-    src: "https://cdn.prod.website-files.com/66e53bf67b6fc1646ce077bb/6752d7e52ad7b45b19c8cb31_Carrefour.png",
+    name: "Zomato",
+    src: "https://aceternity.com/cdn-cgi/image/width=256/https://assets.aceternity.com/companies/zomato.png",
   },
   {
-    name: "UNDO",
-    src: "https://cdn.prod.website-files.com/66e53bf67b6fc1646ce077bb/6752d7ec4783956b48bb26c3_UNDO.png",
+    name: "Better-Auth",
+    src: "https://aceternity.com/cdn-cgi/image/width=256/https://assets.aceternity.com/companies/better-auth.png",
   },
   {
-    name: "Vodafone",
-    src: "https://cdn.prod.website-files.com/66e53bf67b6fc1646ce077bb/6752d814fa6a47810cc73593_Vodaphone.png",
+    name: "Strapi",
+    src: "https://aceternity.com/cdn-cgi/image/width=256/https://assets.aceternity.com/companies/strapi.svg",
   },
   {
-    name: "Daily Telecom",
-    src: "https://cdn.prod.website-files.com/66e53bf67b6fc1646ce077bb/6752d81b86a183f92de1918b_Daily%20Telecom.png",
+    name: "Neon",
+    src: "https://aceternity.com/cdn-cgi/image/width=256/https://assets.aceternity.com/companies/neon.svg",
+  },
+  {
+    name: "Great Frontend",
+    src: "https://aceternity.com/cdn-cgi/image/width=256/https://assets.aceternity.com/companies/greatfrontend.png",
   },
 ];
 

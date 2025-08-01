@@ -21,8 +21,14 @@ const nextConfig: NextConfig = {
         pathname: '/dyg4weoem/image/upload/**',
       },
       {
+       protocol: 'https',
+        hostname: 'aceternity.com',
+        pathname: '/cdn-cgi/image/**',
+      },
+      {
         protocol: 'https',
-        hostname: 'cdn.prod.website-files.com',
+        hostname: 'assets.aceternity.com',
+        pathname: '/companies/**',
       },
     ],
   },
