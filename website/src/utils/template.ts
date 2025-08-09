@@ -22,6 +22,9 @@ export const templates: Template[] = [
       "AI based cloud cost optmisation Application with analytics, charts, and user management.",
     thumbnailUrls: [
       "https://res.cloudinary.com/dyg4weoem/image/upload/v1746024691/cloud-cost-optimization_axehri.png",
+      "https://res.cloudinary.com/dyg4weoem/image/upload/v1754235610/cloud-cost-optimization-02_a2am79.png",
+      "https://res.cloudinary.com/dyg4weoem/image/upload/v1754235706/cloud-cost-optimization-03_upehik.png",
+      "https://res.cloudinary.com/dyg4weoem/image/upload/v1754235842/cloud-cost-optimization-04_bxcufv.png",
     ],
     demoUrl: "https://cloud-cost-optimization.vercel.app/",
     category: "SaaS",
@@ -39,7 +42,8 @@ export const templates: Template[] = [
     techStack: ["React", "Tailwind", "Chart.js", "Node.js"],
     tags: ["AI", "Cloud", "SaaS"],
     authorId: null,
-    downloadUrl: "https://example.com/download/cloud-cost-optimisation-template.zip",
+    downloadUrl:
+      "https://example.com/download/cloud-cost-optimisation-template.zip",
   },
   {
     slug: "sentinel-ai",
@@ -47,6 +51,9 @@ export const templates: Template[] = [
     description: "AI based deepfake detection.",
     thumbnailUrls: [
       "https://res.cloudinary.com/dyg4weoem/image/upload/v1746024916/sentinel-ai_xsmr4b.png",
+      "https://res.cloudinary.com/dyg4weoem/image/upload/v1754319721/sentinel-ai-02_azeab4.png",
+      "https://res.cloudinary.com/dyg4weoem/image/upload/v1754319796/sentinel-ai-03_kxzusz.png",
+      "https://res.cloudinary.com/dyg4weoem/image/upload/v1754319920/sentinel-ai-04_uoxlp5.png",
     ],
     demoUrl: "https://sentinel-ai-eight.vercel.app",
     category: "SaaS",
