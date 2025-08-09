@@ -14,7 +14,7 @@ export default function CartPage() {
   const cartItems = useSelector((state: RootState) => state.cart.items);
   const paidItems = cartItems.filter((item) => item.price !== "Free");
 
-  const subtotal = paidItems.reduce((total, item) => total + Number(item.price) * item.quantity, 0);
+  const subtotal = paidItems.reduce((total, item) => total + Number(item.price), 0);
 
   const handleRemoveItem = (templateId: string) => {
     dispatch(removeFromCart(templateId));
