@@ -130,7 +130,7 @@ export function Navbar() {
         </div>
 
         {/* Right Section */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-4">
           <CartButton />
           <ThemeToggle />
 

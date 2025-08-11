@@ -259,15 +259,24 @@ const Page = () => {
                 </Button>
               ) : (
                 <>
-                  <Button
-                    size="lg"
-                    className="w-full gap-2 font-bold py-6 text-base cursor-pointer"
-                    onClick={handleAddToCart}
-                    disabled={isInCart}
-                  >
-                    <ShoppingCart className="h-5 w-5" />
-                    {isInCart ? "Added" : "Add to Cart"}
-                  </Button>
+                  {isInCart ? (
+                    <Link
+                      href="/cart"
+                      className="flex items-center justify-center w-full py-4 px-6 font-semibold text-base text-white bg-yellow-400 rounded-md hover:bg-yellow-500 transition-colors"
+                    >
+                      <ShoppingCart className="h-5 w-5 mr-2" />
+                      Go to Cart
+                    </Link>
+                  ) : (
+                    <Button
+                      size="lg"
+                      className="flex items-center justify-center w-full gap-2 font-semibold py-4 px-6 text-base"
+                      onClick={handleAddToCart}
+                    >
+                      <ShoppingCart className="h-5 w-5" />
+                      Add to Cart
+                    </Button>
+                  )}
 
                   <Button
                     size="lg"
