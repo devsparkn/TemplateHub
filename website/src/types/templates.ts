@@ -1,4 +1,4 @@
-export type PriceFilter = "all" | "free" | "premium";
+export type PriceFilter = "free" | "premium" | null;
 
 export interface Template {
   _id: string;

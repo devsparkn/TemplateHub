@@ -93,7 +93,7 @@ const TemplateCard = ({ template }: TemplateCardProps) => {
           src={template.thumbnailUrls[0]}
           alt={template.title}
           fill
-          className="object-cover transition-transform duration-500 group-hover:scale-105"
+          className="object-fit object-center transition-transform duration-500 group-hover:scale-105"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
 

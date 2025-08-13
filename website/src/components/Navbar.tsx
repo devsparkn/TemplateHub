@@ -88,7 +88,7 @@ export function Navbar() {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/80 backdrop-blur-md supports-[backdrop-filter]:bg-background/60">
-      <div className="flex h-16 items-center px-4 sm:px-6 max-w-7xl mx-auto justify-between">
+      <div className="flex h-16 items-center px-4 sm:px-6 max-w-[83rem] mx-auto justify-between">
         {/* Logo Section */}
         <div className="flex items-center gap-6 lg:gap-8">
           <Link href="/" className="flex items-center group">
@@ -105,7 +105,7 @@ export function Navbar() {
           </Link>
 
           {/* Desktop Navigation */}
-          <NavigationMenu className="hidden md:flex">
+          <NavigationMenu className="hidden sm:flex">
             <NavigationMenuList className="gap-1">
               {routes.map((route) => (
                 <NavigationMenuItem key={route.href}>
@@ -135,7 +135,7 @@ export function Navbar() {
           <ThemeToggle />
 
           {/* Desktop Auth Section */}
-          <div className="hidden md:flex items-center gap-3">
+          <div className="hidden sm:flex items-center gap-3">
             {status === "loading" ? (
               <div className="h-10 w-10 animate-pulse rounded-full bg-muted" />
             ) : session ? (
@@ -214,10 +214,10 @@ export function Navbar() {
           </div>
 
           {/* Mobile Menu Trigger */}
-          <div className="block md:hidden">
+          <div className="block sm:hidden">
             <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
               <SheetTrigger asChild>
-                <Button variant="ghost" size="icon" className="md:hidden">
+                <Button variant="ghost" size="icon" className="sm:hidden">
                   <Menu className="h-6 w-6" />
                 </Button>
               </SheetTrigger>

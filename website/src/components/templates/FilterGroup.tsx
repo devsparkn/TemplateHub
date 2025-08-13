@@ -16,7 +16,7 @@ export const FilterGroup = <T extends string | null>({
   options,
   selectedValue,
   onSelect,
-  allLabel = "All"
+  allLabel = "All",
 }: FilterGroupProps<T>) => (
   <div className="w-full md:w-auto">
     <div className="flex flex-col gap-2">
@@ -33,6 +33,7 @@ export const FilterGroup = <T extends string | null>({
         >
           {allLabel}
         </Button>
+
         {options.map(({ value, label }) => (
           <Button
             key={value}

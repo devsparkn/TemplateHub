@@ -16,26 +16,26 @@ export const TemplateFilters = ({
   setPriceFilter,
   categories,
   selectedCategory,
-  setSelectedCategory
+  setSelectedCategory,
 }: TemplateFiltersProps) => (
   <>
     <FilterGroup
       label="Price"
       options={[
-        { value: "all", label: "All" },
         { value: "free", label: "Free" },
-        { value: "premium", label: "Premium" }
+        { value: "premium", label: "Premium" },
       ]}
       selectedValue={priceFilter}
       onSelect={setPriceFilter}
-      allLabel="All Prices"
+      allLabel="All"
     />
 
     <FilterGroup
       label="Category"
-      options={categories.map(c => ({ value: c, label: c }))}
+      options={categories.map((c) => ({ value: c, label: c }))}
       selectedValue={selectedCategory}
       onSelect={setSelectedCategory}
+      allLabel="All"
     />
   </>
 );

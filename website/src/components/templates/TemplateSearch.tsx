@@ -20,7 +20,7 @@ export const TemplateSearch = ({
       <Input
         type="text"
         placeholder="Search templates..."
-        className="pl-10 pr-10 h-11 bg-background border border-muted-foreground/20 focus-visible:ring-offset-2"
+        className="pl-10 pr-10 h-11  rounded-full bg-background border border-muted-foreground/20 focus-visible:ring-offset-2"
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
       />
