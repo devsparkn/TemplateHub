@@ -3,7 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
-import { HoverEffect } from "./ui/card-hover-effect";
+import TemplateCard from "./templates/TemplateCard";
 import { useTemplates } from "@/hooks/useTemplate";
 import { Template } from "@/types/templates";
 
@@ -11,7 +11,7 @@ const TrendingTemplates = () => {
   const { templates, isLoading } = useTemplates();
 
   // Filter popular templates — assuming there's a "popular" boolean field
-  const TrendingTemplatess = templates.filter(
+  const TrendingTemplates = templates.filter(
     (template: Template) => template.featured
   );
 
@@ -34,8 +34,12 @@ const TrendingTemplates = () => {
         <div className="text-center text-muted-foreground text-lg">
           Loading templates...
         </div>
-      ) : TrendingTemplatess.length > 0 ? (
-        <HoverEffect templates={TrendingTemplatess} />
+      ) : TrendingTemplates.length > 0 ? (
+        <div className="grid gap-6 sm:gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+          {TrendingTemplates.map((template) => (
+            <TemplateCard key={template.slug} template={template} />
+          ))}
+        </div>
       ) : (
         <div className="text-center text-muted-foreground text-lg">
           No trending templates found.
