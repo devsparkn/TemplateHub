@@ -1,5 +1,4 @@
 import { X, Search } from "lucide-react";
-import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 
 interface TemplateSearchProps {
@@ -12,15 +11,15 @@ export const TemplateSearch = ({
   setSearchQuery,
 }: TemplateSearchProps) => {
   return (
-    <div className="relative w-full max-w-md">
+    <div className="relative w-full">
       <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">
         <Search className="h-4 w-4" />
       </span>
 
-      <Input
+      <input
         type="text"
         placeholder="Search templates..."
-        className="pl-10 pr-10 h-11  rounded-full bg-background border border-muted-foreground/20 focus-visible:ring-offset-2"
+        className="pl-10 pr-10 h-11 w-full py-3 rounded-lg border border-gray-300 dark:border-gray-700 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-yellow-500"
         value={searchQuery}
         onChange={(e) => setSearchQuery(e.target.value)}
       />

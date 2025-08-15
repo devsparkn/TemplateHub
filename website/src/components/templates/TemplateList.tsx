@@ -37,9 +37,9 @@ export const TemplateList = ({
       {priceFilter && (
         <Badge variant="secondary" className="px-3 py-1 text-sm">
           {priceFilter === "free"
-            ? "Free Only"
+            ? "Free"
             : priceFilter === "premium"
-            ? "Premium Only"
+            ? "Premium"
             : ""}
         </Badge>
       )}
