@@ -61,7 +61,7 @@ export default function FAQ() {
             <AccordionItem
               key={index}
               value={`item-${index}`}
-              className="border-gray-950/[.1] bg-gray-950/[.02] hover:bg-gray-950/[.05] dark:border-gray-50/[.1] dark:bg-gray-50/[.10] dark:hover:bg-gray-50/[.15] rounded-xl backdrop-blur-sm transition-all hover:shadow-lg"
+              className="border-gray-950/[.1] bg-gray-950/[.02]  dark:border-gray-50/[.1] dark:bg-gray-50/[.10] rounded-xl backdrop-blur-sm transition-all hover:shadow-lg"
             >
               <AccordionTrigger className="px-6 py-5 text-left hover:no-underline group">
                 <div className="flex items-start">
