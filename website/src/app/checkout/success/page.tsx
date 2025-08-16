@@ -1,13 +1,13 @@
-'use client';
+"use client";
 
-import { Suspense, useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { clearCart } from '@/lib/slices/cartSlice';
-import { Button } from '@/components/ui/button';
-import { CheckCircle, Home, FileText } from 'lucide-react';
-import Link from 'next/link';
-import { toast } from 'sonner';
-import { useSearchParams } from 'next/navigation';
+import { Suspense, useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { clearCart } from "@/lib/slices/cartSlice";
+import { Button } from "@/components/ui/button";
+import { CheckCircle, Home, FileText } from "lucide-react";
+import Link from "next/link";
+import { toast } from "sonner";
+import { useSearchParams } from "next/navigation";
 
 const CheckoutSuccessContent = () => {
   const dispatch = useDispatch();
@@ -15,46 +15,37 @@ const CheckoutSuccessContent = () => {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-    const free = searchParams.get('free');
-    const sessionId = searchParams.get('session_id');
-
-    if (free === '1') {
-      dispatch(clearCart());
-      toast.success('Free templates added to your account!', {
-        description: 'Your templates are now available in your account',
-      });
-      return;
-    }
+    const sessionId = searchParams.get("session_id");
 
     if (sessionId) {
       const verifyOrder = async () => {
         setLoading(true);
         try {
           const itemsRaw =
-            typeof window !== 'undefined'
-              ? window.sessionStorage.getItem('checkout_items')
+            typeof window !== "undefined"
+              ? window.sessionStorage.getItem("checkout_items")
               : null;
           const items = itemsRaw ? JSON.parse(itemsRaw) : [];
 
-          const response = await fetch('/api/checkout/verify', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
+          const response = await fetch("/api/checkout/verify", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
             body: JSON.stringify({ session_id: sessionId, items }),
           });
 
           if (response.ok) {
             dispatch(clearCart());
-            if (typeof window !== 'undefined') {
-              window.sessionStorage.removeItem('checkout_items');
+            if (typeof window !== "undefined") {
+              window.sessionStorage.removeItem("checkout_items");
             }
-            toast.success('Payment successful!', {
-              description: 'Your templates are now available in your account',
+            toast.success("Payment successful!", {
+              description: "Your templates are now available in your account",
             });
           } else {
-            toast.error('Could not verify payment. Please contact support.');
+            toast.error("Could not verify payment. Please contact support.");
           }
         } catch {
-          toast.error('An error occurred verifying your payment.');
+          toast.error("An error occurred verifying your payment.");
         } finally {
           setLoading(false);
         }
@@ -64,7 +55,7 @@ const CheckoutSuccessContent = () => {
   }, [dispatch, searchParams]);
 
   return (
-    <div className="container max-w-3xl py-20 px-8">
+    <div className="container max-w-3xl py-20 px-8 mx-auto">
       <div className="text-center space-y-6">
         <div className="inline-flex items-center justify-center h-24 w-24 rounded-full bg-green-100 dark:bg-green-900 mb-4">
           <CheckCircle className="h-12 w-12 text-green-600 dark:text-green-300" />
@@ -73,8 +64,8 @@ const CheckoutSuccessContent = () => {
         <h1 className="text-3xl font-bold">Thank You For Your Purchase!</h1>
         <p className="text-lg text-muted-foreground">
           {loading
-            ? 'Verifying your payment and assigning templates...'
-            : 'Your payment was processed successfully and your templates are now available in your account. You should receive a confirmation email shortly.'}
+            ? "Verifying your payment and assigning templates..."
+            : "Your payment was processed successfully and your templates are now available in your account. You should receive a confirmation email shortly."}
         </p>
 
         <div className="pt-8 grid gap-4 sm:grid-cols-2 max-w-md mx-auto">

@@ -1,12 +1,12 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { XCircle, ShoppingCart, HelpCircle } from 'lucide-react';
+import { XCircle, HelpCircle, ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 
 const CheckoutCancelPage = () => {
   return (
-    <div className="container max-w-3xl py-20 px-8">
+    <div className="container max-w-3xl py-20 px-8 mx-auto">
       <div className="text-center space-y-6">
         <div className="inline-flex items-center justify-center h-24 w-24 rounded-full bg-red-100 dark:bg-red-900 mb-4">
           <XCircle className="h-12 w-12 text-red-600 dark:text-red-300" />
@@ -19,9 +19,9 @@ const CheckoutCancelPage = () => {
         
         <div className="pt-8 grid gap-4 sm:grid-cols-2 max-w-md mx-auto">
           <Button asChild>
-            <Link href="/checkout">
-              <ShoppingCart className="mr-2 h-4 w-4" />
-              Return to Checkout
+            <Link href="/">
+              <ArrowLeft className="mr-2 h-4 w-4" />
+              Return Home
             </Link>
           </Button>
           

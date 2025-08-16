@@ -6,7 +6,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { RootState } from "@/lib/store";
 import Link from "next/link";
 import Image from "next/image";
-import { ChevronLeft, Trash2, CreditCard } from "lucide-react";
+import { ChevronLeft, Trash2, CreditCard, Loader2, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Elements } from "@stripe/react-stripe-js";
 import { stripePromise } from "@/lib/stripe";
@@ -24,7 +24,6 @@ const CheckoutPage = () => {
 
   const [checkoutItems, setCheckoutItems] = useState<Template[]>([]);
 
-  // Load checkout items
   useEffect(() => {
     if (buyNowMode) {
       const stored = sessionStorage.getItem("buy_now_item");
@@ -38,15 +37,12 @@ const CheckoutPage = () => {
     }
   }, [buyNowMode, cartItems, router]);
 
-  // Only paid items in checkout
   const paidItems = checkoutItems.filter((item) => item.price !== "Free");
-
-  // Calculate totals
   const subtotal = paidItems.reduce(
     (total, item) => total + Number(item.price),
     0
   );
-  const tax = subtotal * 0.05; // 5% tax
+  const tax = subtotal * 0.05;
   const total = subtotal + tax;
 
   const handleCheckout = async () => {
@@ -57,8 +53,6 @@ const CheckoutPage = () => {
 
     try {
       setIsLoading(true);
-
-      // Store checkout items in sessionStorage for after payment
       if (typeof window !== "undefined") {
         sessionStorage.setItem(
           "checkout_items",
@@ -107,93 +101,134 @@ const CheckoutPage = () => {
   };
 
   return (
-    <div className="container py-12 px-8 min-h-screen">
+    <div className="container py-12 px-4 md:px-6 min-h-screen max-w-7xl mx-auto">
       <div className="mb-8">
         <Link
           href="/templates"
-          className="flex items-center text-sm text-muted-foreground hover:text-foreground transition-colors"
+          className="flex items-center text-sm text-muted-foreground hover:text-foreground transition-colors group"
         >
-          <ChevronLeft className="mr-1 h-4 w-4" />
+          <ChevronLeft className="mr-1 h-4 w-4 transition-transform group-hover:-translate-x-1" />
           Back to templates
         </Link>
-        <h1 className="text-3xl font-bold mt-4">Checkout</h1>
+        <h1 className="text-3xl font-bold mt-4 text-gray-900 dark:text-white">
+          Checkout
+        </h1>
       </div>
 
-      <div className="grid md:grid-cols-3 gap-12">
-        {/* Left column - Order summary */}
-        <div className="md:col-span-2 space-y-8">
-          <div className="p-6 border-b">
-            <h2 className="text-xl font-semibold">Order Summary</h2>
-          </div>
-          <div className="divide-y">
-            {paidItems.length === 0 ? (
-              <div className="p-6 text-center text-muted-foreground">
-                <p>No templates to checkout.</p>
-              </div>
-            ) : (
-              paidItems.map((item) => (
-                <div key={item._id} className="p-6 flex items-center gap-4">
-                  <div className="relative w-20 h-20 overflow-hidden rounded-md flex-shrink-0">
-                    <Image
-                      src={item.thumbnailUrls[0]}
-                      alt={item.title}
-                      fill
-                      className="object-cover"
-                    />
+      <div className="grid lg:grid-cols-3 gap-8">
+        {/* Order Summary */}
+        <div className="lg:col-span-2">
+          <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700 overflow-hidden">
+            <div className="p-6 border-b border-gray-200 dark:border-gray-700">
+              <h2 className="text-xl font-semibold text-gray-900 dark:text-white flex items-center">
+                <span className="bg-gray-100 dark:bg-gray-700 w-8 h-8 rounded-full flex items-center justify-center text-sm mr-3">
+                  {paidItems.length}
+                </span>
+                Order Summary
+              </h2>
+            </div>
+
+            <div className="divide-y divide-gray-100 dark:divide-gray-700">
+              {paidItems.length === 0 ? (
+                <div className="p-8 text-center">
+                  <div className="bg-gray-100 dark:bg-gray-700 h-20 w-20 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <CreditCard className="h-8 w-8 text-gray-400" />
                   </div>
-                  <div className="flex-grow">
-                    <h3 className="font-medium">{item.title}</h3>
-                    <p className="text-sm text-muted-foreground">
-                      {item.category}
-                    </p>
-                  </div>
-                  <div className="text-right flex-shrink-0">
-                    <div className="font-medium">${item.price}</div>
+                  <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-2">
+                    Your cart is empty
+                  </h3>
+                  <p className="text-gray-500 dark:text-gray-400 mb-4">
+                    Add templates to proceed to checkout
+                  </p>
+                  <Button asChild>
+                    <Link href="/templates">Browse Templates</Link>
+                  </Button>
+                </div>
+              ) : (
+                paidItems.map((item) => (
+                  <div
+                    key={item._id}
+                    className="p-6 flex items-start sm:items-center gap-4"
+                  >
+                    <div className="relative w-16 h-16 sm:w-20 sm:h-20 overflow-hidden rounded-lg flex-shrink-0 border border-gray-200 dark:border-gray-700">
+                      <Image
+                        src={item.thumbnailUrls[0]}
+                        alt={item.title}
+                        fill
+                        className="object-cover"
+                        sizes="(max-width: 640px) 80px, 100px"
+                      />
+                    </div>
+                    <div className="flex-grow">
+                      <h3 className="font-medium text-gray-900 dark:text-white">
+                        {item.title}
+                      </h3>
+                      <p className="text-sm text-muted-foreground mb-1">
+                        {item.category}
+                      </p>
+                      <div className="font-medium text-gray-900 dark:text-white">
+                        ${item.price}
+                      </div>
+                    </div>
                     <button
                       onClick={() => handleRemoveItem(item._id)}
-                      className="text-sm text-red-500 hover:text-red-700 flex items-center mt-1"
+                      className="p-2 text-gray-500 hover:text-red-500 transition-colors"
+                      aria-label="Remove item"
                     >
-                      <Trash2 className="h-3 w-3 mr-1" />
-                      Remove
+                      <Trash2 className="h-5 w-5" />
                     </button>
                   </div>
-                </div>
-              ))
-            )}
+                ))
+              )}
+            </div>
           </div>
         </div>
 
-        {/* Right column - Payment summary */}
-        <div className="md:col-span-1">
-          <div className="border rounded-lg shadow-sm p-6 sticky top-24">
-            <h2 className="text-xl font-semibold mb-4">Payment Summary</h2>
+        {/* Payment Summary */}
+        <div className="lg:col-span-1">
+          <div className="bg-gradient-to-br from-[#f9fafb] to-[#f0f4f8] dark:from-gray-800 dark:to-gray-900 border border-gray-200 dark:border-gray-700 rounded-xl shadow-sm p-6 sticky top-24">
+            <h2 className="text-xl font-semibold text-gray-900 dark:text-white mb-6">
+              Payment Summary
+            </h2>
 
-            <div className="space-y-3 mb-6">
+            <div className="space-y-4 mb-6">
               <div className="flex justify-between">
-                <span className="text-muted-foreground">Subtotal</span>
-                <span>${subtotal.toFixed(2)}</span>
+                <span className="text-gray-600 dark:text-gray-300">
+                  Subtotal
+                </span>
+                <span className="font-medium text-gray-900 dark:text-white">
+                  ${subtotal.toFixed(2)}
+                </span>
               </div>
 
               <div className="flex justify-between">
-                <span className="text-muted-foreground">Tax (5%)</span>
-                <span>${tax.toFixed(2)}</span>
+                <span className="text-gray-600 dark:text-gray-300">
+                  Tax (5%)
+                </span>
+                <span className="font-medium text-gray-900 dark:text-white">
+                  ${tax.toFixed(2)}
+                </span>
               </div>
 
-              <div className="pt-3 border-t flex justify-between font-medium">
-                <span>Total</span>
-                <span>${total.toFixed(2)}</span>
+              <div className="pt-4 border-t border-gray-200 dark:border-gray-700 flex justify-between text-lg font-bold">
+                <span className="text-gray-900 dark:text-white">Total</span>
+                <span className="text-gray-900 dark:text-white">
+                  ${total.toFixed(2)}
+                </span>
               </div>
             </div>
 
             <Elements stripe={stripePromise}>
               <Button
-                className="w-full"
-                size="lg"
+                className="w-full h-12 rounded-lg font-semibold text-base shadow-sm hover:shadow-md transition-shadow"
                 onClick={handleCheckout}
                 disabled={isLoading || paidItems.length === 0}
               >
                 {isLoading ? (
-                  "Processing..."
+                  <>
+                    <Loader2 className="mr-2 h-5 w-5 animate-spin" />
+                    Processing...
+                  </>
                 ) : (
                   <>
                     <CreditCard className="mr-2 h-5 w-5" />
@@ -203,9 +238,35 @@ const CheckoutPage = () => {
               </Button>
             </Elements>
 
-            <p className="text-xs text-center text-muted-foreground mt-4">
-              By completing your purchase, you agree to our Terms of Service and
-              Privacy Policy.
+            <div className="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700">
+              <ul className="space-y-3 text-sm text-gray-600 dark:text-gray-300">
+                <li className="flex items-start">
+                  <Check className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                  <span>Secure SSL encryption</span>
+                </li>
+                <li className="flex items-start">
+                  <Check className="h-5 w-5 text-green-500 mr-2 mt-0.5 flex-shrink-0" />
+                  <span>Instant download after payment</span>
+                </li>
+              </ul>
+            </div>
+
+            <p className="text-xs text-center text-gray-500 dark:text-gray-400 mt-6">
+              By completing your purchase, you agree to our{" "}
+              <Link
+                href="/terms"
+                className="underline hover:text-primary transition-colors"
+              >
+                Terms of Service
+              </Link>{" "}
+              and{" "}
+              <Link
+                href="/privacy"
+                className="underline hover:text-primary transition-colors"
+              >
+                Privacy Policy
+              </Link>
+              .
             </p>
           </div>
         </div>
