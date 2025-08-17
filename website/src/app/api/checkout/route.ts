@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server';
 import Stripe from 'stripe';
 
 // Initialize Stripe with your secret key
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY || 'sk_test_placeholder', {
+const stripe = new Stripe(process.env.STRIPE_SECRET_KEY as string, {
   apiVersion: '2025-04-30.basil',
 });
 
@@ -10,7 +10,6 @@ export async function POST(req: Request) {
   try {
     const body = await req.json();
     const { items, successUrl, cancelUrl } = body;
-
     // Create a checkout session
     const session = await stripe.checkout.sessions.create({
       payment_method_types: ['card'],
@@ -25,6 +24,7 @@ export async function POST(req: Request) {
           unit_amount: Number(item.price) * 100, // Convert to cents
         },
         quantity: 1,
+        tax_rates: ["txr_1Rx9G4JAJfZb9HEB2yTiZaL5"],
       })),
       mode: 'payment',
       success_url: successUrl || `${req.headers.get('origin')}/checkout/success?session_id={CHECKOUT_SESSION_ID}`,

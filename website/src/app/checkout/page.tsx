@@ -12,7 +12,7 @@ import { Elements } from "@stripe/react-stripe-js";
 import { stripePromise } from "@/lib/stripe";
 import { toast } from "sonner";
 import { Template } from "@/types/templates";
-
+import TestCards from "@/components/TestCards";
 const CheckoutPage = () => {
   const router = useRouter();
   const dispatch = useDispatch();
@@ -220,7 +220,7 @@ const CheckoutPage = () => {
 
             <Elements stripe={stripePromise}>
               <Button
-                className="w-full h-12 rounded-lg font-semibold text-base shadow-sm hover:shadow-md transition-shadow"
+                className="w-full h-12 cursor-pointer rounded-lg font-semibold text-base shadow-sm hover:shadow-md transition-shadow"
                 onClick={handleCheckout}
                 disabled={isLoading || paidItems.length === 0}
               >
@@ -271,6 +271,8 @@ const CheckoutPage = () => {
           </div>
         </div>
       </div>
+
+      <TestCards />
     </div>
   );
 };
