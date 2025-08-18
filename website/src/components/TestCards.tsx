@@ -67,7 +67,7 @@ const TestCards = () => {
   return (
     <div className="mt-4">
       <div>
-        <h2 className="text-4xl font-bold mb-4 text-center">
+        <h2 className="text-3xl sm:text-4xl font-bold mb-4 text-center">
           Payment Test Cards
         </h2>
         <p className="text-center text-gray-600 mb-10">
@@ -75,7 +75,7 @@ const TestCards = () => {
           different brands.
         </p>
       </div>
-      <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {TEST_CARDS.map((card, idx) => (
           <div
             key={idx}
@@ -102,7 +102,7 @@ const TestCards = () => {
                 <div className="relative">
                   <button
                     onClick={() => handleCopy(card.number, idx)}
-                    className="p-2 rounded-full hover:bg-white/20 transition-colors"
+                    className="p-2 rounded-full cursor-pointer hover:bg-white/20 transition-colors"
                     aria-label="Copy card number"
                   >
                     {copiedIndex === idx ? (
@@ -113,8 +113,7 @@ const TestCards = () => {
                   </button>
 
                   {copiedIndex === idx && (
-                    <div className="absolute -top-8 right-0 bg-black/80 text-white text-xs py-1 px-2 rounded-md flex items-center gap-1">
-                      <Check size={12} />
+                    <div className="absolute -top-8 right-0 bg-black/80 text-white text-xs py-1 px-2 rounded-md flex items-center">
                       Copied
                     </div>
                   )}
@@ -133,7 +132,7 @@ const TestCards = () => {
               </div>
 
               {/* Account holder name */}
-              <div className="mt-1 font-medium tracking-wider truncate uppercase [text-shadow:1px_1px_1px_white]">
+              <div className="mt-1 font-medium tracking-wider truncate uppercase [text-shadow:0px_1px_1px_rgba(0,0,0,0.3)]">
                 {card.name}
               </div>
             </div>
