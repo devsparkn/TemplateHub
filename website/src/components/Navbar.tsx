@@ -54,9 +54,9 @@ export function Navbar() {
       active: pathname === "/templates",
     },
     {
-      href: "/pricing",
-      label: "Pricing",
-      active: pathname === "/pricing",
+      href: "/docs",
+      label: "Documentation",
+      active: pathname === "/docs",
     },
   ];
 
