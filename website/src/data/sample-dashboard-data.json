@@ -69,46 +69,7 @@
       }
     ]
   },
-  "trafficData": [
-    {
-      "date": "2023-04-07",
-      "pageViews": 1250,
-      "uniqueVisitors": 780
-    },
-    {
-      "date": "2023-04-08",
-      "pageViews": 1450,
-      "uniqueVisitors": 820
-    },
-    {
-      "date": "2023-04-09",
-      "pageViews": 1350,
-      "uniqueVisitors": 750
-    },
-    {
-      "date": "2023-04-10",
-      "pageViews": 1650,
-      "uniqueVisitors": 930
-    },
-    {
-      "date": "2023-04-11",
-      "pageViews": 1520,
-      "uniqueVisitors": 870
-    },
-    {
-      "date": "2023-04-12",
-      "pageViews": 1680,
-      "uniqueVisitors": 950
-    },
-    {
-      "date": "2023-04-13",
-      "pageViews": 1780,
-      "uniqueVisitors": 1020
-    }
-  ],
-  "totalPageViews": 10680,
-  "totalUniqueVisitors": 6120,
-  "bounceRate": 42,
+  "totalUsers": 6120,
   "popularTemplates": [
     {
       "id": "cloud-cost-optimisation",

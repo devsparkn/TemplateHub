@@ -44,7 +44,7 @@ const sidebarLinks = [
 
 const adminLinks = [
   {
-    href: "/admin",
+    href: "/admin/dashboard",
     label: "Admin Dashboard",
     icon: LayoutDashboard,
     roles: ["admin"],
