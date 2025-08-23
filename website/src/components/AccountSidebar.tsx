@@ -128,7 +128,7 @@ export default function AccountSidebar() {
     <>
       {/* Mobile toggle button */}
       <button
-        className="md:hidden absolute top-20 left-4 z-10 bg-background border shadow-md p-2 rounded-full"
+        className="md:hidden absolute top-3 left-4 z-10 bg-background border shadow-md p-2 rounded-full"
         onClick={() => setMobileOpen(true)}
         aria-label="Open sidebar"
       >
@@ -145,7 +145,7 @@ export default function AccountSidebar() {
 
       {/* Mobile Sidebar */}
       <aside
-        className={`fixed top-16 left-0 z-50 h-full w-72 bg-background border-r shadow-lg transform transition-transform duration-300 md:hidden ${
+        className={`fixed left-0 z-50 h-full w-72 bg-background border-r shadow-lg transform transition-transform duration-300 md:hidden ${
           mobileOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
@@ -220,7 +220,7 @@ export default function AccountSidebar() {
 
       {/* Desktop Sidebar */}
       <aside
-        className={`hidden md:fixed md:top-16 md:left-0 md:h-[calc(100vh-5rem)] bg-background border-r shadow-sm md:flex md:flex-col transition-all duration-300 ease-in-out ${
+        className={`hidden md:fixed  md:left-0 md:h-screen bg-background border-r shadow-sm md:flex md:flex-col transition-all duration-300 ease-in-out ${
           open ? "md:w-64" : "md:w-16"
         }`}
       >

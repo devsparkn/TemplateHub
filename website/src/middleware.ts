@@ -49,5 +49,6 @@ export const config = {
     '/api/user/:path*',
     '/account/:path*',
     '/become-admin',
+    '/checkout/:path*'
   ],
 }; 
