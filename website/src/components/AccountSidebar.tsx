@@ -116,7 +116,7 @@ export default function AccountSidebar() {
 
           {/* Tooltip on collapsed sidebar */}
           {!showLabel && (
-            <div className="absolute left-full top-1/2 z-50 ml-2 -translate-y-1/2 whitespace-nowrap rounded bg-popover border px-2 py-1 text-xs text-popover-foreground opacity-0 shadow-md group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
+            <div className="absolute left-full top-1/2 z-50 ml-3 -translate-y-1/2 whitespace-nowrap rounded-md bg-popover border px-2 py-1 text-xs text-popover-foreground opacity-0 shadow-md group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
               {label}
             </div>
           )}
@@ -155,7 +155,7 @@ export default function AccountSidebar() {
             alt="9able Logo"
             width={40}
             height={40}
-            className="h-6 w-6 object-contain"
+            className="h-10 w-10 object-contain"
           />
           <button
             onClick={() => setMobileOpen(false)}
@@ -225,7 +225,7 @@ export default function AccountSidebar() {
         }`}
       >
         {/* Sidebar Header with Toggle Button */}
-        <div className="flex items-center justify-between p-3 border-b">
+        <div className="flex items-center justify-between p-3">
           {open ? (
             <>
               <Link href="/" className="flex items-center group">
@@ -235,7 +235,7 @@ export default function AccountSidebar() {
                     alt="9able Logo"
                     width={40}
                     height={40}
-                    className="h-6 w-6 object-contain"
+                    className="h-10 w-10 object-contain"
                   />
                 </div>
                 {/* <span className="-ml-1 text-xl font-bold">able</span> */}
@@ -275,17 +275,17 @@ export default function AccountSidebar() {
           )}
 
           {/* Sign Out Button */}
-          <div className="mt-auto pt-2 border-t">
+          <div className="mt-auto pt-2">
             <div className="relative group">
               <button
                 onClick={() => signOut({ callbackUrl: "/login" })}
-                className="flex items-center h-10 px-3 text-sm text-muted-foreground hover:bg-muted hover:text-foreground w-full rounded-md transition-colors"
+                className="flex items-center h-10 cursor-pointer px-3 text-sm bg-red-500 hover:bg-red-600 text-white w-full rounded-md transition-colors"
               >
                 <div className="flex items-center justify-center w-5 h-5 flex-shrink-0">
                   <LogOut className="h-5 w-5" />
                 </div>
                 <span
-                  className={`ml-3 transition-all duration-300 ease-in-out whitespace-nowrap overflow-hidden ${
+                  className={`ml-3 font-semibold transition-all duration-300 ease-in-out whitespace-nowrap overflow-hidden ${
                     open ? "opacity-100 w-auto" : "opacity-0 w-0"
                   }`}
                 >
@@ -293,7 +293,7 @@ export default function AccountSidebar() {
                 </span>
               </button>
               {!open && (
-                <div className="absolute left-full top-1/2 z-50 ml-2 -translate-y-1/2 whitespace-nowrap rounded bg-popover border px-2 py-1 text-xs text-popover-foreground opacity-0 shadow-md group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
+                <div className="absolute left-full top-1/2 z-50 ml-3 -translate-y-1/2 whitespace-nowrap rounded-md bg-popover border px-2 py-1 text-xs text-popover-foreground opacity-0 shadow-md group-hover:opacity-100 transition-opacity duration-200 pointer-events-none">
                   Sign Out
                 </div>
               )}

@@ -65,7 +65,7 @@ const CheckoutSuccessContent = () => {
         <p className="text-lg text-muted-foreground">
           {loading
             ? "Verifying your payment and assigning templates..."
-            : "Your payment was processed successfully and your templates are now available in your account. You should receive a confirmation email shortly."}
+            : "Your payment was processed successfully and your templates are now available in your account. You will receive a confirmation email shortly."}
         </p>
 
         <div className="pt-8 grid gap-4 sm:grid-cols-2 max-w-md mx-auto">

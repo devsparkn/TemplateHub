@@ -92,7 +92,7 @@ export default function AccountPage() {
           <div className="mx-auto">
             <h1 className="mb-8 text-3xl font-bold">Account</h1>
             {session?.user?.name && (
-              <p className="text-muted-foreground text-sm mt-1">
+              <p className="text-muted-foreground md:hidden text-sm mb-1">
                 Welcome, {session.user.name}
               </p>
             )}
@@ -125,7 +125,7 @@ export default function AccountPage() {
                 </h2>
                 <p className="mb-3 text-sm">
                   You have admin privileges. Access the admin dashboard to
-                  manage users and site settings.
+                  manage users and templates.
                 </p>
                 <div className="flex gap-3">
                   <Button

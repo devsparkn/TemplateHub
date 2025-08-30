@@ -14,7 +14,7 @@ export function ThemeToggle() {
   }
 
   return (
-    <Button variant="outline" size="icon" onClick={toggleTheme}>
+    <Button variant="outline" size="icon" onClick={toggleTheme} className='rounded-full'>
       {theme === 'dark' ? (
         <Sun className="h-5 w-5" />
       ) : (

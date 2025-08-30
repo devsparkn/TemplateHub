@@ -45,10 +45,10 @@ export default function Topbar() {
   }
 
   return (
-    <header className="h-16 flex items-center justify-end md:justify-between px-4">
+    <header className="h-16 flex items-center justify-end md:justify-between px-4 md:px-8 ">
       {/* Left side */}
-      <h1 className="text-xl hidden md:block font-semibold  text-gray-700">
-        Welcome {session?.user?.name}
+      <h1 className="text-xl hidden md:block font-semibold  text-teal-500">
+        Welcome {session?.user?.name} 👋
       </h1>
 
       {/* Right side */}
