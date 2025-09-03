@@ -20,16 +20,6 @@ const nextConfig: NextConfig = {
         hostname: 'res.cloudinary.com',
         pathname: '/dyg4weoem/image/upload/**',
       },
-      {
-       protocol: 'https',
-        hostname: 'aceternity.com',
-        pathname: '/cdn-cgi/image/**',
-      },
-      {
-        protocol: 'https',
-        hostname: 'assets.aceternity.com',
-        pathname: '/companies/**',
-      },
     ],
   },
 };
