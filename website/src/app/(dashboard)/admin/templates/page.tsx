@@ -37,7 +37,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 
 type Template = {
   _id: string;
-  name: string;
+  title: string;
   description: string;
   category: string;
   price: number | "Free";
@@ -65,7 +65,7 @@ export default function AdminTemplatesPage() {
   // Add dialog state
   const [addDialogOpen, setAddDialogOpen] = useState(false);
   const [newTemplate, setNewTemplate] = useState<Partial<Template>>({
-    name: "",
+    title: "",
     description: "",
     category: "landing-page",
     price: "Free",
@@ -97,7 +97,6 @@ export default function AdminTemplatesPage() {
       if (!result.success) {
         throw new Error(result.error || "Failed to fetch templates");
       }
-
       setTemplates(result.data);
     } catch (err) {
       setError(err instanceof Error ? err.message : "An error occurred");
@@ -226,7 +225,7 @@ export default function AdminTemplatesPage() {
       setAddDialogOpen(false);
       // Reset form
       setNewTemplate({
-        name: "",
+        title: "",
         description: "",
         category: "landing-page",
         price: "Free",
@@ -293,8 +292,8 @@ export default function AdminTemplatesPage() {
           </Button>
         </div>
       ) : (
-        <div className="rounded-md border">
-          <Table>
+        <div className="rounded-md border overflow-x-auto">
+          <Table className="w-full">
             <TableHeader>
               <TableRow>
                 <TableHead>Name</TableHead>
@@ -308,7 +307,9 @@ export default function AdminTemplatesPage() {
             <TableBody>
               {templates.map((template) => (
                 <TableRow key={template._id}>
-                  <TableCell className="font-medium">{template.name}</TableCell>
+                  <TableCell className="font-medium">
+                    {template.title}
+                  </TableCell>
                   <TableCell className="capitalize">
                     {template.category.replace("-", " ")}
                   </TableCell>
@@ -317,7 +318,6 @@ export default function AdminTemplatesPage() {
                       ? "Free"
                       : `$${template.price.toFixed(2)}`}
                   </TableCell>
-
                   <TableCell>
                     <span
                       className={`inline-flex rounded-full px-2 py-1 text-xs ${
@@ -382,11 +382,11 @@ export default function AdminTemplatesPage() {
                 </Label>
                 <Input
                   id="name"
-                  value={currentTemplate.name}
+                  value={currentTemplate.title}
                   onChange={(e) =>
                     setCurrentTemplate({
                       ...currentTemplate,
-                      name: e.target.value,
+                      title: e.target.value,
                     })
                   }
                   className="col-span-3"
@@ -605,11 +605,11 @@ export default function AdminTemplatesPage() {
               </Label>
               <Input
                 id="new-name"
-                value={newTemplate.name}
+                value={newTemplate.title}
                 onChange={(e) =>
                   setNewTemplate({
                     ...newTemplate,
-                    name: e.target.value,
+                    title: e.target.value,
                   })
                 }
                 className="col-span-3"

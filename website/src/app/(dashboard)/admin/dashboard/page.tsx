@@ -209,7 +209,7 @@ export default function AdminDashboard() {
     <div className="pb-10">
       {AdminActivationAlert}
 
-      <div className="flex flex-col md:flex-row gap-8 mb-8">
+      <div className="flex flex-col lg:flex-row lg:justify-between gap-8 mb-8">
         <div>
           <div>
             <h1 className="text-3xl font-bold">Admin Dashboard</h1>
