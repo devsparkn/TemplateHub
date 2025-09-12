@@ -86,7 +86,7 @@ export default function AdminDashboard() {
   const [isChecking, setIsChecking] = useState(true);
 
   // Special admin check to allow our specific admin email
-  const isAdminEmail = session?.user?.email === "nadeemchaudhary808@gmail.com";
+  const isAdminEmail = session?.user?.email === process.env.ADMIN_EMAIL;
   const hasAccess = session?.user?.role === "admin" || isAdminEmail;
 
   // Handle authentication check

@@ -4,7 +4,7 @@ import dbConnect from '@/lib/mongodb';
 import { getServerSession } from 'next-auth';
 
 // The only allowed admin email
-const ADMIN_EMAIL = 'nadeemchaudhary808@gmail.com';
+const ADMIN_EMAIL = process.env.ADMIN_Email;
 
 export async function GET(request: Request) {
   try {

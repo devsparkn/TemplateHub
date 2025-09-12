@@ -3,7 +3,7 @@ import type { NextRequest } from 'next/server';
 import { getToken } from 'next-auth/jwt';
 
 // IMPORTANT: Replace with your actual email address
-const ADMIN_EMAIL = 'nadeemchaudhary808@gmail.com';
+const ADMIN_EMAIL = process.env.ADMIN_Email;
 
 export async function middleware(request: NextRequest) {
   const token = await getToken({ req: request });

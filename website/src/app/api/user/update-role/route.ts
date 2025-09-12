@@ -4,7 +4,7 @@ import dbConnect from '@/lib/mongodb';
 import User from '@/models/User';
 
 // IMPORTANT: Replace this with your actual email address
-const ADMIN_EMAIL = 'nadeemchaudhary808@gmail.com';
+const ADMIN_EMAIL = process.env.ADMIN_Email;
 
 export async function POST() {
   try {

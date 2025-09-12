@@ -35,7 +35,7 @@ export default function AccountPage() {
   const [image, setImage] = useState("");
   const [error, setError] = useState("");
   const [success, setSuccess] = useState("");
-  const isAdminEmail = session?.user?.email === "nadeemchaudhary808@gmail.com";
+  const isAdminEmail = session?.user?.email === process.env.ADMIN_EMAIL;
   const isAdmin = session?.user?.role === "admin";
 
   // Redirect if not logged in
