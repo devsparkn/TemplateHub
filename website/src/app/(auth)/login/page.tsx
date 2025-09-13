@@ -8,7 +8,8 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Separator } from '@/components/ui/separator'
-import { Github, Mail } from 'lucide-react'
+import { IoLogoGithub } from "react-icons/io";
+import { FcGoogle } from "react-icons/fc";
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { toast } from 'sonner'
 import { signIn } from 'next-auth/react'
@@ -108,7 +109,7 @@ export default function LoginPage() {
             onClick={() => signIn('github', { callbackUrl: '/' })}
             className="flex items-center justify-center gap-2"
           >
-            <Github className="h-4 w-4" />
+            <IoLogoGithub className="h-4 w-4" />
             GitHub
           </Button>
           <Button 
@@ -117,7 +118,7 @@ export default function LoginPage() {
             onClick={() => signIn('google', { callbackUrl: '/' })}
             className="flex items-center justify-center gap-2"
           >
-            <Mail className="h-4 w-4" />
+            <FcGoogle className="h-4 w-4" />
             Google
           </Button>
         </div>

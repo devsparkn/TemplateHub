@@ -8,7 +8,8 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Separator } from '@/components/ui/separator'
-import { Github, Mail } from 'lucide-react'
+import { IoLogoGithub } from "react-icons/io";
+import { FcGoogle } from "react-icons/fc";
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { Checkbox } from '@/components/ui/checkbox'
 import { toast } from 'sonner'
@@ -165,11 +166,11 @@ export default function Page() {
           </div>
           <div className="grid grid-cols-2 gap-4">
             <Button variant="outline" type="button">
-              <Github className="mr-2 h-4 w-4" />
+              <IoLogoGithub className="mr-2 h-4 w-4" />
               GitHub
             </Button>
             <Button variant="outline" type="button">
-              <Mail className="mr-2 h-4 w-4" />
+              <FcGoogle className="mr-2 h-4 w-4" />
               Google
             </Button>
           </div>

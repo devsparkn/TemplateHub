@@ -1,52 +1,38 @@
-import { NextRequest, NextResponse } from 'next/server';
-import dbConnect from '@/lib/mongodb';
-import User from '@/models/User';
-import { createOTP, sendPasswordResetEmail } from '@/lib/email-service';
+import { NextRequest, NextResponse } from "next/server";
+import dbConnect from "@/lib/mongodb";
+import User from "@/models/User";
+import { createOTP, sendPasswordResetEmail } from "@/lib/email-service";
 
 export async function POST(request: NextRequest) {
   try {
     const { email } = await request.json();
-    
+
     if (!email) {
-      return NextResponse.json(
-        { error: 'Email is required' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: "Email is required" }, { status: 400 });
     }
-    
-    // Connect to database
+
     await dbConnect();
-    
+
     // Check if user exists
     const user = await User.findOne({ email });
-    
     if (!user) {
-      // For security reasons, we don't want to disclose whether a user exists
-      // So we return success even if the user is not found
       return NextResponse.json(
-        { success: true, message: 'If your email exists in our system, you will receive a password reset OTP.' },
-        { status: 200 }
+        { error: "No account found with this email address." },
+        { status: 404 }
       );
     }
-    
-    // Generate and save OTP
-    const otp = await createOTP(email, 'password-reset');
-    
-    // Send password reset email
+
+    // Generate OTP and send email
+    const otp = await createOTP(email, "password-reset");
     await sendPasswordResetEmail(email, otp);
-    
+
     return NextResponse.json(
-      { success: true, message: 'If your email exists in our system, you will receive a password reset OTP.' },
+      { success: true, message: "OTP sent to your email address." },
       { status: 200 }
     );
-  } catch (error: unknown) {
-    console.error('Forgot password error:', error);
-
-    const errorMessage = error instanceof Error ? error.message : 'Something went wrong';
-    
-    return NextResponse.json(
-      { error: errorMessage },
-      { status: 500 }
-    );
+  } catch (error) {
+    console.error("Forgot password error:", error);
+    const msg = error instanceof Error ? error.message : "Something went wrong. Please try again later.";
+    return NextResponse.json({ error: msg }, { status: 500 });
   }
-} 
+}
