@@ -12,7 +12,6 @@ import {
   LayoutDashboard,
   Download,
   FileText,
-  Menu,
   X,
   ChevronLeft,
   ChevronRight,
@@ -63,13 +62,17 @@ const adminLinks = [
   },
 ];
 
-export default function AccountSidebar() {
+type AccountSidebarProps = {
+  mobileOpen: boolean;
+  setMobileOpen: (open: boolean) => void;
+};
+
+export default function AccountSidebar({ mobileOpen, setMobileOpen }: AccountSidebarProps) {
   const pathname = usePathname();
   const { data: session } = useSession();
   const userRole = session?.user?.role === "admin" ? "admin" : "user";
 
   const [open, setOpen] = useState(true);
-  const [mobileOpen, setMobileOpen] = useState(false);
 
   // Persist desktop sidebar toggle state
   useEffect(() => {
@@ -126,14 +129,6 @@ export default function AccountSidebar() {
 
   return (
     <>
-      {/* Mobile toggle button */}
-      <button
-        className="md:hidden absolute top-3 left-4 z-10 bg-background border shadow-md p-2 rounded-full"
-        onClick={() => setMobileOpen(true)}
-        aria-label="Open sidebar"
-      >
-        <Menu className="h-5 w-5" />
-      </button>
 
       {/* Mobile Sidebar Overlay */}
       <div
@@ -220,12 +215,12 @@ export default function AccountSidebar() {
 
       {/* Desktop Sidebar */}
       <aside
-        className={`hidden md:fixed  md:left-0 md:h-screen bg-background border-r shadow-sm md:flex md:flex-col transition-all duration-300 ease-in-out ${
+        className={`hidden md:fixed  md:left-0 md:h-screen bg-background border-r shadow-sm md:flex md:flex-col transition-all duration-300 ease-in-out z-50 ${
           open ? "md:w-64" : "md:w-16"
         }`}
       >
         {/* Sidebar Header with Toggle Button */}
-        <div className="flex items-center justify-between p-3">
+        <div className="flex items-center justify-between p-3 h-16">
           {open ? (
             <>
               <Link href="/" className="flex items-center group">

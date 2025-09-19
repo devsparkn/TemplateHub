@@ -265,8 +265,8 @@ export default function UsersPage() {
             />
           </div>
         </CardHeader>
-        <CardContent>
-          <Table>
+        <CardContent className="overflow-x-auto">
+          <Table className="w-full table-auto">
             <TableHeader>
               <TableRow>
                 <TableHead>User</TableHead>
@@ -317,7 +317,13 @@ export default function UsersPage() {
                           </div>
                         </div>
                       </TableCell>
-                      <TableCell>{user.email}</TableCell>
+                      <TableCell
+                        className="max-w-[180px] truncate"
+                        title={user.email}
+                      >
+                        {user.email}
+                      </TableCell>
+
                       <TableCell>
                         <Badge
                           variant={
