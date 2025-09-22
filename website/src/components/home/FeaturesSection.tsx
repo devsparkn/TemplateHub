@@ -100,7 +100,7 @@ export const FeaturesSection = () => {
         </div>
 
         {/* Bottom accent */}
-        <div className="mt-10 text-center">
+        {/* <div className="mt-10 text-center">
           <p className="text-lg text-gray-600 dark:text-gray-400">
             Trusted by innovative teams at{" "}
             <span className="font-semibold text-indigo-600 dark:text-indigo-400">
@@ -111,7 +111,7 @@ export const FeaturesSection = () => {
               fast-growing startups
             </span>
           </p>
-        </div>
+        </div> */}
       </div>
     </section>
   );

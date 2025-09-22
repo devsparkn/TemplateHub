@@ -1,6 +1,6 @@
-# TemplateHub - NextJS Template Marketplace
+# 9abel - NextJS Template Marketplace
 
-A modern, fully-featured Next.js 14 application for a template marketplace with authentication, authorization, MongoDB integration, and Redux state management.
+A modern, fully-featured Next.js 15 application for a template marketplace with authentication, authorization, MongoDB integration, and Redux state management.
 
 ## Features
 
@@ -36,13 +36,13 @@ A modern, fully-featured Next.js 14 application for a template marketplace with 
 
 ## Tech Stack
 
-- **Frontend**: Next.js 14, React 19, TypeScript
+- **Frontend**: Next.js 15, React 19, TypeScript
 - **Styling**: Tailwind CSS, Shadcn UI
 - **State Management**: Redux Toolkit
 - **Authentication**: NextAuth.js
 - **Database**: MongoDB with Mongoose
 - **Payments**: Stripe
-- **Analytics**: Google Analytics
+- **Analytics**: Vercel Analytics
 
 ## Getting Started
 
@@ -73,12 +73,17 @@ A modern, fully-featured Next.js 14 application for a template marketplace with 
    cp .env.example .env.local
    ```
 
-4. Run the development server:
+4. Seed the templates:
+   ```bash
+   npm run seed
+   ```
+
+5. Run the development server:
    ```bash
    npm run dev
    ```
 
-5. Open [http://localhost:3000](http://localhost:3000) in your browser.
+6. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ## Project Structure
 

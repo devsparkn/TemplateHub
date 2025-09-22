@@ -88,7 +88,7 @@ export function Navbar() {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/80 backdrop-blur-md supports-[backdrop-filter]:bg-background/60">
-      <div className="flex h-16 items-center px-4 sm:px-6 max-w-[83rem] mx-auto justify-between">
+      <div className="flex h-16 items-center px-4 md:px-6 max-w-[83rem] mx-auto justify-between">
         {/* Logo Section */}
         <div className="flex items-center gap-6 lg:gap-8">
           <Link href="/" className="flex items-center group">
@@ -105,7 +105,7 @@ export function Navbar() {
           </Link>
 
           {/* Desktop Navigation */}
-          <NavigationMenu className="hidden sm:flex">
+          <NavigationMenu className="hidden md:flex">
             <NavigationMenuList className="gap-1">
               {routes.map((route) => (
                 <NavigationMenuItem key={route.href}>
@@ -135,7 +135,7 @@ export function Navbar() {
           <ThemeToggle />
 
           {/* Desktop Auth Section */}
-          <div className="hidden sm:flex items-center gap-3">
+          <div className="hidden md:flex items-center gap-3">
             {status === "loading" ? (
               <div className="h-10 w-10 animate-pulse rounded-full bg-muted" />
             ) : session ? (
@@ -203,10 +203,19 @@ export function Navbar() {
               </DropdownMenu>
             ) : (
               <div className="flex items-center gap-2">
-                <Button variant="ghost" size="sm" asChild>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  asChild
+                  className="border-2 border-slate-200 dark:border-slate-700 text-black dark:text-white rounded-lg transition-all duration-300 hover:border-yellow-400 dark:hover:border-yellow-500"
+                >
                   <Link href="/login">Sign In</Link>
                 </Button>
-                <Button size="sm" asChild className="shadow-sm">
+                <Button
+                  size="sm"
+                  asChild
+                  className="bg-yellow-400 text-black hover:bg-yellow-500 shadow-sm"
+                >
                   <Link href="/register">Sign Up</Link>
                 </Button>
               </div>
@@ -214,10 +223,10 @@ export function Navbar() {
           </div>
 
           {/* Mobile Menu Trigger */}
-          <div className="block sm:hidden">
+          <div className="block md:hidden">
             <Sheet open={isMobileMenuOpen} onOpenChange={setIsMobileMenuOpen}>
               <SheetTrigger asChild>
-                <Button variant="ghost" size="icon" className="sm:hidden">
+                <Button variant="ghost" size="icon" className="md:hidden">
                   <Menu className="h-6 w-6" />
                 </Button>
               </SheetTrigger>
@@ -328,7 +337,7 @@ export function Navbar() {
                           </Button>
                         </SheetClose>
                         <SheetClose asChild>
-                          <Button className="w-full" asChild>
+                          <Button className="w-full bg-yellow-400 hover:bg-yellow-500 text-black" asChild>
                             <Link href="/register">Sign Up</Link>
                           </Button>
                         </SheetClose>

@@ -24,7 +24,7 @@ const HeroSection = () => {
 
         {/* Subheading */}
         <p className="mt-6 text-lg sm:text-xl text-zinc-700 dark:text-zinc-400 max-w-3xl mx-auto">
-          Affordable pre-built NextJS templates to kickstart your startup or
+          NextJS templates to kickstart your startup or
           business. Production-ready and professionally designed.
         </p>
 

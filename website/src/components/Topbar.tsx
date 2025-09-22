@@ -71,7 +71,7 @@ export default function Topbar({ setMobileOpen }: { setMobileOpen: (open: boolea
                 className="h-10 w-10 object-contain"
               />
             </div>
-            <span className="text-xl font-bold">able</span>
+            <span className="-ml-1 text-xl font-bold">able</span>
           </Link>
         </div>
 

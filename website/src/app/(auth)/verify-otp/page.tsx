@@ -84,7 +84,7 @@ export default function VerifyOTP() {
                 ref={(el) => {
                   inputsRef.current[i] = el;
                 }}
-                type="text"
+                type="number"
                 inputMode="numeric"
                 maxLength={1}
                 value={digit}

@@ -23,34 +23,41 @@ export function Footer() {
               <span className="-ml-1 text-xl font-bold">able</span>
             </Link>
             <p className="text-muted-foreground mb-4">
-              Premium Next.js templates for developers and businesses. Build
-              beautiful, functional websites in minutes.
+              Next.js templates for fast, stunning, and functional websites.
             </p>
             <div className="flex gap-4">
               <Link
-                href="https://github.com"
+                href="https://github.com/devsparkn"
                 className="text-muted-foreground hover:text-foreground"
+                target="_blank"
+                rel="noopener noreferrer"
               >
                 <Github className="h-5 w-5" />
                 <span className="sr-only">GitHub</span>
               </Link>
               <Link
-                href="https://twitter.com"
+                href="https://x.com/devsparkn"
                 className="text-muted-foreground hover:text-foreground"
+                target="_blank"
+                rel="noopener noreferrer"
               >
                 <FaXTwitter className="h-5 w-5" />
                 <span className="sr-only">Twitter</span>
               </Link>
               <Link
-                href="https://linkedin.com"
+                href="https://linkedin.com/in/devsparkn"
                 className="text-muted-foreground hover:text-foreground"
+                target="_blank"
+                rel="noopener noreferrer"
               >
                 <Linkedin className="h-5 w-5" />
                 <span className="sr-only">LinkedIn</span>
               </Link>
               <Link
-                href="https://instagram.com"
+                href="https://instagram.com/devsparkn"
                 className="text-muted-foreground hover:text-foreground"
+                target="_blank"
+                rel="noopener noreferrer"
               >
                 <Instagram className="h-5 w-5" />
                 <span className="sr-only">Instagram</span>
@@ -148,14 +155,6 @@ export function Footer() {
                   License
                 </Link>
               </li>
-              <li>
-                <Link
-                  href="/cookies"
-                  className="text-muted-foreground hover:text-foreground"
-                >
-                  Cookie Policy
-                </Link>
-              </li>
             </ul>
           </div>
         </div>
@@ -165,7 +164,7 @@ export function Footer() {
           </p>
           <p className="text-sm text-muted-foreground mt-4 md:mt-0 flex items-center gap-1">
             Made with <FaHeart className="text-red-500" aria-label="love" /> by{" "}
-            <span className="font-medium">Nadeem</span> for developers
+            <span className="font-medium">Nadeem</span>
           </p>
         </div>
       </div>

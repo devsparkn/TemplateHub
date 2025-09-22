@@ -20,22 +20,47 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "9abel - Premium Next.js Templates",
+  title: "9abel - Next.js Templates for Developers & Businesses",
   description:
-    "Browse and purchase high-quality Next.js templates for your next project",
-  keywords: ["Next.js", "React", "Templates", "Web Development"],
-  authors: [{ name: "9abel Team" }],
+    "Explore and get premium Next.js templates to quickly build beautiful, responsive, and functional websites for your projects.",
+  keywords: [
+    "Next.js templates",
+    "React templates",
+    "Website templates",
+    "Web development",
+    "SaaS templates",
+    "SaaS website",
+    "UI templates",
+    "Premium templates",
+    "Premium websites",
+    "professional website",
+  ],
+  authors: [{ name: "Nadeem Chaudhary" }],
   openGraph: {
     type: "website",
     locale: "en_US",
-    url: "https://9abel.com",
+    url: "https://9abel.vercel.app/",
     siteName: "9abel",
+    title: "9abel - Premium Next.js Templates",
+    description:
+      "Explore premium Next.js templates to quickly build beautiful and functional websites for your projects.",
+    images: [
+      {
+        url: "https://9abel.vercel.app/thumbnail.png",
+        width: 1200,
+        height: 630,
+        alt: "9abel Next.js Templates",
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
+    site: "@devsparkn",
+    creator: "@devsparkn",
     title: "9abel - Premium Next.js Templates",
     description:
-      "Browse and purchase high-quality Next.js templates for your next project",
+      "Explore premium Next.js templates to quickly build beautiful and functional websites.",
+    images: ["https://9abel.vercel.app/thumbnail.png"],
   },
 };
 
@@ -52,9 +77,7 @@ export default function RootLayout({
         <AuthProvider>
           <ReduxProvider>
             <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-              <ErrorBoundary>
-                {children}
-              </ErrorBoundary>
+              <ErrorBoundary>{children}</ErrorBoundary>
             </ThemeProvider>
           </ReduxProvider>
         </AuthProvider>

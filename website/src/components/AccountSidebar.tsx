@@ -67,7 +67,10 @@ type AccountSidebarProps = {
   setMobileOpen: (open: boolean) => void;
 };
 
-export default function AccountSidebar({ mobileOpen, setMobileOpen }: AccountSidebarProps) {
+export default function AccountSidebar({
+  mobileOpen,
+  setMobileOpen,
+}: AccountSidebarProps) {
   const pathname = usePathname();
   const { data: session } = useSession();
   const userRole = session?.user?.role === "admin" ? "admin" : "user";
@@ -129,7 +132,6 @@ export default function AccountSidebar({ mobileOpen, setMobileOpen }: AccountSid
 
   return (
     <>
-
       {/* Mobile Sidebar Overlay */}
       <div
         className={`fixed inset-0 z-40 bg-black/50 transition-opacity md:hidden ${
@@ -145,13 +147,18 @@ export default function AccountSidebar({ mobileOpen, setMobileOpen }: AccountSid
         }`}
       >
         <div className="flex justify-between items-center p-4 border-b">
-          <Image
-            src="/images/logo.png"
-            alt="9able Logo"
-            width={40}
-            height={40}
-            className="h-10 w-10 object-contain"
-          />
+          <Link href="/" className="flex items-center group">
+            <div className="relative">
+              <Image
+                src="/images/logo.png"
+                alt="9able Logo"
+                width={40}
+                height={40}
+                className="h-10 w-10 object-contain"
+              />
+            </div>
+            <span className="-ml-1 text-xl font-bold">able</span>
+          </Link>
           <button
             onClick={() => setMobileOpen(false)}
             aria-label="Close sidebar"
@@ -233,7 +240,7 @@ export default function AccountSidebar({ mobileOpen, setMobileOpen }: AccountSid
                     className="h-10 w-10 object-contain"
                   />
                 </div>
-                {/* <span className="-ml-1 text-xl font-bold">able</span> */}
+                <span className="-ml-1 text-xl font-bold">able</span>
               </Link>
               <button
                 onClick={() => setOpen(false)}
