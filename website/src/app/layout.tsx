@@ -46,7 +46,7 @@ export const metadata: Metadata = {
       "Explore premium Next.js templates to quickly build beautiful and functional websites for your projects.",
     images: [
       {
-        url: "https://9abel.vercel.app/thumbnail.png",
+        url: "https://9abel.vercel.app/og_image.png",
         width: 1200,
         height: 630,
         alt: "9abel Next.js Templates",
@@ -60,7 +60,7 @@ export const metadata: Metadata = {
     title: "9abel - Premium Next.js Templates",
     description:
       "Explore premium Next.js templates to quickly build beautiful and functional websites.",
-    images: ["https://9abel.vercel.app/thumbnail.png"],
+    images: ["https://9abel.vercel.app/og_image.png"],
   },
 };
 
@@ -97,7 +97,7 @@ export default function RootLayout({
         <meta property="og:site_name" content="9abel" />
         <meta
           property="og:image"
-          content="https://9abel.vercel.app/thumbnail.png"
+          content="https://9abel.vercel.app/og_image.png"
         />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />
@@ -115,7 +115,7 @@ export default function RootLayout({
         />
         <meta
           name="twitter:image"
-          content="https://9abel.vercel.app/thumbnail.png"
+          content="https://9abel.vercel.app/og_image.png"
         />
         <meta name="twitter:site" content="@devsparkn" />
         <meta name="twitter:creator" content="@devsparkn" />
@@ -123,12 +123,12 @@ export default function RootLayout({
         {/* Generic image hints */}
         <meta
           itemProp="image"
-          content="https://9abel.vercel.app/thumbnail.png"
+          content="https://9abel.vercel.app/og_image.png"
         />
-        <link rel="image_src" href="https://9abel.vercel.app/thumbnail.png" />
+        <link rel="image_src" href="https://9abel.vercel.app/og_image.png" />
         <meta
           name="thumbnail"
-          content="https://9abel.vercel.app/thumbnail.png"
+          content="https://9abel.vercel.app/og_image.png"
         />
 
         {/*  helps Discord/Slack fetch quickly */}
